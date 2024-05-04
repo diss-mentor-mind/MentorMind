@@ -1,0 +1,15 @@
+:root {
+  --primary-color: #62B6CB;
+  --secondary-color: #FFFFFF;
+  --background-blue-color: #CBF3F0;
+  --button-color: #1B4965;
+  --icon-primary-color: #F5F5F5;
+  --icon-secondary-color: #497A87;
+  --notification-color: #C91F1F;
+  --tag-color: #000AEE;
+  --text-doc-color: #413941;
+  --missing-icon-color: #D9D9D9;
+  --form-text-color: #808080;
+  --bookmark-color: #231F20;
+  /* Add more colors as needed */
+}
