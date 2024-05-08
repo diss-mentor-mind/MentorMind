@@ -11,3 +11,26 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.button {
+  background-color: var(--button-color); /* Deep blue background */
+  color: white; /* White font color */
+  border: none; /* Remove default border */
+  border-radius: 12%; /* Rounded edges */
+  box-shadow: 0px 2px 7px rgba(0, 0, 0, 0.25); /* Shadow */
+  padding: 8px 16px; /* Padding for button */
+  cursor: pointer; /* Show pointer cursor on hover */
+  font-size: 120%;
+  height: 10%;
+}
+
+.button:hover {
+  opacity: 0.8; /* Reduce opacity on hover */
+}
+
+.button-container {
+  display: flex; /* Use flexbox */
+  gap: 15%; /* Add space between buttons */
+  margin-right: 2%;
+  width: 15%;
+}
