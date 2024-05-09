@@ -9,8 +9,7 @@ interface PinnedContainerProps extends PropsWithChildren {
 
 const PinnedContainer: FC<PinnedContainerProps> = ({
     height = "300px",
-    width = "300px",
-    pinSize = "30px",
+    width = "20%",
     children
 }) => {
     return (
@@ -20,14 +19,14 @@ const PinnedContainer: FC<PinnedContainerProps> = ({
             minHeight: height,
             height: height,
             width: width,
-            margin: "20px",
+            margin: "1% 1%",
             position: "relative",
             boxShadow: "5px 5px 10px rgb(0 0 0 / 0.2)"
         }}>
             <Box sx={{
                 backgroundColor: "var(--button-color)",
-                height: pinSize,
-                width: pinSize,
+                width: 0.1,
+                paddingBottom: "10%",
                 position: "absolute",
                 top: 0,
                 left: 0,
@@ -35,8 +34,8 @@ const PinnedContainer: FC<PinnedContainerProps> = ({
             }}></Box>
             <Box sx={{
                 backgroundColor: "var(--button-color)",
-                height: 0.1,
                 width: 0.1,
+                paddingBottom: "10%",
                 position: "absolute",
                 top: 0,
                 right: 0,
