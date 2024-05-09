@@ -4,7 +4,6 @@ import React, { FC, PropsWithChildren } from "react";
 interface PinnedContainerProps extends PropsWithChildren {
     height?: string;
     width?: string;
-    pinSize?: string;
 }
 
 const PinnedContainer: FC<PinnedContainerProps> = ({
