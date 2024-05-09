@@ -4,7 +4,6 @@ import React, { FC, PropsWithChildren } from "react";
 interface PinnedContainerProps extends PropsWithChildren {
     height?: string;
     width?: string;
-    pinSize?: string;
 }
 
 const PinnedContainer: FC<PinnedContainerProps> = ({
@@ -42,10 +41,9 @@ const PinnedContainer: FC<PinnedContainerProps> = ({
                 transform: "translate(50%, -50%)"
             }}></Box>
             <Box sx={{
-                position: "relative",
-                top: "5%",
                 paddingLeft: "5%",
-                paddingRight: "5%"
+                paddingRight: "5%",
+                height: 1,
             }}>
                 {children}
             </Box>
