@@ -10,13 +10,20 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
+import PinnedContainer from "../components/containers/PinnedContainer";
+import { populatedMaterials } from "../interfaces/MaterialInterface";
+import { FaTrash } from "react-icons/fa";
+import { FaVideo } from "react-icons/fa";
+import { FaFileAlt } from "react-icons/fa";
+import { FaArchive } from "react-icons/fa";
 
 const Course = () => {
   const [title, setTitle] = useState("Search by title...");
   const [publiser, setPublisher] = useState("Search by publisher...");
   const [statusC, setStatusC] = useState("Active");
+
   return (
-    <Grid container>
+    <Grid sx={{ display: "flex", flexDirection: "row" }}>
       <Grid
         container
         direction="column"
@@ -26,6 +33,7 @@ const Course = () => {
           marginLeft: "1.5%",
           width: "15%",
           height: "550px",
+          boxShadow: "5px 5px 10px rgb(0 0 0 / 0.2)",
         }}
       >
         <Typography
@@ -154,8 +162,8 @@ const Course = () => {
           sx={{
             display: "flex",
             justifyContent: "center",
-            marginTop: "auto", // Pushes the button to the bottom of the grid
-            marginBottom: "2%", // Adds space between the button and other elements
+            marginTop: "auto",
+            marginBottom: "2%",
           }}
         >
           <Button
@@ -169,6 +177,92 @@ const Course = () => {
             Manage Course
           </Button>
         </Box>
+      </Grid>
+      <Grid
+        sx={{
+          width: "75%",
+          height: "550px",
+          marginLeft: "5%",
+          marginTop: "2%",
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          alignContent: "flex-start",
+        }}
+      >
+        {populatedMaterials.map((material) => (
+          <Grid
+            sx={{
+              width: "20%",
+              height: "25%",
+              marginRight: "5%",
+              marginBottom: "3%",
+            }}
+          >
+            <PinnedContainer key={material.id} width="100%" height="100%">
+              <Grid
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  marginTop: "5%",
+                }}
+              >
+                <Grid
+                  sx={{
+                    width: "30%",
+                    height: "10%",
+                    marginLeft: "3%",
+                    fontSize: "150%",
+                    marginTop: "5%",
+                    color: "#616161",
+                  }}
+                >
+                  {material.type === "Video" && <FaVideo />}
+                  {material.type === "File" && <FaFileAlt />}
+                  {material.type === "Archive" && <FaArchive />}
+                </Grid>
+                <Typography sx={{ marginLeft: "3%", marginTop: "5%" }}>
+                  {material.name}
+                </Typography>
+              </Grid>
+              <Grid sx={{ marginTop: "4%" }}>
+                <Typography>
+                  Author: {material.author.firstName} {material.author.lastName}
+                </Typography>
+                <Typography>
+                  Last updated: {material.timeStamp.toLocaleDateString()}
+                </Typography>
+              </Grid>
+              <Grid
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  height: "20%",
+                  width: "95%",
+                  marginTop: "5%",
+                }}
+              >
+                <Grid
+                  sx={{
+                    height: "120%",
+                    width: "45%",
+                    marginLeft: "3%",
+                    color: "#616161",
+                  }}
+                >
+                  <FaTrash />
+                </Grid>
+                <Grid
+                  sx={{
+                    height: "100%",
+                    width: "45%",
+                    marginLeft: "10%",
+                  }}
+                ></Grid>
+              </Grid>
+            </PinnedContainer>
+          </Grid>
+        ))}
       </Grid>
     </Grid>
   );
