@@ -41,10 +41,9 @@ const PinnedContainer: FC<PinnedContainerProps> = ({
                 transform: "translate(50%, -50%)"
             }}></Box>
             <Box sx={{
-                position: "relative",
-                top: "5%",
                 paddingLeft: "5%",
-                paddingRight: "5%"
+                paddingRight: "5%",
+                height: 1,
             }}>
                 {children}
             </Box>
