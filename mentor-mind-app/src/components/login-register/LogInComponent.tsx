@@ -50,8 +50,8 @@ const LogInComponent = () => {
                     />
                 </Box>
             </Box>
-            <Box textAlign={"center"} margin="normal" marginBottom={"10px"}>
-                <Button className={"button"} variant="contained">
+            <Box textAlign={"center"} margin="normal" marginBottom={"10px"} width={"40%"}>
+                <Button className={"button"} variant="contained" style={{textTransform: "none"}} fullWidth>
                     Log In
                 </Button>
             </Box>
