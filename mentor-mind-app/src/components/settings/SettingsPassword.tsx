@@ -25,72 +25,68 @@ const SettingsMainComponent = () => {
                      flexDirection: 'column',
                      display: 'flex',
                      alignItems: 'center',
-                     height: 1,
-                     justifyContent: 'space-between',
+                     gap: 5,
                      marginTop:-5
                  }}
             >
                 <Box sx={{
-                    margin: 5,
+                    marginLeft: -9,
+                    marginTop: 10,
                     flexDirection: 'column',
                     display: 'flex',
+                    width: 600,
                     alignItems: 'center'
                 }}>
-                    <Typography component="h4" variant="h4"
-                                sx={{marginRight:60}}>
-                        Settings
-                    </Typography>
-
                     <Box width={1}>
                         <StyledContainer>
-                            <FormLabel sx={{ width: '120px', color: 'white', fontSize: '120%'  }}>Username</FormLabel>
+                            <FormLabel sx={{ width: '200px', color: 'white', fontSize: '120%'  }}>Current Password</FormLabel>
                             <CssTextField
                                 margin="normal"
                                 required
                                 fullWidth
-                                id="login-email"
-                                placeholder="E-mail Address"
-                                name="email"
-                                autoComplete="E-mail Address"
-                                sx={{ width: 'calc(100% - 120px)' }}
+                                id="settings-current-password"
+                                placeholder=""
+                                name="current-password"
+                                autoComplete=""
+                                sx={{ width: 'calc(100% - 200px)' }}
                             />
                         </StyledContainer>
                         <StyledContainer>
-                            <FormLabel sx={{ width: '120px', color: 'white', fontSize: '120%'  }}>Name</FormLabel>
+                            <FormLabel sx={{ width: '200px', color: 'white', fontSize: '120%'  }}>New Password</FormLabel>
                             <CssTextField
                                 margin="normal"
                                 required
                                 fullWidth
-                                id="login-password"
-                                placeholder="Password"
-                                name="password"
-                                autoComplete="Password"
-                                sx={{ width: 'calc(100% - 120px)' }}
+                                id="settings-new-password"
+                                placeholder=""
+                                name="new-password"
+                                autoComplete=""
+                                sx={{ width: 'calc(100% - 200px)' }}
                             />
                         </StyledContainer>
                         <StyledContainer>
-                            <FormLabel sx={{ width: '120px',color: 'white', fontSize: '120%'  }}>Email</FormLabel>
+                            <FormLabel sx={{ width: '200px',color: 'white', fontSize: '120%'  }}>Repeat New Password</FormLabel>
                             <CssTextField
                                 margin="normal"
                                 required
                                 fullWidth
-                                id="login-password"
-                                placeholder="Password"
-                                name="password"
-                                autoComplete="Password"
-                                sx={{ width: 'calc(100% - 120px)' }}
+                                id="settings-repeat-password"
+                                placeholder=""
+                                name="repeat-password"
+                                autoComplete=""
+                                sx={{ width: 'calc(100% - 200px)' }}
                             />
                         </StyledContainer>
 
                     </Box>
                 </Box>
-                <Box textAlign={"center"} margin="normal" marginBottom={"10px"} width={"40%"}>
+                <Box textAlign={"center"} margin="normal" width={"40%"}>
                     <Button
                         className={"button"}
                         variant="contained"
                         style={{textTransform: "none", fontSize: '120%'}}
                         fullWidth>
-                        Submit
+                        Change Password
                     </Button>
                 </Box>
             </Box>

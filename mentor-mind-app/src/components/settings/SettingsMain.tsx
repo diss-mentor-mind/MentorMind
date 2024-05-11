@@ -45,41 +45,41 @@ const SettingsMainComponent = () => {
 
                     <Box width={1}>
                         <StyledContainer>
-                        <FormLabel sx={{ width: '120px', color: 'white', fontSize: '120%'  }}>Username</FormLabel>
-                        <CssTextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            id="login-email"
-                            placeholder="E-mail Address"
-                            name="email"
-                            autoComplete="E-mail Address"
-                            sx={{ width: 'calc(100% - 120px)' }}
-                        />
-                        </StyledContainer>
-                        <StyledContainer>
                         <FormLabel sx={{ width: '120px', color: 'white', fontSize: '120%'  }}>Name</FormLabel>
                         <CssTextField
                             margin="normal"
                             required
                             fullWidth
-                            id="login-password"
-                            placeholder="Password"
-                            name="password"
-                            autoComplete="Password"
+                            id="settings-name"
+                            placeholder=""
+                            name="name"
+                            autoComplete=""
                             sx={{ width: 'calc(100% - 120px)' }}
                         />
                         </StyledContainer>
                         <StyledContainer>
-                        <FormLabel sx={{ width: '120px',color: 'white', fontSize: '120%'  }}>Email</FormLabel>
+                        <FormLabel sx={{ width: '120px', color: 'white', fontSize: '120%'  }}>Username</FormLabel>
                         <CssTextField
                             margin="normal"
                             required
                             fullWidth
-                            id="login-password"
-                            placeholder="Password"
-                            name="password"
-                            autoComplete="Password"
+                            id="settings-username"
+                            placeholder=""
+                            name="username"
+                            autoComplete=""
+                            sx={{ width: 'calc(100% - 120px)' }}
+                        />
+                        </StyledContainer>
+                        <StyledContainer>
+                        <FormLabel sx={{ width: '120px',color: 'white', fontSize: '120%'  }}>E-mail</FormLabel>
+                        <CssTextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            id="settings-email"
+                            placeholder=""
+                            name="email"
+                            autoComplete=""
                             sx={{ width: 'calc(100% - 120px)' }}
                         />
                         </StyledContainer>
