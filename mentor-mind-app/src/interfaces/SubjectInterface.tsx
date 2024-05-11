@@ -15,7 +15,7 @@ export default interface SubjectInterface {
 export const populatedSubjects: SubjectInterface[] = [
     {
         id: 0,
-        name: "Course 1",
+        name: "Course One",
         icon: "icon1",
         isApprovalNeeded: false,
         teacher: populatedAuthor,
@@ -24,7 +24,7 @@ export const populatedSubjects: SubjectInterface[] = [
     },
     {
         id: 1,
-        name: "Course 2",
+        name: "Course Two",
         icon: "icon2",
         isApprovalNeeded: false,
         teacher: populatedAuthor,
@@ -33,7 +33,7 @@ export const populatedSubjects: SubjectInterface[] = [
     },
     {
         id: 2,
-        name: "Course 3",
+        name: "Course Three",
         icon: "icon3",
         isApprovalNeeded: false,
         teacher: populatedAuthor,
@@ -42,7 +42,7 @@ export const populatedSubjects: SubjectInterface[] = [
     },
     {
         id: 3,
-        name: "Course 4",
+        name: "This Name Is Longer To Check That It Fits",
         icon: "icon4",
         isApprovalNeeded: false,
         teacher: populatedAuthor,
@@ -51,8 +51,17 @@ export const populatedSubjects: SubjectInterface[] = [
     },
     {
         id: 4,
-        name: "Course 5",
+        name: "Course Five",
         icon: "icon5",
+        isApprovalNeeded: false,
+        teacher: populatedAuthor,
+        participants: [populatedAuthor],
+        lectures: populatedLectures,
+    },
+    {
+        id: 5,
+        name: "Course Six",
+        icon: "icon6",
         isApprovalNeeded: false,
         teacher: populatedAuthor,
         participants: [populatedAuthor],
