@@ -43,7 +43,6 @@ const SettingsMainComponent = () => {
                             <CssTextField
                                 margin="normal"
                                 required
-                                fullWidth
                                 id="settings-current-password"
                                 placeholder=""
                                 name="current-password"
@@ -56,7 +55,6 @@ const SettingsMainComponent = () => {
                             <CssTextField
                                 margin="normal"
                                 required
-                                fullWidth
                                 id="settings-new-password"
                                 placeholder=""
                                 name="new-password"
@@ -69,7 +67,6 @@ const SettingsMainComponent = () => {
                             <CssTextField
                                 margin="normal"
                                 required
-                                fullWidth
                                 id="settings-repeat-password"
                                 placeholder=""
                                 name="repeat-password"

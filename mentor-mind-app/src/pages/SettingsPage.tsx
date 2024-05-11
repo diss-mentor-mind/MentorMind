@@ -7,11 +7,11 @@ import SettingsPassword from "../components/settings/SettingsPassword";
 
 const SettingsPage = () => {
     return (
-        <Stack direction={"column"} justifyContent={"space-evenly"} minHeight={"calc( 100% - 100px );"} height={"calc( 100% - 100px );"} alignItems={"center"} margin={"auto"}>
-            <PinnedContainer width="50%" height="60%">
+        <Stack direction={"column"} justifyContent={"space-evenly"} minHeight={"calc( 120% - 100px );"} height={"calc( 120% - 100px );"} alignItems={"center"} margin={"auto"} sx={{pb: 20, pt: 10}}>
+            <PinnedContainer width="50%" height="50%">
                 <SettingsMainComponent />
             </PinnedContainer>
-             <PinnedContainer width="50%" height="60%">
+             <PinnedContainer width="50%" height="50%">
                  <SettingsPassword />
              </PinnedContainer>
         </Stack>

@@ -11,7 +11,7 @@ const CssTextField = styled(TextField)({
 const StyledContainer = styled('div')({
     display: 'flex',
     alignItems: 'center',
-    gap: '10%'
+    gap: '5%'
 });
 
 
@@ -49,7 +49,6 @@ const SettingsMainComponent = () => {
                         <CssTextField
                             margin="normal"
                             required
-                            fullWidth
                             id="settings-name"
                             placeholder=""
                             name="name"
@@ -62,7 +61,6 @@ const SettingsMainComponent = () => {
                         <CssTextField
                             margin="normal"
                             required
-                            fullWidth
                             id="settings-username"
                             placeholder=""
                             name="username"
@@ -75,7 +73,6 @@ const SettingsMainComponent = () => {
                         <CssTextField
                             margin="normal"
                             required
-                            fullWidth
                             id="settings-email"
                             placeholder=""
                             name="email"
@@ -97,7 +94,7 @@ const SettingsMainComponent = () => {
                 </Box>
             </Box>
             <Avatar
-                alt="Remy Sharp"
+                alt="Cute Puppy"
                 src={Image}
                 sx={{ width: 120, height: 120, marginTop: 10 }}
             />
