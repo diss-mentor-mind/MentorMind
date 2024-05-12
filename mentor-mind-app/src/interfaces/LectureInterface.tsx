@@ -26,7 +26,7 @@ export const populatedLectures: LectureInterface[] = [
   },
   {
     id: 2,
-    name: "Lecture 3",
+    name: "Lecture with a long name to test the font size",
     icon: "icon3",
     author: populatedAuthor,
     materials: populatedMaterials,
