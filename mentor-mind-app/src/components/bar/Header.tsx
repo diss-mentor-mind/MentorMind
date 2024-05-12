@@ -1,6 +1,7 @@
 import React from "react";
 import "../../colors.css";
 import "../../index.css";
+import {useNavigate} from "react-router-dom";
 
 interface HeadingProps {
   title1: string;
@@ -15,6 +16,12 @@ const Heading: React.FC<HeadingProps> = ({
   buttonText1,
   buttonText2,
 }) => {
+    const navigate = useNavigate()
+
+    const gotToNewPage = (path: string) => {
+        navigate(path);
+    }
+
   return (
     <div
       style={{
@@ -38,7 +45,7 @@ const Heading: React.FC<HeadingProps> = ({
         {title2}
       </h1>
       <div className="button-container">
-        <button className="button">{buttonText1}</button>
+        <button className="button" onClick={() => gotToNewPage("/settings")}>{buttonText1}</button>
         <button className="button">{buttonText2}</button>
       </div>
     </div>

@@ -8,17 +8,17 @@ import Header from "./components/bar/Header";
 
 function App() {
   return (
-    <>
+    <BrowserRouter>
       <Header
         title1={"Hello, Name"}
         title2={"MentorMind"}
         buttonText1={"Settings"}
         buttonText2={"Log Out"}
       />
-      <BrowserRouter>
+      {/*<BrowserRouter>*/}
         <AppRouter />
-      </BrowserRouter>
-    </>
+      {/*</BrowserRouter>*/}
+    </BrowserRouter>
   );
 }
 
