@@ -5,6 +5,7 @@ import ComputerIcon from "../../icons/computerIcon.svg";
 import NotebookIcon from "../../icons/notebookIcon.svg";
 import { FC } from "react";
 
+// TODO: later implement a link between the course page and the lectures page for a clicked course
 const LectureContainer: FC<LectureInterface> = (lecture: LectureInterface) => {
   const handleClick = () => {
     console.log(`Lecture ${lecture.id} clicked!`);
