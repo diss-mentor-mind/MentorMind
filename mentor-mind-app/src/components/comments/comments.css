@@ -1,0 +1,45 @@
+.comment {
+    display: flex;
+    align-items: center;
+}
+
+.profile-info {
+    display: flex;
+    align-items: flex-start;
+}
+
+.profile-picture {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px; /* Adjust margin as needed */
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+}
+
+.username,
+.text {
+    margin: 0; /* Reset default margin */
+}
+
+.add-comment-button {
+    margin-left: 10px; /* Adjust spacing as needed */
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.add-comment-button:focus {
+    outline: none; /* Remove default focus outline */
+}
+
+.comment-container {
+    margin-left: 20px; /* Indent comments */
+}
+
+.reply-container {
+    margin-left: 40px; /* Indent replies */
+}
