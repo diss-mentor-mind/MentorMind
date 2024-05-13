@@ -8,14 +8,19 @@ interface Comment {
     text: string;
     timestamp?: string;
     profilePicture: string | null;
-    replies?: Comment[]; 
+    replies?: Comment[];
+}
+
+interface CommentProps extends Comment {
+    parentId?: string;
 }
 
 interface CommentsProps {
     comments: Comment[];
+    parentId?: string; // Add a parentId prop to identify the parent comment
 }
 
-const Comment: React.FC<Comment> = ({ id, username, text, timestamp, replies }: Comment) => {
+const Comment: React.FC<CommentProps> = ({ id, username, text, timestamp, replies, parentId }: CommentProps) => {
     return (
         <div className="comment" key={id}>
             <div className="profile-info">
@@ -25,24 +30,26 @@ const Comment: React.FC<Comment> = ({ id, username, text, timestamp, replies }: 
                     <p className="text">{text}</p>
                     <p className="timestamp">{timestamp}</p>
                 </div>
-                <button className="add-comment-button"><FaPlus className="add-comment-icon" /></button>
+                {/* Render reply button only if it's not a reply */}
+                {!parentId && <button className="add-comment-button"><FaPlus className="add-comment-icon" /></button>}
             </div>
-            {/* Render replies
+            {/* Render replies */}
             {replies && replies.map(reply => (
-                <div key={reply.id} className="reply">
-                    <Comment {...reply} />
+                <div key={reply.id} className="reply" style={{ marginLeft: '20px' }}>
+                    <Comment {...reply} parentId={id} /> {/* Pass parent ID to child comments */}
                 </div>
-            ))} */}
+            ))}
+
         </div>
     );
 };
 
-const Comments: React.FC<CommentsProps> = ({ comments }: CommentsProps) => {
+const Comments: React.FC<CommentsProps> = ({ comments, parentId }) => {
     return (
         <div className="comments" style={{ marginTop: '10px' }}>
             {comments.map(comment => (
                 <div key={comment.id} className="comment">
-                    <Comment {...comment} />
+                    <Comment {...comment} parentId={parentId} />
                 </div>
             ))}
         </div>
