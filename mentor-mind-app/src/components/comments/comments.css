@@ -43,3 +43,32 @@
 .reply-container {
     margin-left: 40px; /* Indent replies */
 }
+
+
+
+/* Hide scrollbar arrows and borders */
+::-webkit-scrollbar {
+    width: 8px; /* Width of the scrollbar */
+  }
+  
+  /* Remove scrollbar arrows */
+  ::-webkit-scrollbar-button {
+    width: 0;
+    height: 0;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: #888; /* Color of the thumb */
+    border-radius: 4px; /* Round corners of the thumb */
+  }
+  
+  ::-webkit-scrollbar-track {
+    background-color: transparent; /* Transparent background for track */
+  }
+  
+  /* Hover styles for thumb */
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #666; /* Color of the thumb when hovered */
+  }
+  
+  
