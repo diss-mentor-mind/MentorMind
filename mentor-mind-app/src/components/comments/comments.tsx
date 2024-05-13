@@ -27,12 +27,12 @@ const Comment: React.FC<Comment> = ({ id, username, text, timestamp, replies }: 
                 </div>
                 <button className="add-comment-button"><FaPlus className="add-comment-icon" /></button>
             </div>
-            {/* Render replies */}
+            {/* Render replies
             {replies && replies.map(reply => (
                 <div key={reply.id} className="reply">
                     <Comment {...reply} />
                 </div>
-            ))}
+            ))} */}
         </div>
     );
 };
