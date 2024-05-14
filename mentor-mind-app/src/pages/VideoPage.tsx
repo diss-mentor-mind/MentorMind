@@ -14,22 +14,20 @@ const VideoPage = () => {
             sx={{
               height: "500px",
               overflowY: "auto",
-              scrollbarWidth: "thin",
               "&::-webkit-scrollbar": {
-                width: "8px",
+                width: "12px",
+              },
+              "&::-webkit-scrollbar-track": {
+                backgroundColor: "var(--primary-color)",
               },
               "&::-webkit-scrollbar-thumb": {
-                backgroundColor: "#888",
-                borderRadius: "4px",
-              },
-              "&::-webkit-scrollbar-track:hover": {
-                backgroundColor: "#ddd",
-              },
-              "&::-webkit-scrollbar-thumb:hover": {
-                backgroundColor: "#666",
+                backgroundColor: "var(--button-color)",
+                borderRadius: "20px",
+                border: "3px solid var(--primary-color)",
               },
             }}
-          > {/* Make the box scrollable */}
+          >
+
             <Comments
               comments={[
                 {
@@ -128,6 +126,8 @@ const VideoPage = () => {
               ]}
             />
           </Box>
+
+
           <div style={{ marginTop: '20px' }}>
             <label style={{ display: 'flex', alignItems: 'center' }}>
               <input type="checkbox" style={{ marginRight: '5px' }} />
