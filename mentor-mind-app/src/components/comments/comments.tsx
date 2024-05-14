@@ -7,6 +7,7 @@ interface Comment {
     username: string;
     text: string;
     timestamp?: string;
+    page?: string;
     profilePicture: string | null;
     replies?: Comment[];
 }
@@ -20,7 +21,7 @@ interface CommentsProps {
     parentId?: string; // Add a parentId prop to identify the parent comment
 }
 
-const Comment: React.FC<CommentProps> = ({ id, username, text, timestamp, replies, parentId }: CommentProps) => {
+const Comment: React.FC<CommentProps> = ({ id, username, text, timestamp, replies, parentId, page }: CommentProps) => {
     return (
         <div className="comment" key={id}>
             <div className="profile-info">
@@ -28,7 +29,11 @@ const Comment: React.FC<CommentProps> = ({ id, username, text, timestamp, replie
                 <div className="info">
                     <p className="username">{username}</p>
                     <p className="text">{text}</p>
-                    <p className="timestamp">{timestamp}</p>
+                    {timestamp && <p className="timestamp">Timestamp: {timestamp}</p>}
+                    {page && <p className="page">Page: {page}</p>}
+
+
+
                 </div>
                 {/* Render reply button only if it's not a reply */}
                 {!parentId && <button className="add-comment-button"><FaPlus className="add-comment-icon" /></button>}

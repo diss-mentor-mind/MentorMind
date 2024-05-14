@@ -4,6 +4,7 @@ import MainPage from "../pages/MainPage";
 import Course from "../pages/Course";
 import LogInRegister from "../pages/LogInRegister";
 import VideoPage from "../pages/VideoPage";
+import PdfPage from "../pages/PdfPage";
 
 export default function AppRouter() {
   return (
@@ -12,6 +13,7 @@ export default function AppRouter() {
       <Route path="/course" element={<Course />} />
       <Route path="/log-in" element={<LogInRegister />} />
       <Route path="/video-page" element={<VideoPage />} />
+      <Route path="/pdf-page" element={<PdfPage />} />
     </Routes>
   );
 }
