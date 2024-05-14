@@ -41,7 +41,6 @@ const PdfPage = () => {
                                             id: '1-1',
                                             username: 'Alice',
                                             text: ' REPLY I agree!',
-                                            //timestamp: '2024-05-11T15:49:00',
                                             profilePicture: null
                                         }
                                     ]
@@ -57,7 +56,6 @@ const PdfPage = () => {
                                             id: '2-1',
                                             username: 'Bob',
                                             text: 'REPLY I disagree!',
-                                            //timestamp: '2024-05-11T15:50:00',
                                             profilePicture: null
                                         }
                                     ]
@@ -73,7 +71,6 @@ const PdfPage = () => {
                                             id: '3-1',
                                             username: 'John Doe',
                                             text: 'REPLY You\'re welcome!',
-                                            //timestamp: '2024-05-11T15:51:00',
                                             profilePicture: null
                                         }
                                     ]

@@ -18,7 +18,7 @@ interface CommentProps extends Comment {
 
 interface CommentsProps {
     comments: Comment[];
-    parentId?: string; // Add a parentId prop to identify the parent comment
+    parentId?: string;
 }
 
 const Comment: React.FC<CommentProps> = ({ id, username, text, timestamp, replies, parentId, page }: CommentProps) => {
@@ -31,11 +31,7 @@ const Comment: React.FC<CommentProps> = ({ id, username, text, timestamp, replie
                     <p className="text">{text}</p>
                     {timestamp && <p className="timestamp">Timestamp: {timestamp}</p>}
                     {page && <p className="page">Page: {page}</p>}
-
-
-
                 </div>
-                {/* Render reply button only if it's not a reply */}
                 {!parentId && <button className="add-comment-button"><FaPlus className="add-comment-icon" /></button>}
             </div>
             {/* Render replies */}
@@ -44,7 +40,6 @@ const Comment: React.FC<CommentProps> = ({ id, username, text, timestamp, replie
                     <Comment {...reply} parentId={id} /> {/* Pass parent ID to child comments */}
                 </div>
             ))}
-
         </div>
     );
 };
