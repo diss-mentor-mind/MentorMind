@@ -16,11 +16,13 @@ import { FaTrash } from "react-icons/fa";
 import { FaVideo } from "react-icons/fa";
 import { FaFileAlt } from "react-icons/fa";
 import { FaArchive } from "react-icons/fa";
+import {useNavigate} from "react-router-dom";
 
 const Course = () => {
   const [title, setTitle] = useState("Search by title...");
   const [publiser, setPublisher] = useState("Search by publisher...");
   const [statusC, setStatusC] = useState("Active");
+  const navigate = useNavigate();
 
   return (
     <Grid
@@ -170,6 +172,7 @@ const Course = () => {
             }}
           >
             <Button
+                onClick={() => navigate("/manage-course")}
               sx={{
                 backgroundColor: "var(--button-color)",
                 color: "white",
