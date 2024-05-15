@@ -16,7 +16,10 @@ import { FaTrash } from "react-icons/fa";
 import { FaVideo } from "react-icons/fa";
 import { FaFileAlt } from "react-icons/fa";
 import { FaArchive } from "react-icons/fa";
+
 import {useNavigate} from "react-router-dom";
+import { FaCheckCircle } from "react-icons/fa";
+import { FaBan } from "react-icons/fa";
 
 const Course = () => {
   const [title, setTitle] = useState("Search by title...");
@@ -266,7 +269,24 @@ const Course = () => {
                     width: "45%",
                     marginLeft: "10%",
                   }}
-                ></Grid>
+                >
+                  {material.isAccepted && (
+                    <Grid
+                      sx={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "flex-end",
+                      }}
+                    >
+                      <Grid>
+                        <FaCheckCircle />
+                      </Grid>
+                      <Grid sx={{ marginLeft: "5%" }}>
+                        <FaBan />
+                      </Grid>
+                    </Grid>
+                  )}
+                </Grid>
               </Grid>
             </PinnedContainer>
           </Grid>
