@@ -6,6 +6,8 @@ import SettingsPage from "../pages/SettingsPage";
 import LogInRegister from "../pages/LogInRegister";
 import CoursePage from "../pages/CoursesPage";
 import LecturePage from "../pages/LecturePage";
+import ManageCoursePage from "../pages/ManageCoursePage";
+
 
 export default function AppRouter() {
   return (
@@ -16,6 +18,7 @@ export default function AppRouter() {
       <Route path="/lectures" element={<LecturePage />} />
       <Route path="/log-in" element={<LogInRegister />} />
       <Route path="/settings" element={<SettingsPage />} />
+      <Route path="/manage-course" element={<ManageCoursePage />} />
     </Routes>
   );
 }
