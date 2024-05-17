@@ -1,38 +1,37 @@
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
-import type { PDFDocumentProxy } from 'pdfjs-dist';
-import { Box } from '@mui/material';
+import { Button } from '@mui/material';
+import 'react-pdf/dist/Page/AnnotationLayer.css';
+import 'react-pdf/dist/Page/TextLayer.css';
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
     'pdfjs-dist/build/pdf.worker.min.js',
     import.meta.url,
 ).toString();
 
-const maxWidth = 800;
-
 const RenderPdfComponent = () => {
-    type PDFFile = any | null
     const [testFile, setTestFile] = useState<File>();
     const [file, setFile] = useState<File | null>(null);
-    const [numPages, setNumPages] = useState<number>()
-    const [containerWidth, setContanierWidth] = useState<number>()
-    useCallback<ResizeObserverCallback>((entries) => {
-        const [entry] = entries;
-
-        if (entry) {
-            setContanierWidth(entry.contentRect.width)
-        }
-    }, []);
-
-    function onLoadSuccess({ numPages } : PDFDocumentProxy) {
-        setNumPages(numPages)
+    const [numPages, setNumPages] = useState<number>();
+    const [pageNumber, setPageNumber] = useState(1);
+    const [renderNavButtons, setRenderNavButtons] = useState<Boolean>(false);
+    
+    function onLoadSuccess() {
+        setPageNumber(1);
+        setRenderNavButtons(true);
     }
 
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
-          setTestFile(e.target.files[0]);
+            setTestFile(e.target.files[0]);
         }
     };
+
+    const changePage = (offset: number) => {
+        setPageNumber(prevPageNumber => prevPageNumber + offset);
+    }
+    const previousPage = () => { changePage(-1); }
+    const nextPage = () => { changePage(+1); }
 
     function doStuff() {
         var reader = new FileReader();
@@ -46,22 +45,70 @@ const RenderPdfComponent = () => {
             }
         }
     }
+
+    const handleRenderSuccess = (pageData : any) => {
+        console.log('width', pageData.width);
+        console.log('height', pageData.height);
+        console.log('originalWidth', pageData.originalWidth)
+        console.log('originalHeight', pageData.originalHeight)
+    }
     
     return (
         <div style={{
             border: '2px solid gray'
         }}>
-            <input id="file" type="file" onChange={handleFileChange} />
-            <button onClick={doStuff}>abc</button>
-            <Document file={file} onLoadSuccess={onLoadSuccess}>
-                {Array.from(new Array(numPages), (el, index) => (
-                    <Page
-                        key = {`page_{index + 1}`}
-                        pageNumber = { index + 1}
-                        width = { containerWidth ? Math.min(containerWidth, maxWidth) : maxWidth }
-                    />
-                ))}
-            </Document>
+            <div>
+                <input id="file" type="file" onChange={onFileChange} />
+                <button onClick={doStuff}>abc</button>
+                <Document file={file} onLoadSuccess={({ numPages }) => {
+                    setNumPages(numPages);
+                    setRenderNavButtons(true);
+                    onLoadSuccess();
+                }}
+                >
+                    <Page pageNumber={pageNumber} onRenderSuccess={handleRenderSuccess} />
+                </Document>
+            </div>
+            <div>
+            {renderNavButtons && (
+                    <div>
+                        <div>
+                            <p>
+                                Page {pageNumber} of {numPages}
+                            </p>
+                        </div>
+                        <div style={{
+                            display: "flex",
+                            flexDirection: "row"
+                        }}>
+                            <Button
+                                disabled={pageNumber <= 1}
+                                onClick={previousPage}
+                                sx={{
+                                    backgroundColor: "var(--button-color)",
+                                    color: "white",
+                                    alignSelf: "flex-start",
+                                    justifySelf: "start"
+                                }}
+                            >   
+                                Previous Page
+                            </Button>
+                            <Button
+                                sx={{
+                                    backgroundColor: "var(--button-color)",
+                                    color: "white",
+                                    alignSelf: "flex-end",
+                                    justifySelf: "end"
+                                }}
+                                disabled={pageNumber === numPages}
+                                onClick={nextPage}
+                            >
+                                Next Page
+                            </Button>
+                        </div>
+                    </div>
+                )}
+            </div>
         </div>
     )
 }
