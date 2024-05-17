@@ -1,4 +1,7 @@
 import { Box, Button, TextField, Typography, styled } from "@mui/material";
+import { load } from "../../util/localStorage";
+import { FormEvent, useState } from "react";
+import axios from "axios";
 
 const CssTextField = styled(TextField)({
     '& .MuiInputBase-root': {
@@ -8,7 +11,22 @@ const CssTextField = styled(TextField)({
 })
 
 const JoinCoursePopupComponent = () => {
-    const handleJoinCourse = () => {}
+    const [courseCode, setCourseCode] = useState("");
+    const handleJoinCourse = (e : FormEvent<HTMLFormElement>) => {
+        const userId = load("userId");
+        e.preventDefault();
+        if (!courseCode) {
+            alert("Missing course code!");
+        } else {
+            axios.post(`http://localhost:8080/api/subject/${courseCode}/join/${userId}`,
+                {}, {withCredentials: false}
+            ).then((response) => {
+                window.location.reload();
+            }).catch((error) => {
+                alert("Could not join! Please try again!");
+            })
+        }
+    }
 
     return (
         <Box component="form" onSubmit={handleJoinCourse} noValidate 
@@ -39,11 +57,13 @@ const JoinCoursePopupComponent = () => {
                         placeholder="Course Code"
                         name="course-code"
                         autoComplete="Course Code"
+                        value={courseCode}
+                        onChange={(e) => setCourseCode(e.target.value)}
                     />
                 </Box>
             </Box>
             <Box textAlign={"center"} margin="normal" marginBottom={"10px"} width={"40%"}>
-                <Button className={"button"} variant="contained" style={{textTransform: "none"}} fullWidth>
+                <Button className={"button"} variant="contained" style={{textTransform: "none"}} fullWidth type="submit">
                     Join Course
                 </Button>
             </Box>
