@@ -1,0 +1,59 @@
+import React from 'react';
+import { FaPlus } from 'react-icons/fa';
+import './comments.css';
+
+interface Comment {
+    id: string;
+    username: string;
+    text: string;
+    timestamp?: string;
+    page?: string;
+    profilePicture: string | null;
+    replies?: Comment[];
+}
+
+interface CommentProps extends Comment {
+    parentId?: string;
+}
+
+interface CommentsProps {
+    comments: Comment[];
+    parentId?: string;
+}
+
+const Comment: React.FC<CommentProps> = ({ id, username, text, timestamp, replies, parentId, page }: CommentProps) => {
+    return (
+        <div className="comment" key={id}>
+            <div className="profile-info">
+                <img src={"blank-profile-picture.png"} alt="Profile" className="profile-picture" />
+                <div className="info">
+                    <p className="username">{username}</p>
+                    <p className="text">{text}</p>
+                    {timestamp && <p className="timestamp">Timestamp: {timestamp}</p>}
+                    {page && <p className="page">Page: {page}</p>}
+                </div>
+                {!parentId && <button className="add-comment-button"><FaPlus className="add-comment-icon" /></button>}
+            </div>
+            {/* Render replies */}
+            {replies && replies.map(reply => (
+                <div key={reply.id} className="reply" style={{ marginLeft: '20px' }}>
+                    <Comment {...reply} parentId={id} /> {/* Pass parent ID to child comments */}
+                </div>
+            ))}
+        </div>
+    );
+};
+
+const Comments: React.FC<CommentsProps> = ({ comments, parentId }) => {
+    return (
+        <div className="comments" style={{ marginTop: '10px' }}>
+            {comments.map(comment => (
+                <div key={comment.id} className="comment">
+                    <Comment {...comment} parentId={parentId} />
+                </div>
+            ))}
+        </div>
+    );
+};
+
+export default Comments;

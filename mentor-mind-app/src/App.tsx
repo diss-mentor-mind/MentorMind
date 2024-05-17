@@ -5,20 +5,22 @@ import Heading from "./components/bar/Header";
 import { BrowserRouter } from "react-router-dom";
 import AppRouter from "./routes/AppRoutes";
 import Header from "./components/bar/Header";
+import { load } from "./util/localStorage";
 
 function App() {
+  const userName = load("userName");
   return (
-    <>
+    <BrowserRouter>
       <Header
-        title1={"Hello, Name"}
+        title1={"Hello, " + (userName ? userName : "Name")}
         title2={"MentorMind"}
         buttonText1={"Settings"}
         buttonText2={"Log Out"}
       />
-      <BrowserRouter>
+      {/*<BrowserRouter>*/}
         <AppRouter />
-      </BrowserRouter>
-    </>
+      {/*</BrowserRouter>*/}
+    </BrowserRouter>
   );
 }
 
