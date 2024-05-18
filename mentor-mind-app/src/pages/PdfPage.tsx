@@ -28,8 +28,7 @@ const PdfPage: React.FC<PdfPageProps> = ({ pdfId }: PdfPageProps) => {
             });
     }, [pdfId]);
 
-    // Filter out comments that are not replies
-    const topLevelComments = comments.filter(comment => !comment.replyTo);
+
 
     return (
         <Grid container spacing={2} sx={{ display: "flex", flexDirection: "row" }}>
