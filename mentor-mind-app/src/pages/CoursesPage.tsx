@@ -20,7 +20,7 @@ const CoursePage = () => {
   const handleCloseModal = () => {
     console.log("trying to close");
     setOpenModal(false);
-  }
+  };
 
   return (
     <Grid
@@ -71,17 +71,24 @@ const CoursePage = () => {
       >
         <AddIcon />
       </Fab>
-      <Modal
-        open={openModal}
-        onClose={handleCloseModal}>
-        <Stack direction={"row"} justifyContent={userRole == "Teacher" ? "space-between" : "center"} width={"70%"} minHeight={"calc( 100% - 150px );"} height={"80%"} alignItems={"flex-start"} margin={"40px auto"}>
-            {userRole == "Teacher" &&
-             <PinnedContainer width="40%" height="95%">
-                <CreateCoursePopupComponent />
-            </PinnedContainer>}
+      <Modal open={openModal} onClose={handleCloseModal}>
+        <Stack
+          direction={"row"}
+          justifyContent={userRole == "Teacher" ? "space-between" : "center"}
+          width={"70%"}
+          minHeight={"calc( 100% - 150px );"}
+          height={"80%"}
+          alignItems={"flex-start"}
+          margin={"40px auto"}
+        >
+          {userRole == "Teacher" && (
             <PinnedContainer width="40%" height="95%">
-                <JoinCoursePopupComponent />
+              <CreateCoursePopupComponent />
             </PinnedContainer>
+          )}
+          <PinnedContainer width="40%" height="95%">
+            <JoinCoursePopupComponent />
+          </PinnedContainer>
         </Stack>
       </Modal>
     </Grid>
