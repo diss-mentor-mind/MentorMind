@@ -1,7 +1,7 @@
-import { Box, Button, FormControl, FormHelperText, MenuItem, Select, TextField, Typography, styled } from "@mui/material";
-import { FormEvent, useState } from "react";
+import {Box, Button, FormControl, FormHelperText, MenuItem, Select, TextField, Typography, styled} from "@mui/material";
+import {FormEvent, useState} from "react";
 import axios from "axios";
-import { save } from "../../util/localStorage";
+import {save} from "../../util/localStorage";
 
 const CssTextField = styled(TextField)({
     '& .MuiInputBase-root': {
@@ -16,21 +16,21 @@ const CssSelect = styled(FormControl)({
         borderRadius: "10px"
     }
 })
-  
+
 const RegisterComponent = () => {
     const emailRegex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
 
     const [email, setEmail] = useState("");
-        const [emailErrorText, setEmailErrorText] = useState("");
-        const [firstName, setFirstName] = useState("");
-        const [firstNameErrorText, setFirstNameErrorText] = useState("");
-        const [lastName, setLastName] = useState("");
-        const [lastNameErrorText, setLastNameErrorText] = useState("");
-        const [password, setPassword] = useState("");
-        const [passwordErrorText, setPasswordErrorText] = useState("");
-        const [role, setRole] = useState("");
-        const [roleErrorText, setRoleErrorText] = useState("");
-        const handleRegister = (e: FormEvent<HTMLFormElement>) => {
+    const [emailErrorText, setEmailErrorText] = useState("");
+    const [firstName, setFirstName] = useState("");
+    const [firstNameErrorText, setFirstNameErrorText] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [lastNameErrorText, setLastNameErrorText] = useState("");
+    const [password, setPassword] = useState("");
+    const [passwordErrorText, setPasswordErrorText] = useState("");
+    const [role, setRole] = useState("");
+    const [roleErrorText, setRoleErrorText] = useState("");
+    const handleRegister = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         let canRegister = true;
         if (!email) {
@@ -93,13 +93,13 @@ const RegisterComponent = () => {
 
     return (
         <Box component="form" onSubmit={handleRegister} noValidate
-            sx={{
-                flexDirection: 'column',
-                display: 'flex',
-                alignItems: 'center',
-                height: 1,
-                justifyContent: 'space-between'        
-            }}
+             sx={{
+                 flexDirection: 'column',
+                 display: 'flex',
+                 alignItems: 'center',
+                 height: 1,
+                 justifyContent: 'space-between'
+             }}
         >
             <Box sx={{
                 marginX: 5,
@@ -115,7 +115,7 @@ const RegisterComponent = () => {
                     <CssTextField
                         margin="normal"
                         required
-                        fullWidth 
+                        fullWidth
                         id="register-email"
                         placeholder="E-mail Address"
                         name="email"
@@ -129,7 +129,7 @@ const RegisterComponent = () => {
                     <CssTextField
                         margin="normal"
                         required
-                        fullWidth 
+                        fullWidth
                         id="register-first-name"
                         placeholder="First Name"
                         name="firstName"
@@ -142,7 +142,7 @@ const RegisterComponent = () => {
                     <CssTextField
                         margin="normal"
                         required
-                        fullWidth 
+                        fullWidth
                         id="register-last-name"
                         placeholder="Last Name"
                         name="lastName"
@@ -155,7 +155,7 @@ const RegisterComponent = () => {
                     <CssTextField
                         margin="normal"
                         required
-                        fullWidth 
+                        fullWidth
                         id="register-password"
                         placeholder="Password"
                         name="password"
@@ -177,7 +177,7 @@ const RegisterComponent = () => {
                             renderValue={
                                 role !== "" ? undefined : () => <div className="placeholder">Role</div>
                             }
-                        >   
+                        >
                             <MenuItem value={"Teacher"}>Teacher</MenuItem>
                             <MenuItem value={"Student"}>Student</MenuItem>
                         </Select>
@@ -186,7 +186,8 @@ const RegisterComponent = () => {
                 </Box>
             </Box>
             <Box textAlign={"center"} margin="normal" marginBottom={"10px"} width={"40%"}>
-                <Button className={"button"} variant="contained" style={{textTransform: "none"}} fullWidth type="submit">
+                <Button className={"button"} variant="contained" style={{textTransform: "none"}} fullWidth
+                        type="submit">
                     Create Account
                 </Button>
             </Box>
