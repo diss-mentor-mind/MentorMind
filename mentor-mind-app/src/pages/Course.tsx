@@ -68,24 +68,28 @@ const Course = () => {
           material.author.lastName
             .toLowerCase()
             .includes(publisher.toLowerCase())) &&
-        // (fileType === "" ||
-        //   material.type.toLowerCase() === fileType.toLowerCase()) &&
         (isAccepted === "" ||
           (isAccepted === "Active"
             ? material.isAccepted === true
             : isAccepted === "InReview"
             ? material.isAccepted === false
-            : isAccepted === "All"))
+            : isAccepted === "All")) &&
+        (fileType === "" ||
+          (fileType === "File"
+            ? material.type === "File"
+            : fileType === "Video"
+            ? material.type === "Video"
+            : fileType === "All"))
     );
     if (
       title !== "" ||
       publisher !== "" ||
-      fileType !== "" ||
+      fileType !== "All" ||
       isAccepted !== "All"
     )
       setDisplayMaterials(filteredMaterials);
     else setDisplayMaterials(materials);
-  }, [title, publisher, fileType, isAccepted]);
+  }, [title, publisher, fileType, isAccepted, materials]);
 
   async function fetchMaterialsForLecture(
     lectureId: number
@@ -109,6 +113,38 @@ const Course = () => {
     const data: MaterialInterface[] = await response.json();
     return data;
   }
+  const deleteMaterial = async (materialId: number): Promise<void> => {
+    const response = await fetch(
+      `http://localhost:8080/api/material/delete/${materialId}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`Failed to delete material with ID ${materialId}`);
+    }
+  };
+
+  const handleDeleteMaterial = async (materialId: number) => {
+    try {
+      await deleteMaterial(materialId); // Call the deleteMaterial function passing the materialId
+      // Optionally, you can update the materials state after successful deletion
+      // For example:
+      // setMaterials((prevMaterials) => prevMaterials.filter((material) => material.id !== materialId));
+
+      setMaterials((prevMaterials) =>
+        prevMaterials.filter((material) => material.id !== materialId)
+      );
+      await fetchMaterialsForLecture(Number(lectureId));
+    } catch (error) {
+      console.error("Error deleting material:", error);
+      // Handle error, such as displaying a message to the user
+    }
+  };
 
   return (
     <Grid
@@ -244,9 +280,10 @@ const Course = () => {
                 setFileType(e.target.value)
               }
             >
-              <MenuItem value={10}>File</MenuItem>
-              <MenuItem value={20}>Video</MenuItem>
-              <MenuItem value={30}>Archive</MenuItem>
+              <MenuItem value={"All"}>All</MenuItem>
+
+              <MenuItem value={"File"}>File</MenuItem>
+              <MenuItem value={"Video"}>Video</MenuItem>
             </Select>
           </FormControl>
           <FormControl
@@ -390,7 +427,9 @@ const Course = () => {
                     width: "45%",
                     marginLeft: "3%",
                     color: "#616161",
+                    cursor: "pointer",
                   }}
+                  onClick={() => handleDeleteMaterial(material.id!)}
                 >
                   <FaTrash />
                 </Grid>
@@ -409,10 +448,24 @@ const Course = () => {
                         justifyContent: "flex-end",
                       }}
                     >
-                      <Grid>
+                      <Grid
+                        sx={{ cursor: "pointer" }}
+                        onClick={() => {
+                          alert(
+                            "You approved this material. TO BE IMPLEMENTED"
+                          );
+                        }}
+                      >
                         <FaCheckCircle />
                       </Grid>
-                      <Grid sx={{ marginLeft: "5%" }}>
+                      <Grid
+                        sx={{ marginLeft: "5%", cursor: "pointer" }}
+                        onClick={() => {
+                          alert(
+                            "You rejected this material. TO BE IMPLEMENTED"
+                          );
+                        }}
+                      >
                         <FaBan />
                       </Grid>
                     </Grid>
