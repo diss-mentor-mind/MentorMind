@@ -21,16 +21,16 @@ const RegisterComponent = () => {
     const emailRegex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
 
     const [email, setEmail] = useState("");
-    const [emailErrorText, setEmailErrorText] = useState("");
-    const [firstName, setFirstName] = useState("");
-    const [firstNameErrorText, setFirstNameErrorText] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [lastNameErrorText, setLastNameErrorText] = useState("");
-    const [password, setPassword] = useState("");
-    const [passwordErrorText, setPasswordErrorText] = useState("");
-    const [role, setRole] = useState("");
-    const [roleErrorText, setRoleErrorText] = useState("");
-    const handleRegister = (e: FormEvent<HTMLFormElement>) => {
+        const [emailErrorText, setEmailErrorText] = useState("");
+        const [firstName, setFirstName] = useState("");
+        const [firstNameErrorText, setFirstNameErrorText] = useState("");
+        const [lastName, setLastName] = useState("");
+        const [lastNameErrorText, setLastNameErrorText] = useState("");
+        const [password, setPassword] = useState("");
+        const [passwordErrorText, setPasswordErrorText] = useState("");
+        const [role, setRole] = useState("");
+        const [roleErrorText, setRoleErrorText] = useState("");
+        const handleRegister = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         let canRegister = true;
         if (!email) {
@@ -79,8 +79,10 @@ const RegisterComponent = () => {
             }, {withCredentials: false}).then((response) => {
                 save("userId", response.data.id);
                 save("userName", response.data.firstName);
+                save("userLastName", response.data.lastName);
                 save("userEmail", response.data.email);
                 save("userRole", response.data.role);
+                save("userPassword", response.data.password);
                 window.location.href = "/courses";
             }).catch((error) => {
                 alert("Registering was not possible! Please try again");

@@ -43,9 +43,11 @@ const LogInComponent = () => {
                 if (response.data) {
                     save("userId", response.data.id);
                     save("userName", response.data.firstName);
+                    save("userLastName", response.data.lastName);
                     save("userEmail", response.data.email);
+                    save("userPassword", response.data.password);
                     save("userRole", response.data.role);
-                    window.location.href = "/courses";    
+                    window.location.href = "/courses";
                 } else {
                     alert("Wrong username/password combination!");
                 }
