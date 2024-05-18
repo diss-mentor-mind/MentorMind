@@ -1,8 +1,66 @@
+import React, { useEffect, useState } from 'react';
 import { Box, Grid, Button } from "@mui/material";
 import Comments from "../components/comments/comments";
 import PinnedContainer from "../components/containers/PinnedContainer";
+import CommentInterface from '../interfaces/CommentInterface'; // Ensure the correct path to the interface
+import AuthorInterface from '../interfaces/AuthorInterface';
 
-const VideoPage = () => {
+interface VideoPageProps {
+  VideofId: string;
+  currentUser: AuthorInterface;
+}
+
+const VideoPage: React.FC<VideoPageProps> = ({ VideofId, currentUser }: VideoPageProps) => {
+  const [comments, setComments] = useState<CommentInterface[]>([]);
+  const [commentText, setCommentText] = useState<string>("");
+
+  useEffect(() => {
+    // Fetch comments from the API
+    fetch(`http://localhost:8080/api/comment/1`)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to fetch comments');
+        }
+        return response.json();
+      })
+      .then(data => {
+        setComments(Array.isArray(data) ? data : []); // Ensure data is an array
+      })
+      .catch(error => {
+        console.error('Error fetching comments:', error);
+      });
+  }, [VideofId]);
+
+  const handleAddComment = () => {
+    const newComment = {
+      author: null,
+      replyTo: null, // Adjust as needed for replies
+      content: commentText,
+      anchor: 0 // Adjust as needed
+    };
+
+    fetch(`http://localhost:8080/api/comment/save/1`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newComment)
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to save comment');
+        }
+        return response.json();
+      })
+      .then(savedComment => {
+        setComments([...comments, savedComment]);
+        setCommentText("");
+      })
+      .catch(error => {
+        console.error('Error saving comment:', error);
+      });
+  };
+
   return (
     <Grid container spacing={2} sx={{ display: "flex", flexDirection: "row" }}>
       <Grid sx={{ height: "700px", width: "1000px", marginLeft: "40px", marginTop: "50px", backgroundColor: "var(--primary-color)" }}>
@@ -27,17 +85,8 @@ const VideoPage = () => {
               },
             }}
           >
-
-<Comments
-    comments={[
-     
-        // Add more comments here if needed
-    ]}
-/>
-
+            <Comments comments={comments} currentUser={currentUser} />
           </Box>
-
-
           <div style={{ marginTop: '20px' }}>
             <label style={{ display: 'flex', alignItems: 'center' }}>
               <input type="checkbox" style={{ marginRight: '5px' }} />
@@ -45,6 +94,8 @@ const VideoPage = () => {
             </label>
             <input
               type="text"
+              value={commentText}
+              onChange={(e) => setCommentText(e.target.value)}
               placeholder="Add a comment..."
               style={{
                 marginRight: '10px',
@@ -59,6 +110,7 @@ const VideoPage = () => {
               }}
             />
             <Button
+              onClick={handleAddComment}
               sx={{
                 backgroundColor: "var(--button-color)",
                 color: "white",
