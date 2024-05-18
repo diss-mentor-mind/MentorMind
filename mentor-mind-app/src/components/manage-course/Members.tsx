@@ -29,7 +29,7 @@ const CourseInformation = () => {
 
     const [members, setMembers] = useState([
         {id: 1, name: 'Maria Popescu', role: 'Student'},
-        {id: 2, name: 'Corina Gligan   ', role: 'Student'},
+        {id: 2, name: 'Corina Gligan', role: 'Student'},
         {id: 3, name: 'Ioana Damian', role: 'Student'},
         {id: 4, name: 'Briana Petrea', role: 'Student'},
     ]);
@@ -106,8 +106,8 @@ const CourseInformation = () => {
                 {members.map(member => (
                     <ListItem key={member.id} sx={{pl: 4, pr: 4}}>
                         <Avatar sx={{mr: 2}}>{member.name[0]}</Avatar>
-                        <ListItemText primary={member.name}/>
-                        <ListItemText primary={member.role}/>
+                        <ListItemText primary={member.name} sx={{width: "20%"}}/>
+                        <ListItemText primary={member.role} sx={{width: "20%"}}/>
                         <ListItemSecondaryAction>
                             <IconButton aria-label="delete" sx={{color: "var(--secondary-color)"}}
                                         onClick={() => handleOpen('Feature Not Implemented', 'This feature is not yet implemented. Let us know if you need it :)')}>

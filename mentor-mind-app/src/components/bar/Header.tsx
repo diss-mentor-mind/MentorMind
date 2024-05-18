@@ -28,6 +28,8 @@ const Heading: React.FC<HeadingProps> = ({
       remove("userName");
       remove("userEmail");
       remove("userRole");
+      remove("userLastName");
+      remove("userPassword");
       window.location.href = "/log-in";
     }
 
