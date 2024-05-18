@@ -9,6 +9,7 @@ import PdfPage from "../pages/PdfPage";
 import CoursePage from "../pages/CoursesPage";
 import LecturePage from "../pages/LecturePage";
 import ManageCoursePage from "../pages/ManageCoursePage";
+import UploadDocumentPopup from "../components/upload-document-popup/UploadDocumentPopup";
 
 
 export default function AppRouter() {
@@ -23,6 +24,7 @@ export default function AppRouter() {
       <Route path="/pdf-page" element={<PdfPage />} />
       <Route path="/settings" element={<SettingsPage />} />
       <Route path="/manage-course" element={<ManageCoursePage />} />
+      <Route path="/upload-document" element={<UploadDocumentPopup />} />
     </Routes>
   );
 }

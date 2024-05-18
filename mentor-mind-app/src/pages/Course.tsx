@@ -28,6 +28,11 @@ const Course = () => {
     const [statusC, setStatusC] = useState("Active");
     const navigate = useNavigate();
 
+    const handleAddDocument = () => {
+        navigate("/upload-document");
+    };
+
+
     return (
         <Grid
             sx={{
@@ -294,7 +299,7 @@ const Course = () => {
                 ))}
                 <Fab
                     aria-label="add"
-                    // onClick={handleAddCourse}
+                    onClick={handleAddDocument}
                     sx={{
                         position: "absolute",
                         bottom: "16px",
