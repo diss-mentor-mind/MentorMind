@@ -7,7 +7,7 @@ import {
     FormControlLabel,
     Checkbox
 } from "@mui/material";
-
+import TextPopUp from "../../pages/TextPopUp";
 import StyledContainer from "../containers/StyledContainer";
 import React from "react";
 
