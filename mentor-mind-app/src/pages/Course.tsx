@@ -11,13 +11,13 @@ import {
 } from "@mui/material";
 import {useState} from "react";
 import PinnedContainer from "../components/containers/PinnedContainer";
-import {populatedMaterials} from "../interfaces/MaterialInterface";
+import MaterialInterface, {populatedMaterials} from "../interfaces/MaterialInterface";
 import {FaTrash} from "react-icons/fa";
 import {FaVideo} from "react-icons/fa";
 import {FaFileAlt} from "react-icons/fa";
 import {FaArchive} from "react-icons/fa";
 
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {FaCheckCircle} from "react-icons/fa";
 import {FaBan} from "react-icons/fa";
 import AddIcon from "@mui/icons-material/Add";
@@ -27,6 +27,13 @@ const Course = () => {
     const [publiser, setPublisher] = useState("Search by publisher...");
     const [statusC, setStatusC] = useState("Active");
     const navigate = useNavigate();
+
+    const location = useLocation();
+    // TODO: Use this instead of the populatedMaterials, since this is the injected one from the previous page
+    // Initialize the state with the materials from location.state
+    const [materials, setMaterials] = useState<MaterialInterface[]>(
+        (location.state?.materials as MaterialInterface[]) || []
+    );
 
     const handleAddDocument = () => {
         navigate("/upload-document");

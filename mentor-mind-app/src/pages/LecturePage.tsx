@@ -3,9 +3,18 @@ import LectureInterface, {
   populatedLectures,
 } from "../interfaces/LectureInterface";
 import LectureContainer from "../components/containers/LectureContainer";
+import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import MaterialInterface from "../interfaces/MaterialInterface";
 
 const LecturePage = () => {
-  const lectures: LectureInterface[] = populatedLectures;
+  const location = useLocation();
+  const navigate = useNavigate();
+  const lectures = (location.state?.lectures as LectureInterface[]) || [];
+
+  const handleLectureClick = (materials: MaterialInterface[]) => {
+    navigate("/course", { state: { materials } });
+  };
 
   return (
     <Grid
@@ -27,6 +36,7 @@ const LecturePage = () => {
             marginBottom: "2%",
             ...(index % 3 !== 2 && { marginRight: "12%" }), // Apply right margin except for the last item in each row
           }}
+          onClick={() => handleLectureClick(lecture.materials)}
         >
           <LectureContainer {...lecture} />
         </Grid>

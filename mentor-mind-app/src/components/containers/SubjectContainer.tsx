@@ -3,12 +3,37 @@ import PinnedContainer from "./PinnedContainer";
 import ComputerIcon from "../../icons/computerIcon.svg";
 import NotebookIcon from "../../icons/notebookIcon.svg";
 import SubjectInterface from "../../interfaces/SubjectInterface";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import ProgressBar from "../bar/ProgressBar";
+import { load } from "../../util/localStorage";
+import axios from "axios";
 
 const SubjectContainer: FC<SubjectInterface> = (subject: SubjectInterface) => {
-  // TODO: figure out how to get this progress value
-  const [progress, setProgress] = useState(75);
+  const [progress, setProgress] = useState(0);
+  const userRole: String = load("userRole");
+  const userId: String = load("userId");
+
+  useEffect(() => {
+    const fetchProgress = async () => {
+      try {
+        // Make the API call
+        const response = await axios.get<number>(
+          `http://localhost:8080/api/subject/${userId}/progress/${subject.id}`,
+          {
+            headers: {
+              accept: "text/plain",
+            },
+          }
+        );
+        const fetchedProgress: number = response.data;
+        setProgress(fetchedProgress);
+      } catch (error) {
+        console.error("Error fetching progress:", error);
+      }
+    };
+
+    fetchProgress();
+  }, [userId]);
 
   return (
     <PinnedContainer width="100%" height="100%">
@@ -59,7 +84,7 @@ const SubjectContainer: FC<SubjectInterface> = (subject: SubjectInterface) => {
             )
           }
         </Box>
-        {progress > 0 && (
+        {progress > 0 && userRole === "Student" && (
           <ProgressBar width="80%" height="7%" progress={progress} />
         )}
       </Stack>
