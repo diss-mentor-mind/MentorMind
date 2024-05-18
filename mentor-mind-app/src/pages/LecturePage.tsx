@@ -12,8 +12,9 @@ const LecturePage = () => {
   const navigate = useNavigate();
   const lectures = (location.state?.lectures as LectureInterface[]) || [];
 
-  const handleLectureClick = (materials: MaterialInterface[]) => {
-    navigate("/course", { state: { materials } });
+  // TODO: Add routing between /lectures -> /materials using the path variable in another PR
+  const handleLectureClick = (lecture: LectureInterface) => {
+    console.log(`Clicked on lecture: ${lecture.id}`);
   };
 
   return (
@@ -36,7 +37,7 @@ const LecturePage = () => {
             marginBottom: "2%",
             ...(index % 3 !== 2 && { marginRight: "12%" }), // Apply right margin except for the last item in each row
           }}
-          onClick={() => handleLectureClick(lecture.materials)}
+          onClick={() => handleLectureClick(lecture)}
         >
           <LectureContainer {...lecture} />
         </Grid>
