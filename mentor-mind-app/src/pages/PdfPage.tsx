@@ -3,13 +3,16 @@ import { Box, Grid, Button } from "@mui/material";
 import Comments from "../components/comments/comments";
 import PinnedContainer from "../components/containers/PinnedContainer";
 import CommentInterface from '../interfaces/CommentInterface'; // Update the import path if needed
+import AuthorInterface, { emptyAuthor } from '../interfaces/AuthorInterface';
 
 interface PdfPageProps {
     pdfId: string;
+    currentUser: AuthorInterface;
 }
 
-const PdfPage: React.FC<PdfPageProps> = ({ pdfId }: PdfPageProps) => {
+const PdfPage: React.FC<PdfPageProps> = ({ pdfId, currentUser }: PdfPageProps) => {
     const [comments, setComments] = useState<CommentInterface[]>([]);
+    const [newComment, setNewComment] = useState<string>('');
 
     useEffect(() => {
         // Fetch comments from the API
@@ -28,7 +31,39 @@ const PdfPage: React.FC<PdfPageProps> = ({ pdfId }: PdfPageProps) => {
             });
     }, [pdfId]);
 
+    const handleAddComment = () => {
+        // Construct the request body
+        const requestBody = {
+            author: null, // change after navigation
+            replyTo: null, // will be changed to the comment of the current one
+            content: newComment,
+            anchor: 0 // Adjust anchor as needed
+        };
 
+        fetch(`http://localhost:8080/api/comment/save/${1}`, {  //change after navigation
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestBody)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to add comment');
+                }
+                // Assuming the API returns the updated comments after adding a new comment
+                return response.json();
+            })
+            .then(data => {
+                // Update the comments state with the new data
+                setComments(data);
+                // Clear the newComment state after adding the comment
+                setNewComment('');
+            })
+            .catch(error => {
+                console.error('Error adding comment:', error);
+            });
+    };
 
     return (
         <Grid container spacing={2} sx={{ display: "flex", flexDirection: "row" }}>
@@ -64,6 +99,8 @@ const PdfPage: React.FC<PdfPageProps> = ({ pdfId }: PdfPageProps) => {
                         <input
                             type="text"
                             placeholder="Add a comment..."
+                            value={newComment}
+                            onChange={(e) => setNewComment(e.target.value)}
                             style={{
                                 marginRight: '10px',
                                 padding: '8px',
@@ -77,6 +114,7 @@ const PdfPage: React.FC<PdfPageProps> = ({ pdfId }: PdfPageProps) => {
                             }}
                         />
                         <Button
+                            onClick={handleAddComment} // Call handleAddComment on button click
                             sx={{
                                 backgroundColor: "var(--button-color)",
                                 color: "white",
