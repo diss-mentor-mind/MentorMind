@@ -51,7 +51,6 @@ const SettingsMainComponent = () => {
     };
 
     const validateEmail = (email: string) => {
-        // Simple regex for email validation
         const re = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
         return re.test(String(email).toLowerCase());
     };
@@ -59,7 +58,6 @@ const SettingsMainComponent = () => {
     const handleSettingsChange = (e: { preventDefault: () => void; }) => {
         e.preventDefault();
 
-        // Validate email before submitting
         if (!validateEmail(formData.email)) {
             setErrors({
                 ...errors,

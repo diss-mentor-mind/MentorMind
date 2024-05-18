@@ -7,9 +7,9 @@ import {
     FormControlLabel,
     Checkbox
 } from "@mui/material";
-import TextPopUp from "../../pages/TextPopUp";
 import StyledContainer from "../containers/StyledContainer";
-import React from "react";
+import React, {useState} from "react";
+import TextPopUp from "../../pages/TextPopUp";
 
 const CssTextField = styled(TextField)({
     "& .MuiInputBase-root": {
@@ -19,14 +19,26 @@ const CssTextField = styled(TextField)({
 });
 
 const CourseInformation = () => {
+    const [open, setOpen] = useState(false);
+    const [modalTitle, setModalTitle] = useState('');
+    const [modalDescription, setModalDescription] = useState('');
     const handleCourseInformation = () => {
     };
     const handleCheckboxChange = () => {
 
     };
+    const handleOpen = (title: string, description: string) => {
+        setModalTitle(title);
+        setModalDescription(description);
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
 
     return (
-        <Box sx={{ height: '75vh'}}>
+        <Box sx={{height: '75vh'}}>
             <Box
                 component="form"
                 onSubmit={handleCourseInformation}
@@ -97,9 +109,12 @@ const CourseInformation = () => {
                             variant="contained"
                             style={{textTransform: "none"}}
                             fullWidth
+                            onClick={() => handleOpen('Feature Not Implemented', 'This feature is not yet implemented. Let us know if you need it :)')}
                         >
                             Save
                         </Button>
+                        <TextPopUp open={open} handleClose={handleClose} title={modalTitle}
+                                   description={modalDescription}/>
                     </Box>
                 </Box>
             </Box>
