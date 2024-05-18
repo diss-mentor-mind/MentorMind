@@ -9,11 +9,14 @@ import { load } from "../util/localStorage";
 import PinnedContainer from "../components/containers/PinnedContainer";
 import CreateCoursePopupComponent from "../components/course-popups/CreateCoursePopup";
 import JoinCoursePopupComponent from "../components/course-popups/JoinCoursePopup";
+import { useNavigate } from "react-router-dom";
 
 const CoursePage = () => {
   const courses: SubjectInterface[] = populatedSubjects;
   const userRole = load("userRole");
   const [openModal, setOpenModal] = useState(false);
+  const navigate = useNavigate();
+
   const handleAddCourse = () => {
     setOpenModal(true);
   };
@@ -35,11 +38,15 @@ const CoursePage = () => {
     >
       {courses.map((course, index) => (
         <Grid
+          onClick={() => {
+            navigate(`/material/${course.id}`);
+          }}
           key={index}
           sx={{
             width: "20%",
             height: "280px",
             marginBottom: "2%",
+            cursor: "pointer",
             ...(index % 3 !== 2 && { marginRight: "12%" }), // Apply right margin except for the last item in each row
           }}
         >
