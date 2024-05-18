@@ -1,7 +1,8 @@
 import React from "react";
 import "../../colors.css";
 import "../../index.css";
-import {useNavigate} from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { remove } from "../../util/localStorage";
 
 interface HeadingProps {
   title1: string;
@@ -16,11 +17,27 @@ const Heading: React.FC<HeadingProps> = ({
   buttonText1,
   buttonText2,
 }) => {
-    const navigate = useNavigate()
+  const navigate = useNavigate();
+  const location = useLocation();
 
-    const gotToNewPage = (path: string) => {
-        navigate(path);
-    }
+  const gotToNewPage = (path: string) => {
+    navigate(path);
+  };
+
+  const logOut = () => {
+    remove("userId");
+    remove("userName");
+    remove("userEmail");
+    remove("userRole");
+    window.location.href = "/log-in";
+  };
+
+  const redirectToMainPage = () => {
+    navigate("/"); // Redirect to the main page
+  };
+
+  // Check if the current path is "/log-in"
+  const isLoginPage = location.pathname === "/log-in";
 
   return (
     <div
@@ -41,12 +58,31 @@ const Heading: React.FC<HeadingProps> = ({
       >
         {title1}
       </h1>
-      <h1 style={{ textAlign: "center", color: "white", fontWeight: "normal" }}>
+      <h1
+        style={{
+          textAlign: "center",
+          color: "white",
+          fontWeight: "normal",
+          fontFamily: "Kotta One",
+          cursor: "pointer", // Hint that the title is clickable
+        }}
+        onClick={redirectToMainPage}
+      >
         {title2}
       </h1>
-      <div className="button-container">
-        <button className="button" onClick={() => gotToNewPage("/settings")}>{buttonText1}</button>
-        <button className="button">{buttonText2}</button>
+      <div
+        className="button-container"
+        style={{
+          visibility: isLoginPage ? "hidden" : "visible",
+          pointerEvents: isLoginPage ? "none" : "auto",
+        }}
+      >
+        <button className="button" onClick={() => gotToNewPage("/settings")}>
+          {buttonText1}
+        </button>
+        <button className="button" onClick={logOut}>
+          {buttonText2}
+        </button>
       </div>
     </div>
   );

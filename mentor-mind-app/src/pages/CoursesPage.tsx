@@ -1,15 +1,25 @@
-import { Fab, Grid } from "@mui/material";
+import { Fab, Grid, Modal, Stack } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import SubjectContainer from "../components/containers/SubjectContainer";
 import SubjectInterface, {
   populatedSubjects,
 } from "../interfaces/SubjectInterface";
+import { useState } from "react";
+import { load } from "../util/localStorage";
+import PinnedContainer from "../components/containers/PinnedContainer";
+import CreateCoursePopupComponent from "../components/course-popups/CreateCoursePopup";
+import JoinCoursePopupComponent from "../components/course-popups/JoinCoursePopup";
 
 const CoursePage = () => {
   const courses: SubjectInterface[] = populatedSubjects;
-
+  const userRole = load("userRole");
+  const [openModal, setOpenModal] = useState(false);
   const handleAddCourse = () => {
-    console.log("Add course clicked!");
+    setOpenModal(true);
+  };
+  const handleCloseModal = () => {
+    console.log("trying to close");
+    setOpenModal(false);
   };
 
   return (
@@ -61,6 +71,26 @@ const CoursePage = () => {
       >
         <AddIcon />
       </Fab>
+      <Modal open={openModal} onClose={handleCloseModal}>
+        <Stack
+          direction={"row"}
+          justifyContent={userRole == "Teacher" ? "space-between" : "center"}
+          width={"70%"}
+          minHeight={"calc( 100% - 150px );"}
+          height={"80%"}
+          alignItems={"flex-start"}
+          margin={"40px auto"}
+        >
+          {userRole == "Teacher" && (
+            <PinnedContainer width="40%" height="95%">
+              <CreateCoursePopupComponent />
+            </PinnedContainer>
+          )}
+          <PinnedContainer width="40%" height="95%">
+            <JoinCoursePopupComponent />
+          </PinnedContainer>
+        </Stack>
+      </Modal>
     </Grid>
   );
 };

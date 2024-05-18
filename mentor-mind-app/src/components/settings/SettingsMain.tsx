@@ -67,44 +67,44 @@ const SettingsMainComponent = () => {
           <Box sx={{ width: "100%" }}>
             <StyledContainer>
               <FormLabel
-                htmlFor="settings-name"
+                htmlFor="settings-first-name"
                 sx={{
                   width: "170px",
                   color: "var(--secondary-color)",
                   fontSize: "120%",
                 }}
               >
-                Name
+                First Name
               </FormLabel>
               <CssTextField
                 margin="dense"
                 required
                 fullWidth
-                id="settings-name"
-                placeholder="Student name"
-                name="name"
+                id="settings-first-name"
+                placeholder="First name"
+                name="first-name"
                 autoComplete="off"
                 size="small"
               />
             </StyledContainer>
             <StyledContainer>
               <FormLabel
-                htmlFor="settings-username"
+                htmlFor="settings-last-name"
                 sx={{
                   width: "170px",
                   color: "var(--secondary-color)",
                   fontSize: "120%",
                 }}
               >
-                Username
+                Last Name
               </FormLabel>
               <CssTextField
                 margin="dense"
                 required
                 fullWidth
-                id="settings-username"
-                placeholder="Username"
-                name="username"
+                id="settings-last-name"
+                placeholder="Last Name"
+                name="last-name"
                 autoComplete="off"
                 size="small"
               />
