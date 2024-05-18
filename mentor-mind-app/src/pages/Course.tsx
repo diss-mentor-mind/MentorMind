@@ -131,18 +131,13 @@ const Course = () => {
 
   const handleDeleteMaterial = async (materialId: number) => {
     try {
-      await deleteMaterial(materialId); // Call the deleteMaterial function passing the materialId
-      // Optionally, you can update the materials state after successful deletion
-      // For example:
-      // setMaterials((prevMaterials) => prevMaterials.filter((material) => material.id !== materialId));
-
+      await deleteMaterial(materialId);
       setMaterials((prevMaterials) =>
         prevMaterials.filter((material) => material.id !== materialId)
       );
       await fetchMaterialsForLecture(Number(lectureId));
     } catch (error) {
       console.error("Error deleting material:", error);
-      // Handle error, such as displaying a message to the user
     }
   };
 
