@@ -28,103 +28,13 @@ const VideoPage = () => {
             }}
           >
 
-            <Comments
-              comments={[
-                {
-                  id: '1',
-                  username: 'John Doe',
-                  text: 'This is a great article!',
-                  timestamp: '2024-05-11T15:47:00',
-                  profilePicture: null,
-                  replies: [
-                    {
-                      id: '1-1',
-                      username: 'Alice',
-                      text: ' REPLY I agree!',
-                      timestamp: '2024-05-11T15:49:00',
-                      profilePicture: null
-                    }
-                  ]
-                },
-                {
-                  id: '2',
-                  username: 'Jane Smith',
-                  text: 'I agree, very informative!',
-                  timestamp: '2024-05-11T15:48:00',
-                  profilePicture: null,
-                  replies: [
-                    {
-                      id: '2-1',
-                      username: 'Bob',
-                      text: 'REPLY I disagree!',
-                      timestamp: '2024-05-11T15:50:00',
-                      profilePicture: null
-                    }
-                  ]
-                },
-                {
-                  id: '3',
-                  username: 'Alice Johnson',
-                  text: 'Thanks for sharing!',
-                  timestamp: '2024-05-11T15:49:00',
-                  profilePicture: null,
-                  replies: [
-                    {
-                      id: '3-1',
-                      username: 'John Doe',
-                      text: 'REPLY You\'re welcome!',
-                      timestamp: '2024-05-11T15:51:00',
-                      profilePicture: null
-                    }
-                  ]
-                }, {
-                  id: '3',
-                  username: 'Alice Johnson',
-                  text: 'Thanks for sharing!',
-                  timestamp: '2024-05-11T15:49:00',
-                  profilePicture: null,
-                  replies: [
-                    {
-                      id: '3-1',
-                      username: 'John Doe',
-                      text: 'REPLY You\'re welcome!',
-                      timestamp: '2024-05-11T15:51:00',
-                      profilePicture: null
-                    }
-                  ]
-                }, {
-                  id: '3',
-                  username: 'Alice Johnson',
-                  text: 'Thanks for sharing!',
-                  timestamp: '2024-05-11T15:49:00',
-                  profilePicture: null,
-                  replies: [
-                    {
-                      id: '3-1',
-                      username: 'John Doe',
-                      text: 'REPLY You\'re welcome!',
-                      timestamp: '2024-05-11T15:51:00',
-                      profilePicture: null
-                    }
-                  ]
-                }, {
-                  id: '3',
-                  username: 'Alice Johnson',
-                  text: 'Thanks for sharing!',
-                  timestamp: '2024-05-11T15:49:00',
-                  profilePicture: null,
-                  replies: [
-                    {
-                      id: '3-1',
-                      username: 'John Doe',
-                      text: 'REPLY You\'re welcome!',
-                      timestamp: '2024-05-11T15:51:00',
-                      profilePicture: null
-                    }
-                  ]
-                },
-              ]}
-            />
+<Comments
+    comments={[
+     
+        // Add more comments here if needed
+    ]}
+/>
+
           </Box>
 
 

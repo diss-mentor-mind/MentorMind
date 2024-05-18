@@ -1,12 +1,40 @@
+import React, { useEffect, useState } from 'react';
 import { Box, Grid, Button } from "@mui/material";
 import Comments from "../components/comments/comments";
 import PinnedContainer from "../components/containers/PinnedContainer";
+import CommentInterface from '../interfaces/CommentInterface'; // Update the import path if needed
 
-const PdfPage = () => {
+interface PdfPageProps {
+    pdfId: string;
+}
+
+const PdfPage: React.FC<PdfPageProps> = ({ pdfId }: PdfPageProps) => {
+    const [comments, setComments] = useState<CommentInterface[]>([]);
+
+    useEffect(() => {
+        // Fetch comments from the API
+        fetch(`http://localhost:8080/api/comment/1`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch comments');
+                }
+                return response.json();
+            })
+            .then(data => {
+                setComments(data);
+            })
+            .catch(error => {
+                console.error('Error fetching comments:', error);
+            });
+    }, [pdfId]);
+
+    // Filter out comments that are not replies
+    const topLevelComments = comments.filter(comment => !comment.replyTo);
+
     return (
         <Grid container spacing={2} sx={{ display: "flex", flexDirection: "row" }}>
             <Grid sx={{ height: "700px", width: "1000px", marginLeft: "40px", marginTop: "50px", backgroundColor: "var(--primary-color)" }}>
-                {"Pdf file here"}
+                {`PDF file with ID: ${pdfId}`}
             </Grid>
             <Grid sx={{ height: "100%", width: "20%", marginLeft: "40px", marginTop: "50px" }}>
                 <PinnedContainer height="100%" width="100%">
@@ -27,56 +55,7 @@ const PdfPage = () => {
                             },
                         }}
                     >
-
-                        <Comments
-                            comments={[
-                                {
-                                    id: '1',
-                                    username: 'John Doe',
-                                    text: 'This is a great article!',
-                                    page: '1',
-                                    profilePicture: null,
-                                    replies: [
-                                        {
-                                            id: '1-1',
-                                            username: 'Alice',
-                                            text: ' REPLY I agree!',
-                                            profilePicture: null
-                                        }
-                                    ]
-                                },
-                                {
-                                    id: '2',
-                                    username: 'Jane Smith',
-                                    text: 'I agree, very informative!',
-                                    page: '2',
-                                    profilePicture: null,
-                                    replies: [
-                                        {
-                                            id: '2-1',
-                                            username: 'Bob',
-                                            text: 'REPLY I disagree!',
-                                            profilePicture: null
-                                        }
-                                    ]
-                                },
-                                {
-                                    id: '3',
-                                    username: 'Alice Johnson',
-                                    text: 'Thanks for sharing!',
-                                    page: '3',
-                                    profilePicture: null,
-                                    replies: [
-                                        {
-                                            id: '3-1',
-                                            username: 'John Doe',
-                                            text: 'REPLY You\'re welcome!',
-                                            profilePicture: null
-                                        }
-                                    ]
-                                }
-                            ]}
-                        />
+                        <Comments comments={comments} />
                     </Box>
                     <div style={{ marginTop: '20px' }}>
                         <label style={{ display: 'flex', alignItems: 'center' }}>
