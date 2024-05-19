@@ -13,7 +13,6 @@ import axios from 'axios';
 import Image from "../pics/puppy.png"; // Import the CSS file for styling
 import StyledContainer from "../containers/StyledContainer";
 import { load } from "../../util/localStorage";
-import SnackbarNotification from '../notifications/SnackbarNotification';
 
 const CssTextField = styled(TextField)({
     "& .MuiInputBase-root": {
@@ -31,8 +30,6 @@ const SettingsMainComponent = () => {
     const [errors, setErrors] = useState({
         email: '',
     });
-    const [snackbarOpen, setSnackbarOpen] = useState(false);
-    const [snackbarMessage, setSnackbarMessage] = useState('');
 
     const userId = load("userId");
     const userPassword = load("userPassword");
@@ -79,18 +76,12 @@ const SettingsMainComponent = () => {
         }, { withCredentials: false })
             .then((response) => {
                 console.log('Info updated successfully:', response.data);
-                setSnackbarMessage('Settings data updated successfully');
-                setSnackbarOpen(true);
                 window.location.href = "/courses";
             })
             .catch((error) => {
                 alert("Saving was not possible! Please try again");
                 console.log(error);
             });
-    };
-
-    const handleSnackbarClose = () => {
-      setSnackbarOpen(false);
     };
 
     return (
@@ -240,11 +231,6 @@ const SettingsMainComponent = () => {
                     }}
                 />
             </Box>
-            <SnackbarNotification
-                open={snackbarOpen}
-                message={snackbarMessage}
-                onClose={handleSnackbarClose}
-            />
         </Stack>
     );
 };
