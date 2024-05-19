@@ -4,19 +4,21 @@ import Comments from "../components/comments/comments";
 import PinnedContainer from "../components/containers/PinnedContainer";
 import CommentInterface from '../interfaces/CommentInterface'; // Update the import path if needed
 import AuthorInterface, { emptyAuthor } from '../interfaces/AuthorInterface';
+import { useParams } from 'react-router-dom';
 
 interface PdfPageProps {
     pdfId: string;
     currentUser: AuthorInterface;
 }
 
-const PdfPage: React.FC<PdfPageProps> = ({ pdfId, currentUser }: PdfPageProps) => {
+const PdfPage: React.FC<PdfPageProps> = ({ currentUser }: PdfPageProps) => {
+    const { pdfId } = useParams<{ pdfId: string }>();
     const [comments, setComments] = useState<CommentInterface[]>([]);
     const [newComment, setNewComment] = useState<string>('');
 
     useEffect(() => {
         // Fetch comments from the API
-        fetch(`http://localhost:8080/api/comment/1`)
+        fetch(`http://localhost:8080/api/comment/${pdfId}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Failed to fetch comments');

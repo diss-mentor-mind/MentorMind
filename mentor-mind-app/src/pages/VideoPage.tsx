@@ -4,6 +4,7 @@ import Comments from "../components/comments/comments";
 import PinnedContainer from "../components/containers/PinnedContainer";
 import CommentInterface from '../interfaces/CommentInterface'; // Ensure the correct path to the interface
 import AuthorInterface from '../interfaces/AuthorInterface';
+import { useParams } from 'react-router-dom';
 
 interface VideoPageProps {
   VideofId: string;
@@ -11,12 +12,13 @@ interface VideoPageProps {
 }
 
 const VideoPage: React.FC<VideoPageProps> = ({ VideofId, currentUser }: VideoPageProps) => {
+  const { pdfId } = useParams<{ pdfId: string }>();
   const [comments, setComments] = useState<CommentInterface[]>([]);
   const [commentText, setCommentText] = useState<string>("");
 
   useEffect(() => {
     // Fetch comments from the API
-    fetch(`http://localhost:8080/api/comment/1`)
+    fetch(`http://localhost:8080/api/comment/${pdfId}`)
       .then(response => {
         if (!response.ok) {
           throw new Error('Failed to fetch comments');

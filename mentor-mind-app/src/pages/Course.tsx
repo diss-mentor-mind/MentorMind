@@ -369,6 +369,15 @@ const Course = () => {
               marginRight: "5%",
               marginBottom: "3%",
             }}
+            onClick={() => {
+                if (material.type == "pdf" || material.type == "text") {
+                    (window.location.href = "/pdf-page/" + material.id)
+                }
+                else
+                if (material.type == "video" || material.type == "audio") {
+                    (window.location.href = "/video-page/" + material.id)
+                }
+            }}
           >
             <PinnedContainer key={material.id} width="100%" height="100%">
               <Grid
