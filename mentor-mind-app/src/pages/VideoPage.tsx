@@ -38,7 +38,7 @@ const VideoPage: React.FC<VideoPageProps> = ({ currentUser }: VideoPageProps) =>
   const handleAddComment = () => {
     const newComment = {
       author: null,
-      replyTo: null, // Adjust as needed for replies
+      replyTo: null, 
       content: commentText,
       anchor: 0 // Adjust as needed
     };

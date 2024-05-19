@@ -16,7 +16,7 @@ const PdfPage: React.FC<PdfPageProps> = ({ currentUser }: PdfPageProps) => {
     const { pdfId } = useParams<{ pdfId: string }>();
     const PdfId = pdfId ?? ''; // Fallback to an empty string if VideofId is undefined
     const [comments, setComments] = useState<CommentInterface[]>([]);
-    const [newComment, setNewComment] = useState<string>('');
+    const [newComment, setNewComment] = useState<string>("");
 
     useEffect(() => {
         // Fetch comments from the API
@@ -44,7 +44,7 @@ const PdfPage: React.FC<PdfPageProps> = ({ currentUser }: PdfPageProps) => {
             anchor: 0 // Adjust anchor as needed
         };
 
-        fetch(`http://localhost:8080/api/comment/save/${pdfId}`, {  
+        fetch(`http://localhost:8080/api/comment/save/${pdfId}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -60,9 +60,9 @@ const PdfPage: React.FC<PdfPageProps> = ({ currentUser }: PdfPageProps) => {
             })
             .then(data => {
                 // Update the comments state with the new data
-                setComments(data);
+                setComments([...comments, data]);
                 // Clear the newComment state after adding the comment
-                setNewComment('');
+                setNewComment("");
             })
             .catch(error => {
                 console.error('Error adding comment:', error);
@@ -102,7 +102,7 @@ const PdfPage: React.FC<PdfPageProps> = ({ currentUser }: PdfPageProps) => {
                             },
                         }}
                     >
-                        <Comments comments={comments} currentUser={currentUser} materialId={PdfId}  />
+                        <Comments comments={comments} currentUser={currentUser} materialId={PdfId} />
                     </Box>
                     <div style={{ marginTop: '20px' }}>
                         <label style={{ display: 'flex', alignItems: 'center' }}>
