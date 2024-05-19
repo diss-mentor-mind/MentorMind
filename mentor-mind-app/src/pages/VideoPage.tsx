@@ -7,18 +7,18 @@ import AuthorInterface from '../interfaces/AuthorInterface';
 import { useParams } from 'react-router-dom';
 
 interface VideoPageProps {
-  VideofId: string;
+  videoId: string;
   currentUser: AuthorInterface;
 }
 
-const VideoPage: React.FC<VideoPageProps> = ({ VideofId, currentUser }: VideoPageProps) => {
-  const { pdfId } = useParams<{ pdfId: string }>();
+const VideoPage: React.FC<VideoPageProps> = ({ currentUser }: VideoPageProps) => {
+  const { videoId } = useParams<{ videoId: string }>();
   const [comments, setComments] = useState<CommentInterface[]>([]);
   const [commentText, setCommentText] = useState<string>("");
 
   useEffect(() => {
     // Fetch comments from the API
-    fetch(`http://localhost:8080/api/comment/${pdfId}`)
+    fetch(`http://localhost:8080/api/comment/${videoId}`)
       .then(response => {
         if (!response.ok) {
           throw new Error('Failed to fetch comments');
@@ -31,7 +31,7 @@ const VideoPage: React.FC<VideoPageProps> = ({ VideofId, currentUser }: VideoPag
       .catch(error => {
         console.error('Error fetching comments:', error);
       });
-  }, [VideofId]);
+  }, [videoId]);
 
   const handleAddComment = () => {
     const newComment = {
@@ -41,7 +41,7 @@ const VideoPage: React.FC<VideoPageProps> = ({ VideofId, currentUser }: VideoPag
       anchor: 0 // Adjust as needed
     };
 
-    fetch(`http://localhost:8080/api/comment/save/${pdfId}`, {
+    fetch(`http://localhost:8080/api/comment/save/${videoId}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
