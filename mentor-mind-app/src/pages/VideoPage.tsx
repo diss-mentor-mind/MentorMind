@@ -41,7 +41,7 @@ const VideoPage: React.FC<VideoPageProps> = ({ VideofId, currentUser }: VideoPag
       anchor: 0 // Adjust as needed
     };
 
-    fetch(`http://localhost:8080/api/comment/save/1`, {
+    fetch(`http://localhost:8080/api/comment/save/${pdfId}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

@@ -19,9 +19,9 @@ export default function AppRouter() {
       <Route path="/material/:lectureId" element={<Course />} />
       <Route path="/courses" element={<CoursePage />} />
       <Route path="/lectures/:subjectId" element={<LecturePage />} />
+      <Route path="/log-in" element={<LogInRegister />} />
       <Route path="/pdf-page/:pdfId" element={<PdfPage />} />
       <Route path="/video-page/:videoId" element={<VideoPage />} />r
-      <Route path="/pdf-page" element={<PdfPage />} />
       <Route path="/settings" element={<SettingsPage />} />
       <Route path="/manage-course" element={<ManageCoursePage />} />
       <Route path="/upload-document" element={<UploadDocumentPopup />} />
