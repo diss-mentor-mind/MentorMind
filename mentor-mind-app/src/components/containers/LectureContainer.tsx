@@ -34,7 +34,7 @@ const LectureContainer: FC<LectureInterface> = (lecture: LectureInterface) => {
     };
 
     fetchProgress();
-  }, [userId]);
+  }, [userId, lecture.id]);
 
   return (
     <PinnedContainer width="100%" height="100%">

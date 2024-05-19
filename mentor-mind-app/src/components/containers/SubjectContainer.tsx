@@ -33,7 +33,7 @@ const SubjectContainer: FC<SubjectInterface> = (subject: SubjectInterface) => {
     };
 
     fetchProgress();
-  }, [userId]);
+  }, [userId, subject.id]);
 
   return (
     <PinnedContainer width="100%" height="100%">
