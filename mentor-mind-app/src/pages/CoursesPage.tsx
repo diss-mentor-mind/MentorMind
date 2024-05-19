@@ -4,23 +4,57 @@ import SubjectContainer from "../components/containers/SubjectContainer";
 import SubjectInterface, {
   populatedSubjects,
 } from "../interfaces/SubjectInterface";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { load } from "../util/localStorage";
 import PinnedContainer from "../components/containers/PinnedContainer";
 import CreateCoursePopupComponent from "../components/course-popups/CreateCoursePopup";
 import JoinCoursePopupComponent from "../components/course-popups/JoinCoursePopup";
+import axios from "axios";
+import LectureInterface from "../interfaces/LectureInterface";
+import { useNavigate } from "react-router-dom";
 
 const CoursePage = () => {
-  const courses: SubjectInterface[] = populatedSubjects;
-  const userRole = load("userRole");
+  const [courses, setCourses] = useState<SubjectInterface[]>([]);
   const [openModal, setOpenModal] = useState(false);
+  const navigate = useNavigate();
+
+  const userRole: String = load("userRole");
+  const userId: String = load("userId");
+
   const handleAddCourse = () => {
     setOpenModal(true);
   };
+
   const handleCloseModal = () => {
     console.log("trying to close");
     setOpenModal(false);
   };
+
+  const handleCourseClick = (lectures: LectureInterface[]) => {
+    navigate("/lectures", { state: { lectures } });
+  };
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        // Make the API call
+        const response = await axios.get<SubjectInterface[]>(
+          `http://localhost:8080/api/subject/foraccount/${userId}`,
+          {
+            headers: {
+              accept: "application/json",
+            },
+          }
+        );
+        const fetchedCourses = response.data;
+        setCourses(fetchedCourses);
+      } catch (error) {
+        console.error("Error fetching courses:", error);
+      }
+    };
+
+    fetchCourses();
+  }, [userId]);
 
   return (
     <Grid
@@ -42,6 +76,7 @@ const CoursePage = () => {
             marginBottom: "2%",
             ...(index % 3 !== 2 && { marginRight: "12%" }), // Apply right margin except for the last item in each row
           }}
+          onClick={() => handleCourseClick(course.lectures)}
         >
           <SubjectContainer {...course} />
         </Grid>
@@ -51,7 +86,7 @@ const CoursePage = () => {
         aria-label="add"
         onClick={handleAddCourse}
         sx={{
-          position: "absolute",
+          position: "fixed",
           bottom: "16px",
           right: "16px",
           color: "var(--icon-primary-color)",
