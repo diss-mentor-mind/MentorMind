@@ -39,7 +39,7 @@ const Course = () => {
     []
   );
   const handleAddDocument = () => {
-    navigate("/upload-document");
+      navigate(`/upload-document/${lectureId}`);
   };
 
   useEffect(() => {

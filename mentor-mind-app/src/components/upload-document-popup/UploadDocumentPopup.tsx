@@ -3,6 +3,7 @@ import {useState, ChangeEvent, FormEvent} from "react";
 import axios from "axios";
 import PinnedContainer from "../containers/PinnedContainer";
 import {load} from "../../util/localStorage";
+import {useParams} from "react-router-dom";
 
 const CssTextField = styled(TextField)({
     '& .MuiInputBase-root': {
@@ -25,6 +26,7 @@ const UploadDocumentPopup = () => {
     const userLastName = load("userLastName");
     const userPassword = load("userPassword");
     const userRole = load("userRole");
+    const {lectureId} = useParams();
 
     const [formData, setFormData] = useState({
         title: '',
@@ -99,7 +101,7 @@ const UploadDocumentPopup = () => {
             size: formData.file?.size,
             description: formData.description,
             isAccepted: false,
-            timestamp: null, // todo change
+            timestamp: Date.now(),
             type: formData.file?.type
         };
 
@@ -108,65 +110,22 @@ const UploadDocumentPopup = () => {
             uploadData.append('file', formData.file);
         }
 
-        axios.post(`http://localhost:8080/api/material/save/${1}`, uploadData, {
+        axios.post(`http://localhost:8080/api/material/save-material/${lectureId}`, uploadData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
         })
             .then(response => {
                 console.log('Document uploaded successfully:', response.data);
-                // window.location.href = "/courses";
+                window.history.back();
+                alert(
+                    "Document uploaded successfully :)"
+                );
             })
             .catch(error => {
                 console.error('Error uploading document:', error);
             });
     };
-
-
-    // const handleUploadDocument = (e: FormEvent<HTMLFormElement>) => {
-    //     e.preventDefault();
-    //
-    //     if (!validateForm()) {
-    //         return;
-    //     }
-    //
-    //     const uploadData = new FormData();
-    //     uploadData.append('title', formData.title);
-    //     uploadData.append('description', formData.description);
-    //     if (formData.file) {
-    //         uploadData.append('file', formData.file);
-    //     }
-    //
-    //     axios.post('http://localhost:8080/api/material/save',
-    //         {
-    //             name: formData.title,
-    //             author: {
-    //                 id: userId,
-    //                 email: userEmail,
-    //                 firstName: userFirstName,
-    //                 lastName: userLastName,
-    //                 role: userRole,
-    //                 password: userPassword
-    //             },
-    //             size: formData.file?.size,
-    //             description: formData.description,
-    //             isAccepted: false,
-    //             timestamp: null,
-    //             type: formData.file?.type
-    //         }, {
-    //             headers: {
-    //                 'Content-Type': 'multipart/form-data'
-    //             }
-    //         })
-    //         .then(response => {
-    //             console.log('Document uploaded successfully:', response.data);
-    //             // Handle successful upload, e.g., navigate to another page or show a success message
-    //         })
-    //         .catch(error => {
-    //             console.error('Error uploading document:', error);
-    //             // Handle upload error, e.g., show an error message
-    //         });
-    // };
 
     return (
         <Stack direction={"row"} justifyContent={"space-evenly"} minHeight={"calc( 100% - 100px );"}
