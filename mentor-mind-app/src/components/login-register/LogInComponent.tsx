@@ -1,7 +1,7 @@
-import { Box, Button, TextField, Typography, styled } from "@mui/material";
+import {Box, Button, TextField, Typography, styled} from "@mui/material";
 import axios from "axios";
-import { FormEvent, useState } from "react";
-import { save } from "../../util/localStorage";
+import {FormEvent, useState} from "react";
+import {save} from "../../util/localStorage";
 
 const CssTextField = styled(TextField)({
     '& .MuiInputBase-root': {
@@ -37,15 +37,17 @@ const LogInComponent = () => {
             setPasswordErrorText("");
         }
         if (canLogIn) {
-            axios.get(`http://localhost:8080/api/account/login/${email}/${password}`, 
+            axios.get(`http://localhost:8080/api/account/login/${email}/${password}`,
                 {withCredentials: false}
             ).then((response) => {
                 if (response.data) {
                     save("userId", response.data.id);
                     save("userName", response.data.firstName);
+                    save("userLastName", response.data.lastName);
                     save("userEmail", response.data.email);
+                    save("userPassword", response.data.password);
                     save("userRole", response.data.role);
-                    window.location.href = "/courses";    
+                    window.location.href = "/courses";
                 } else {
                     alert("Wrong username/password combination!");
                 }
@@ -57,14 +59,14 @@ const LogInComponent = () => {
     }
 
     return (
-        <Box component="form" onSubmit={handleLogIn} noValidate 
-            sx={{
-                flexDirection: 'column',
-                display: 'flex',
-                alignItems: 'center',
-                height: 1,
-                justifyContent: 'space-between'        
-            }}
+        <Box component="form" onSubmit={handleLogIn} noValidate
+             sx={{
+                 flexDirection: 'column',
+                 display: 'flex',
+                 alignItems: 'center',
+                 height: 1,
+                 justifyContent: 'space-between'
+             }}
         >
             <Box sx={{
                 marginX: 5,
@@ -80,7 +82,7 @@ const LogInComponent = () => {
                     <CssTextField
                         margin="normal"
                         required
-                        fullWidth 
+                        fullWidth
                         id="login-email"
                         placeholder="E-mail Address"
                         name="email"
@@ -94,7 +96,7 @@ const LogInComponent = () => {
                     <CssTextField
                         margin="normal"
                         required
-                        fullWidth 
+                        fullWidth
                         id="login-password"
                         placeholder="Password"
                         name="password"
@@ -108,7 +110,8 @@ const LogInComponent = () => {
                 </Box>
             </Box>
             <Box textAlign={"center"} margin="normal" marginBottom={"10px"} width={"40%"}>
-                <Button className={"button"} variant="contained" style={{textTransform: "none"}} fullWidth type="submit">
+                <Button className={"button"} variant="contained" style={{textTransform: "none"}} fullWidth
+                        type="submit">
                     Log In
                 </Button>
             </Box>

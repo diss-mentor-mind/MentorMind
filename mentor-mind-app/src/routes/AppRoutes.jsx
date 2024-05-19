@@ -9,20 +9,23 @@ import PdfPage from "../pages/PdfPage";
 import CoursePage from "../pages/CoursesPage";
 import LecturePage from "../pages/LecturePage";
 import ManageCoursePage from "../pages/ManageCoursePage";
-
+import UploadDocumentPopup from "../components/upload-document-popup/UploadDocumentPopup";
+import NotFoundPage from "../pages/NotFoundPage";
 
 export default function AppRouter() {
   return (
     <Routes>
       <Route path="/" element={<MainPage />} />
-      <Route path="/course" element={<Course />} />
+      <Route path="/material/:lectureId" element={<Course />} />
       <Route path="/courses" element={<CoursePage />} />
-      <Route path="/lectures" element={<LecturePage />} />
+      <Route path="/lectures/:subjectId" element={<LecturePage />} />
       <Route path="/log-in" element={<LogInRegister />} />
-      <Route path="/video-page" element={<VideoPage />} />
-      <Route path="/pdf-page" element={<PdfPage />} />
+      <Route path="/pdf-page/:pdfId" element={<PdfPage />} />
+      <Route path="/video-page/:videoId" element={<VideoPage />} />r
       <Route path="/settings" element={<SettingsPage />} />
       <Route path="/manage-course" element={<ManageCoursePage />} />
+      <Route path="/upload-document" element={<UploadDocumentPopup />} />
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 }

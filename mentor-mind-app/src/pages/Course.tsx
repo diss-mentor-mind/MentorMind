@@ -1,31 +1,145 @@
 import {
   Box,
   Button,
+  Fab,
   FormControl,
   Grid,
   InputLabel,
   MenuItem,
   Select,
+  SelectChangeEvent,
   TextField,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PinnedContainer from "../components/containers/PinnedContainer";
-import { populatedMaterials } from "../interfaces/MaterialInterface";
+import MaterialInterface, {
+  populatedMaterials,
+} from "../interfaces/MaterialInterface";
 import { FaTrash } from "react-icons/fa";
 import { FaVideo } from "react-icons/fa";
 import { FaFileAlt } from "react-icons/fa";
 import { FaArchive } from "react-icons/fa";
 
-import {useNavigate} from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { FaCheckCircle } from "react-icons/fa";
 import { FaBan } from "react-icons/fa";
+import AddIcon from "@mui/icons-material/Add";
+import { Filter } from "@mui/icons-material";
 
 const Course = () => {
-  const [title, setTitle] = useState("Search by title...");
-  const [publiser, setPublisher] = useState("Search by publisher...");
-  const [statusC, setStatusC] = useState("Active");
+  const [title, setTitle] = useState("");
+  const [publisher, setPublisher] = useState("");
+  const [fileType, setFileType] = useState("");
+  const [isAccepted, setIsAccepted] = useState("");
   const navigate = useNavigate();
+  const { lectureId } = useParams();
+  const [materials, setMaterials] = useState<MaterialInterface[]>([]);
+  const [displayMaterials, setDisplayMaterials] = useState<MaterialInterface[]>(
+    []
+  );
+  const handleAddDocument = () => {
+    navigate("/upload-document");
+  };
+
+  useEffect(() => {
+    const getMaterials = async () => {
+      try {
+        const materialsData = await fetchMaterialsForLecture(Number(lectureId));
+        setMaterials(materialsData);
+        setDisplayMaterials(materialsData);
+      } catch (err) {
+        console.log("error loading materials");
+      } finally {
+      }
+    };
+
+    getMaterials();
+  }, [lectureId]);
+
+  useEffect(() => {
+    console.log(isAccepted);
+    const filteredMaterials = materials.filter(
+      (material) =>
+        material.name.toLowerCase().includes(title.toLowerCase()) &&
+        (material.author.firstName
+          .toLowerCase()
+          .includes(publisher.toLowerCase()) ||
+          material.author.lastName
+            .toLowerCase()
+            .includes(publisher.toLowerCase())) &&
+        (isAccepted === "" ||
+          (isAccepted === "Active"
+            ? material.isAccepted === true
+            : isAccepted === "InReview"
+            ? material.isAccepted === false
+            : isAccepted === "All")) &&
+        (fileType === "" ||
+          (fileType === "File"
+            ? material.type === "File"
+            : fileType === "Video"
+            ? material.type === "Video"
+            : fileType === "All"))
+    );
+    if (
+      title !== "" ||
+      publisher !== "" ||
+      fileType !== "All" ||
+      isAccepted !== "All"
+    )
+      setDisplayMaterials(filteredMaterials);
+    else setDisplayMaterials(materials);
+  }, [title, publisher, fileType, isAccepted, materials]);
+
+  async function fetchMaterialsForLecture(
+    lectureId: number
+  ): Promise<MaterialInterface[]> {
+    const response = await fetch(
+      `http://localhost:8080/api/material/${lectureId}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(
+        `Error fetching materials for lecture ID ${lectureId}: ${response.statusText}`
+      );
+    }
+
+    const data: MaterialInterface[] = await response.json();
+    return data;
+  }
+  const deleteMaterial = async (materialId: number): Promise<void> => {
+    const response = await fetch(
+      `http://localhost:8080/api/material/delete/${materialId}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`Failed to delete material with ID ${materialId}`);
+    }
+  };
+
+  const handleDeleteMaterial = async (materialId: number) => {
+    try {
+      await deleteMaterial(materialId);
+      setMaterials((prevMaterials) =>
+        prevMaterials.filter((material) => material.id !== materialId)
+      );
+      await fetchMaterialsForLecture(Number(lectureId));
+    } catch (error) {
+      console.error("Error deleting material:", error);
+    }
+  };
 
   return (
     <Grid
@@ -74,9 +188,19 @@ const Course = () => {
 
           <TextField
             value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            label="Search by title..."
             InputProps={{
               sx: {
                 color: "white", // Set the color of the input text (including value) to white
+              },
+            }}
+            InputLabelProps={{
+              sx: {
+                color: "white", // Set the color of the label to white
+                "&.Mui-focused": {
+                  color: "white", // Set the color of the label to white when focused
+                },
               },
             }}
             sx={{
@@ -88,10 +212,20 @@ const Course = () => {
             }}
           ></TextField>
           <TextField
-            value={publiser}
+            value={publisher}
+            onChange={(e) => setPublisher(e.target.value)}
+            label="Search by publisher..."
             InputProps={{
               sx: {
                 color: "white", // Set the color of the input text (including value) to white
+              },
+            }}
+            InputLabelProps={{
+              sx: {
+                color: "white", // Set the color of the label to white
+                "&.Mui-focused": {
+                  color: "white", // Set the color of the label to white when focused
+                },
               },
             }}
             sx={{
@@ -125,11 +259,26 @@ const Course = () => {
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              label="Age"
+              label="Type"
+              value={fileType}
+              sx={{
+                color: "white", // Set the color of the selected value to white
+                ".MuiSelect-icon": {
+                  color: "white", // Set the color of the dropdown arrow to white
+                },
+
+                "&:hover .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "white",
+                },
+              }}
+              onChange={(e: SelectChangeEvent<string>) =>
+                setFileType(e.target.value)
+              }
             >
-              <MenuItem value={10}>File</MenuItem>
-              <MenuItem value={20}>Video</MenuItem>
-              <MenuItem value={30}>Archive</MenuItem>
+              <MenuItem value={"All"}>All</MenuItem>
+
+              <MenuItem value={"File"}>File</MenuItem>
+              <MenuItem value={"Video"}>Video</MenuItem>
             </Select>
           </FormControl>
           <FormControl
@@ -149,19 +298,30 @@ const Course = () => {
               }}
               id="demo-simple-select-label"
             >
-              Active
+              Status
             </InputLabel>
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               sx={{
-                "& .MuiSelect-select.MuiSelect-selectMenu": {
-                  color: "white", // Set the color of the selected value to white
+                color: "white", // Set the color of the selected value to white
+                ".MuiSelect-icon": {
+                  color: "white", // Set the color of the dropdown arrow to white
+                },
+
+                "&:hover .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "white",
                 },
               }}
+              value={isAccepted}
+              onChange={(e: SelectChangeEvent<string>) =>
+                setIsAccepted(e.target.value)
+              }
             >
-              <MenuItem value={10}>Active</MenuItem>
-              <MenuItem value={20}>In review</MenuItem>
+              <MenuItem value={"All"}>All</MenuItem>
+
+              <MenuItem value={"Active"}>Active</MenuItem>
+              <MenuItem value={"InReview"}>In review</MenuItem>
             </Select>
           </FormControl>
 
@@ -175,7 +335,7 @@ const Course = () => {
             }}
           >
             <Button
-                onClick={() => navigate("/manage-course")}
+              onClick={() => navigate("/manage-course")}
               sx={{
                 backgroundColor: "var(--button-color)",
                 color: "white",
@@ -201,13 +361,22 @@ const Course = () => {
           alignContent: "flex-start",
         }}
       >
-        {populatedMaterials.map((material) => (
+        {displayMaterials.map((material) => (
           <Grid
             sx={{
               width: "20%",
               height: "25%",
               marginRight: "5%",
               marginBottom: "3%",
+            }}
+            onClick={() => {
+                if (material.type == "pdf" || material.type == "text") {
+                    (window.location.href = "/pdf-page/" + material.id)
+                }
+                else
+                if (material.type == "video" || material.type == "audio") {
+                    (window.location.href = "/video-page/" + material.id)
+                }
             }}
           >
             <PinnedContainer key={material.id} width="100%" height="100%">
@@ -241,7 +410,10 @@ const Course = () => {
                   Author: {material.author.firstName} {material.author.lastName}
                 </Typography>
                 <Typography>
-                  Last updated: {material.timeStamp.toLocaleDateString()}
+                  Last updated:{" "}
+                  {material.timestamp
+                    ? new Date(material.timestamp).toLocaleDateString()
+                    : "N/A"}
                 </Typography>
               </Grid>
               <Grid
@@ -259,7 +431,9 @@ const Course = () => {
                     width: "45%",
                     marginLeft: "3%",
                     color: "#616161",
+                    cursor: "pointer",
                   }}
+                  onClick={() => handleDeleteMaterial(material.id!)}
                 >
                   <FaTrash />
                 </Grid>
@@ -278,10 +452,24 @@ const Course = () => {
                         justifyContent: "flex-end",
                       }}
                     >
-                      <Grid>
+                      <Grid
+                        sx={{ cursor: "pointer" }}
+                        onClick={() => {
+                          alert(
+                            "You approved this material. TO BE IMPLEMENTED"
+                          );
+                        }}
+                      >
                         <FaCheckCircle />
                       </Grid>
-                      <Grid sx={{ marginLeft: "5%" }}>
+                      <Grid
+                        sx={{ marginLeft: "5%", cursor: "pointer" }}
+                        onClick={() => {
+                          alert(
+                            "You rejected this material. TO BE IMPLEMENTED"
+                          );
+                        }}
+                      >
                         <FaBan />
                       </Grid>
                     </Grid>
@@ -291,6 +479,30 @@ const Course = () => {
             </PinnedContainer>
           </Grid>
         ))}
+        <Fab
+          aria-label="add"
+          onClick={handleAddDocument}
+          sx={{
+            position: "absolute",
+            bottom: "16px",
+            right: "16px",
+            color: "var(--icon-primary-color)",
+            background: "var(--button-color)",
+            width: "70px",
+            height: "70px",
+            borderRadius: "50%",
+            "&:hover": {
+              background: "var(--dark-button-color)",
+            },
+            "& svg": {
+              // Apply styles to the svg icon inside the button
+              width: "60px",
+              height: "60px",
+            },
+          }}
+        >
+          <AddIcon />
+        </Fab>
       </Grid>
     </Grid>
   );
