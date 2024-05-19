@@ -42,7 +42,7 @@ const PdfPage: React.FC<PdfPageProps> = ({ currentUser }: PdfPageProps) => {
             anchor: 0 // Adjust anchor as needed
         };
 
-        fetch(`http://localhost:8080/api/comment/save/${1}`, {  //change after navigation
+        fetch(`http://localhost:8080/api/comment/save/${pdfId}`, {  //change after navigation
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
