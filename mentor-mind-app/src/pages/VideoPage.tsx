@@ -14,7 +14,6 @@ interface VideoPageProps {
 const VideoPage: React.FC<VideoPageProps> = ({ currentUser }: VideoPageProps) => {
   const { videoId } = useParams<{ videoId: string }>();
   const VideoId = videoId ?? ''; // Fallback to an empty string if VideofId is undefined
-
   const [comments, setComments] = useState<CommentInterface[]>([]);
   const [commentText, setCommentText] = useState<string>("");
 
@@ -38,7 +37,7 @@ const VideoPage: React.FC<VideoPageProps> = ({ currentUser }: VideoPageProps) =>
   const handleAddComment = () => {
     const newComment = {
       author: null,
-      replyTo: null, // Adjust as needed for replies
+      replyTo: null, 
       content: commentText,
       anchor: 0 // Adjust as needed
     };
