@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Box, Grid, Button } from "@mui/material";
 import Comments from "../components/comments/comments";
 import PinnedContainer from "../components/containers/PinnedContainer";
+import RenderVideoComponent from "../components/render/RenderVideoComponent";
 import CommentInterface from '../interfaces/CommentInterface'; // Ensure the correct path to the interface
 import AuthorInterface from '../interfaces/AuthorInterface';
 import { useParams } from 'react-router-dom';
@@ -67,7 +68,14 @@ const VideoPage: React.FC<VideoPageProps> = ({ currentUser }: VideoPageProps) =>
   return (
     <Grid container spacing={2} sx={{ display: "flex", flexDirection: "row" }}>
       <Grid sx={{ height: "700px", width: "1000px", marginLeft: "40px", marginTop: "50px", backgroundColor: "var(--primary-color)" }}>
-        {"Video here"}
+        <Box
+            display="flex"
+            flexDirection="row"
+            justifyContent="space-around"
+            alignItems="center"
+        >
+            <RenderVideoComponent />
+        </Box>
       </Grid>
       <Grid sx={{ height: "100%", width: "20%", marginLeft: "40px", marginTop: "50px" }}>
         <PinnedContainer height="100%" width="100%">
