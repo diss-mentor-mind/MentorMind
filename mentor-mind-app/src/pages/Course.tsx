@@ -370,7 +370,7 @@ const Course = () => {
               marginBottom: "3%",
             }}
             onClick={() => {
-                if (material.type == "pdf" || material.type == "text") {
+                if (material.type.includes("pdf") || material.type == "text") {
                     (window.location.href = "/pdf-page/" + material.id)
                 }
                 else
