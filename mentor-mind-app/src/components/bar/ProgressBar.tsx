@@ -16,7 +16,7 @@ const ProgressBar: FC<ProgressBarProps> = ({ progress, width, height }) => {
   };
 
   const getProgressColor = (progress: number) => {
-    if (progress <= 20) {
+    if (progress <= 10) {
       return "var(--text-doc-color)";
     }
     return "var(--icon-primary-color)";

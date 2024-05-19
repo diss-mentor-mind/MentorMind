@@ -3,19 +3,43 @@ import { Stack, Typography, Box } from "@mui/material";
 import PinnedContainer from "./PinnedContainer";
 import ComputerIcon from "../../icons/computerIcon.svg";
 import NotebookIcon from "../../icons/notebookIcon.svg";
-import { FC } from "react";
+import { FC, useState, useEffect } from "react";
+import { load } from "../../util/localStorage";
+import axios from "axios";
+import ProgressBar from "../bar/ProgressBar";
 
 // TODO: later implement a link between the course page and the lectures page for a clicked course
 const LectureContainer: FC<LectureInterface> = (lecture: LectureInterface) => {
-  const handleClick = () => {
-    console.log(`Lecture ${lecture.id} clicked!`);
-  };
+  const [progress, setProgress] = useState(0);
+  const userRole: String = load("userRole");
+  const userId: String = load("userId");
+
+  useEffect(() => {
+    const fetchProgress = async () => {
+      try {
+        // Make the API call
+        const response = await axios.get<number>(
+          `http://localhost:8080/api/lecture/${userId}/progress/${lecture.id}`,
+          {
+            headers: {
+              accept: "text/plain",
+            },
+          }
+        );
+        const fetchedProgress: number = response.data;
+        setProgress(fetchedProgress);
+      } catch (error) {
+        console.error("Error fetching progress:", error);
+      }
+    };
+
+    fetchProgress();
+  }, [userId, lecture.id]);
 
   return (
     <PinnedContainer width="100%" height="100%">
       <Stack
         direction="column"
-        onClick={handleClick}
         sx={{
           height: "100%",
           width: "100%",
@@ -37,7 +61,7 @@ const LectureContainer: FC<LectureInterface> = (lecture: LectureInterface) => {
         </Typography>
         <Box
           sx={{
-            height: "70%",
+            height: "55%",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
@@ -50,17 +74,20 @@ const LectureContainer: FC<LectureInterface> = (lecture: LectureInterface) => {
               <img
                 src={ComputerIcon}
                 alt={lecture.icon.toString()}
-                style={{ maxHeight: "90%", maxWidth: "90%" }}
+                style={{ maxHeight: "100%", maxWidth: "100%" }}
               />
             ) : (
               <img
                 src={NotebookIcon}
                 alt={lecture.icon.toString()}
-                style={{ maxHeight: "90%", maxWidth: "90%" }}
+                style={{ maxHeight: "100%", maxWidth: "100%" }}
               />
             )
           }
         </Box>
+        {progress > 0 && userRole === "Student" && (
+          <ProgressBar width="80%" height="7%" progress={progress} />
+        )}
       </Stack>
     </PinnedContainer>
   );
