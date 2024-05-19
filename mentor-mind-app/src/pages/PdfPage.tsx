@@ -89,7 +89,7 @@ const PdfPage: React.FC<PdfPageProps> = ({ pdfId, currentUser }: PdfPageProps) =
                             },
                         }}
                     >
-                        <Comments comments={comments} currentUser={currentUser} />
+                        <Comments comments={comments} currentUser={currentUser}  />
                     </Box>
                     <div style={{ marginTop: '20px' }}>
                         <label style={{ display: 'flex', alignItems: 'center' }}>

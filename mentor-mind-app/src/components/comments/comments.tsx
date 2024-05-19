@@ -14,14 +14,12 @@ interface CommentProps {
 const Comment: React.FC<CommentProps> = ({ comment, parentId, allComments, currentUser }) => {
     const { id, author, content, timestamp, anchor } = comment;
     const [showConfirm, setShowConfirm] = useState(false);
+    const [showPopup, setShowPopup] = useState(false); // State to manage pop-up visibility
+    const [newCommentText, setNewCommentText] = useState(""); // State to manage new comment text
     const timerRef = useRef<NodeJS.Timeout | null>(null);
 
     const handleMouseDown = () => {
-       // if (author && currentUser && author.id === currentUser.id) {
-         //   timerRef.current = setTimeout(() => {
-                setShowConfirm(true);
-          //  }, 1000); // Long press duration in milliseconds
-        //}
+        setShowConfirm(true);
     };
 
     const handleMouseUp = () => {
@@ -31,25 +29,48 @@ const Comment: React.FC<CommentProps> = ({ comment, parentId, allComments, curre
     };
 
     const handleDelete = (id: number) => {
-        if (author && author.id === currentUser.id) {
-            fetch(`http://localhost:8080/api/comment/delete/${id}`, {
-                method: 'DELETE',
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Failed to delete comment');
-                }
-                console.log(`Comment with id: ${id} deleted successfully.`);
-                setShowConfirm(false);
-            })
-            .catch(error => {
-                console.error('Error deleting comment:', error);
-            });
-        } else {
-            console.error('You are not authorized to delete this comment.');
-        }
+        console.log(`Comment with id: ${id} start delete`);
+        fetch(`http://localhost:8080/api/comment/delete/${id}`, {
+            method: 'DELETE',
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to delete comment');
+            }
+            console.log(`Comment with id: ${id} deleted successfully.`);
+            setShowConfirm(false);
+        })
+        .catch(error => {
+            console.error('Error deleting comment:', error);
+        });
     };
-    
+
+    const handleAddComment = () => {
+        const newComment = {
+            author: null,
+            replyTo: comment,
+            content: newCommentText,
+            anchor: 0
+        };
+
+        fetch(`http://localhost:8080/api/comment/save/1`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newComment)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to save comment');
+            }
+            return response.json();
+        })
+        .then(() => {
+            setShowPopup(false); // Close the pop-up after saving the comment
+        });
+    };
+
     return (
         <div className="comment" key={id}>
             <div
@@ -65,7 +86,11 @@ const Comment: React.FC<CommentProps> = ({ comment, parentId, allComments, curre
                     <p>At: {anchor}</p>
                     <p className="timestamp">Timestamp: {new Date(timestamp).toLocaleString()}</p>
                 </div>
-                {!parentId && <button className="add-comment-button"><FaPlus className="add-comment-icon" /></button>}
+                {!parentId && (
+                    <button className="add-comment-button" onClick={() => setShowPopup(true)}>
+                        <FaPlus className="add-comment-icon" />
+                    </button>
+                )}
             </div>
 
             {/* Confirmation popup */}
@@ -74,6 +99,22 @@ const Comment: React.FC<CommentProps> = ({ comment, parentId, allComments, curre
                     <p>Are you sure you want to delete this comment?</p>
                     <button onClick={() => handleDelete(id)}>Yes</button>
                     <button onClick={() => setShowConfirm(false)}>No</button>
+                </div>
+            )}
+
+            {/* Comment pop-up */}
+            {showPopup && (
+                <div className="popup">
+                    <div className="popup-content">
+                        <input
+                            type="text"
+                            value={newCommentText}
+                            onChange={(e) => setNewCommentText(e.target.value)}
+                            placeholder="Enter your comment"
+                        />
+                        <button onClick={handleAddComment}>Submit Comment</button>
+                        <button onClick={() => setShowPopup(false)}>Cancel</button>
+                    </div>
                 </div>
             )}
 
