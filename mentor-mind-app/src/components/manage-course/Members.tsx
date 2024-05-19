@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
     Box,
     Button,
@@ -10,10 +10,12 @@ import {
     ListItemText,
     ListItemSecondaryAction,
     IconButton,
-    styled
+    styled,
+    Modal
 } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import StyledContainer from "../containers/StyledContainer";
+import TextPopUp from "../../pages/TextPopUp";
 
 const CssTextField = styled(TextField)({
     "& .MuiInputBase-root": {
@@ -24,35 +26,36 @@ const CssTextField = styled(TextField)({
 });
 
 const CourseInformation = () => {
-    // Example handler for form submission
-    const handleCourseInformation = () => {
-        // Form submission logic here
-    };
 
-    // Initial state for members list
     const [members, setMembers] = useState([
-        { id: 1, name: 'User 1', role: 'Student' },
-        { id: 2, name: 'User 2', role: 'Teacher' },
-        { id: 3, name: 'User 3', role: 'Teacher' },
-        { id: 4, name: 'User 4', role: 'Student' },
-        // { id: 5, name: 'User 5', role: 'Student' },
-        // { id: 6, name: 'User 6', role: 'Teacher' },
-        // { id: 7, name: 'User 7', role: 'Student' },
-        // { id: 8, name: 'User 8', role: 'Teacher' },
-        // { id: 9, name: 'User 9', role: 'Teacher' },
-        // { id: 10, name: 'User 10', role: 'Student' }
+        {id: 1, name: 'Maria Popescu', role: 'Student'},
+        {id: 2, name: 'Corina Gligan', role: 'Student'},
+        {id: 3, name: 'Ioana Damian', role: 'Student'},
+        {id: 4, name: 'Briana Petrea', role: 'Student'},
     ]);
 
-    // Function to return course code
     function returnCourseCode() {
         return "tX6rY8";
     }
 
+    const [open, setOpen] = useState(false);
+    const [modalTitle, setModalTitle] = useState('');
+    const [modalDescription, setModalDescription] = useState('');
+
+    const handleOpen = (title: string, description: string) => {
+        setModalTitle(title);
+        setModalDescription(description);
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
     return (
-        <Box sx={{ height: '75vh', overflow: 'auto' }}>
+        <Box sx={{height: '75vh', overflow: 'auto'}}>
             <Box
                 component="form"
-                onSubmit={handleCourseInformation}
                 noValidate
                 sx={{
                     flexDirection: "column",
@@ -62,13 +65,13 @@ const CourseInformation = () => {
                     width: "95%"
                 }}
             >
-                <Typography component="h4" variant="h4" sx={{ marginTop: "10px", width: "100%", textAlign: 'center' }}>
+                <Typography component="h4" variant="h4" sx={{marginTop: "10px", width: "100%", textAlign: 'center'}}>
                     Members
                 </Typography>
-                <Typography variant="h5" sx={{ marginTop: "10px", width: "100%" }}>
+                <Typography variant="h5" sx={{marginTop: "10px", width: "100%"}}>
                     Invite new members
                 </Typography>
-                <StyledContainer >
+                <StyledContainer>
                     <CssTextField
                         margin="dense"
                         required
@@ -81,35 +84,40 @@ const CourseInformation = () => {
                     <Button
                         className="button"
                         variant="contained"
-                        sx={{ textTransform: "none", width: '20%', marginLeft: '16px' }}
+                        sx={{textTransform: "none", width: '20%', marginLeft: '16px'}}
+                        onClick={() => handleOpen('Feature Not Implemented', 'This feature is not yet implemented. Let us know if you need it :)')}
                     >
                         Invite
                     </Button>
+                    <TextPopUp open={open} handleClose={handleClose} title={modalTitle}
+                               description={modalDescription}/>
                 </StyledContainer>
-                <Typography variant="h5" sx={{ marginTop: "10px", width: "100%" }}>
-                    Course Invitation Code
-                </Typography>
-                <Typography variant="h6" sx={{ marginTop: "10px", width: "100%", textAlign: "center" }}>
-                    {returnCourseCode()}
-                </Typography>
-                <Typography variant="h5" sx={{ marginTop: "10px", width: "100%" }}>
-                    Current Members
-                </Typography>
-                <List sx={{ width: "100%", textAlign: 'center' }}>
-                    {members.map(member => (
-                        <ListItem key={member.id} sx={{ pl: 4, pr: 4 }}>
-                            <Avatar sx={{ mr: 2 }}>{member.name[0]}</Avatar>
-                            <ListItemText primary={member.name} />
-                            <ListItemText primary={member.role} />
-                            <ListItemSecondaryAction>
-                                <IconButton aria-label="delete" sx={{ color: "var(--secondary-color)" }}>
-                                    <CloseIcon />
-                                </IconButton>
-                            </ListItemSecondaryAction>
-                        </ListItem>
-                    ))}
-                </List>
             </Box>
+            <Typography variant="h5" sx={{marginTop: "10px", width: "100%"}}>
+                Course Invitation Code
+            </Typography>
+            <Typography variant="h6" sx={{marginTop: "10px", width: "100%", textAlign: "center"}}>
+                {returnCourseCode()}
+            </Typography>
+            <Typography variant="h5" sx={{marginTop: "10px", width: "100%"}}>
+                Current Members
+            </Typography>
+            <List sx={{width: "100%", textAlign: 'center'}}>
+                {members.map(member => (
+                    <ListItem key={member.id} sx={{pl: 4, pr: 4}}>
+                        <Avatar sx={{mr: 2}}>{member.name[0]}</Avatar>
+                        <ListItemText primary={member.name} sx={{width: "20%"}}/>
+                        <ListItemText primary={member.role} sx={{width: "20%"}}/>
+                        <ListItemSecondaryAction>
+                            <IconButton aria-label="delete" sx={{color: "var(--secondary-color)"}}
+                                        onClick={() => handleOpen('Feature Not Implemented', 'This feature is not yet implemented. Let us know if you need it :)')}>
+                                <CloseIcon/>
+                            </IconButton>
+                        </ListItemSecondaryAction>
+                    </ListItem>
+                ))}
+            </List>
+
         </Box>
     );
 };

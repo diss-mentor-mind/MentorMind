@@ -1,7 +1,7 @@
-import { Box, Button, FormControl, FormHelperText, MenuItem, Select, TextField, Typography, styled } from "@mui/material";
-import { FormEvent, useState } from "react";
+import {Box, Button, FormControl, FormHelperText, MenuItem, Select, TextField, Typography, styled} from "@mui/material";
+import {FormEvent, useState} from "react";
 import axios from "axios";
-import { save } from "../../util/localStorage";
+import {save} from "../../util/localStorage";
 
 const CssTextField = styled(TextField)({
     '& .MuiInputBase-root': {
@@ -16,7 +16,7 @@ const CssSelect = styled(FormControl)({
         borderRadius: "10px"
     }
 })
-  
+
 const RegisterComponent = () => {
     const emailRegex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
 
@@ -79,8 +79,10 @@ const RegisterComponent = () => {
             }, {withCredentials: false}).then((response) => {
                 save("userId", response.data.id);
                 save("userName", response.data.firstName);
+                save("userLastName", response.data.lastName);
                 save("userEmail", response.data.email);
                 save("userRole", response.data.role);
+                save("userPassword", response.data.password);
                 window.location.href = "/courses";
             }).catch((error) => {
                 alert("Registering was not possible! Please try again");
@@ -91,13 +93,13 @@ const RegisterComponent = () => {
 
     return (
         <Box component="form" onSubmit={handleRegister} noValidate
-            sx={{
-                flexDirection: 'column',
-                display: 'flex',
-                alignItems: 'center',
-                height: 1,
-                justifyContent: 'space-between'        
-            }}
+             sx={{
+                 flexDirection: 'column',
+                 display: 'flex',
+                 alignItems: 'center',
+                 height: 1,
+                 justifyContent: 'space-between'
+             }}
         >
             <Box sx={{
                 marginX: 5,
@@ -113,7 +115,7 @@ const RegisterComponent = () => {
                     <CssTextField
                         margin="normal"
                         required
-                        fullWidth 
+                        fullWidth
                         id="register-email"
                         placeholder="E-mail Address"
                         name="email"
@@ -127,7 +129,7 @@ const RegisterComponent = () => {
                     <CssTextField
                         margin="normal"
                         required
-                        fullWidth 
+                        fullWidth
                         id="register-first-name"
                         placeholder="First Name"
                         name="firstName"
@@ -140,7 +142,7 @@ const RegisterComponent = () => {
                     <CssTextField
                         margin="normal"
                         required
-                        fullWidth 
+                        fullWidth
                         id="register-last-name"
                         placeholder="Last Name"
                         name="lastName"
@@ -153,7 +155,7 @@ const RegisterComponent = () => {
                     <CssTextField
                         margin="normal"
                         required
-                        fullWidth 
+                        fullWidth
                         id="register-password"
                         placeholder="Password"
                         name="password"
@@ -175,7 +177,7 @@ const RegisterComponent = () => {
                             renderValue={
                                 role !== "" ? undefined : () => <div className="placeholder">Role</div>
                             }
-                        >   
+                        >
                             <MenuItem value={"Teacher"}>Teacher</MenuItem>
                             <MenuItem value={"Student"}>Student</MenuItem>
                         </Select>
@@ -184,7 +186,8 @@ const RegisterComponent = () => {
                 </Box>
             </Box>
             <Box textAlign={"center"} margin="normal" marginBottom={"10px"} width={"40%"}>
-                <Button className={"button"} variant="contained" style={{textTransform: "none"}} fullWidth type="submit">
+                <Button className={"button"} variant="contained" style={{textTransform: "none"}} fullWidth
+                        type="submit">
                     Create Account
                 </Button>
             </Box>

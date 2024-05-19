@@ -10,7 +10,7 @@ export default interface MaterialInterface {
   readonly size: string;
   readonly description: string;
   readonly isAccepted: boolean;
-  readonly timeStamp: Date;
+  readonly timestamp: Date;
   readonly type: string;
 }
 
@@ -21,7 +21,7 @@ export const emptyMaterial: MaterialInterface = {
   size: "",
   description: "",
   isAccepted: false,
-  timeStamp: new Date(),
+  timestamp: new Date(),
   type: "",
 };
 
@@ -33,7 +33,7 @@ export const populatedMaterials: MaterialInterface[] = [
     size: "size",
     description: "description",
     isAccepted: false,
-    timeStamp: new Date("2022-03-25"),
+    timestamp: new Date("2022-03-25"),
     type: "Video",
   },
   {
@@ -43,7 +43,7 @@ export const populatedMaterials: MaterialInterface[] = [
     size: "size",
     description: "description",
     isAccepted: true,
-    timeStamp: new Date("2024-03-25"),
+    timestamp: new Date("2024-03-25"),
     type: "File",
   },
   {
@@ -53,7 +53,7 @@ export const populatedMaterials: MaterialInterface[] = [
     size: "size",
     description: "description",
     isAccepted: true,
-    timeStamp: new Date("2024-03-25"),
+    timestamp: new Date("2024-03-25"),
     type: "Archive",
   },
   {
@@ -63,7 +63,7 @@ export const populatedMaterials: MaterialInterface[] = [
     size: "size",
     description: "description",
     isAccepted: true,
-    timeStamp: new Date("2024-03-25"),
+    timestamp: new Date("2024-03-25"),
     type: "Archive",
   },
   {
@@ -73,7 +73,7 @@ export const populatedMaterials: MaterialInterface[] = [
     size: "size",
     description: "description",
     isAccepted: true,
-    timeStamp: new Date("2024-03-25"),
+    timestamp: new Date("2024-03-25"),
     type: "File",
   },
   {
@@ -83,7 +83,7 @@ export const populatedMaterials: MaterialInterface[] = [
     size: "size",
     description: "description",
     isAccepted: true,
-    timeStamp: new Date("2024-03-25"),
+    timestamp: new Date("2024-03-25"),
     type: "Video",
   },
   {
@@ -93,7 +93,7 @@ export const populatedMaterials: MaterialInterface[] = [
     size: "size",
     description: "description",
     isAccepted: true,
-    timeStamp: new Date("2024-03-25"),
+    timestamp: new Date("2024-03-25"),
     type: "Video",
   },
   {
@@ -103,7 +103,7 @@ export const populatedMaterials: MaterialInterface[] = [
     size: "size",
     description: "description",
     isAccepted: true,
-    timeStamp: new Date("2024-03-25"),
+    timestamp: new Date("2024-03-25"),
     type: "Video",
   },
   {
@@ -113,7 +113,7 @@ export const populatedMaterials: MaterialInterface[] = [
     size: "size",
     description: "description",
     isAccepted: true,
-    timeStamp: new Date("2024-03-25"),
+    timestamp: new Date("2024-03-25"),
     type: "Video",
   },
   {
@@ -123,7 +123,7 @@ export const populatedMaterials: MaterialInterface[] = [
     size: "size",
     description: "description",
     isAccepted: true,
-    timeStamp: new Date("2024-03-25"),
+    timestamp: new Date("2024-03-25"),
     type: "Video",
   },
   {
@@ -133,7 +133,7 @@ export const populatedMaterials: MaterialInterface[] = [
     size: "size",
     description: "description",
     isAccepted: true,
-    timeStamp: new Date("2024-03-25"),
+    timestamp: new Date("2024-03-25"),
     type: "Video",
   },
   {
@@ -143,7 +143,7 @@ export const populatedMaterials: MaterialInterface[] = [
     size: "size",
     description: "description",
     isAccepted: true,
-    timeStamp: new Date("2024-03-25"),
+    timestamp: new Date("2024-03-25"),
     type: "Video",
   },
   {
@@ -153,7 +153,7 @@ export const populatedMaterials: MaterialInterface[] = [
     size: "size",
     description: "description",
     isAccepted: true,
-    timeStamp: new Date("2024-03-25"),
+    timestamp: new Date("2024-03-25"),
     type: "Video",
   },
   {
@@ -163,7 +163,7 @@ export const populatedMaterials: MaterialInterface[] = [
     size: "size",
     description: "description",
     isAccepted: true,
-    timeStamp: new Date("2024-03-25"),
+    timestamp: new Date("2024-03-25"),
     type: "Video",
   },
 ];

@@ -16,7 +16,7 @@ export default function AppRouter() {
   return (
     <Routes>
       <Route path="/" element={<MainPage />} />
-      <Route path="/course" element={<Course />} />
+      <Route path="/material/:lectureId" element={<Course />} />
       <Route path="/courses" element={<CoursePage />} />
       <Route path="/lectures" element={<LecturePage />} />
       <Route path="/log-in" element={<LogInRegister />} />
