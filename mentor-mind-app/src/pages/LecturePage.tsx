@@ -1,20 +1,43 @@
 import { Grid } from "@mui/material";
-import LectureInterface, {
-  populatedLectures,
-} from "../interfaces/LectureInterface";
+import LectureInterface from "../interfaces/LectureInterface";
 import LectureContainer from "../components/containers/LectureContainer";
-import { useLocation } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import MaterialInterface from "../interfaces/MaterialInterface";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 const LecturePage = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const lectures = (location.state?.lectures as LectureInterface[]) || [];
+  const { subjectId } = useParams<{ subjectId: string }>();
+  const [lectures, setLectures] = useState<LectureInterface[]>(
+    (location.state?.lectures as LectureInterface[]) || []
+  );
 
-  // TODO: Add routing between /lectures -> /materials using the path variable in another PR
+  useEffect(() => {
+    const fetchLectures = async () => {
+      try {
+        // Only try to update if the list wasn't already taken from the location state
+        if (!lectures.length && subjectId) {
+          const response = await axios.get<LectureInterface[]>(
+            `http://localhost:8080/api/lecture/fromsubject/${subjectId}`,
+            {
+              headers: {
+                accept: "application/json",
+              },
+            }
+          );
+          setLectures(response.data);
+        }
+      } catch (error) {
+        console.error("Error fetching lectures:", error);
+      }
+    };
+
+    fetchLectures();
+  }, [lectures.length, subjectId]);
+
   const handleLectureClick = (lecture: LectureInterface) => {
-    console.log(`Clicked on lecture: ${lecture.id}`);
+    navigate(`/material/${lecture.id}`);
   };
 
   return (
@@ -35,6 +58,7 @@ const LecturePage = () => {
             width: "20%",
             height: "280px",
             marginBottom: "2%",
+            cursor: "pointer",
             ...(index % 3 !== 2 && { marginRight: "12%" }), // Apply right margin except for the last item in each row
           }}
           onClick={() => handleLectureClick(lecture)}

@@ -1,16 +1,13 @@
 import { Fab, Grid, Modal, Stack } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import SubjectContainer from "../components/containers/SubjectContainer";
-import SubjectInterface, {
-  populatedSubjects,
-} from "../interfaces/SubjectInterface";
+import SubjectInterface from "../interfaces/SubjectInterface";
 import { useEffect, useState } from "react";
 import { load } from "../util/localStorage";
 import PinnedContainer from "../components/containers/PinnedContainer";
 import CreateCoursePopupComponent from "../components/course-popups/CreateCoursePopup";
 import JoinCoursePopupComponent from "../components/course-popups/JoinCoursePopup";
 import axios from "axios";
-import LectureInterface from "../interfaces/LectureInterface";
 import { useNavigate } from "react-router-dom";
 
 const CoursePage = () => {
@@ -30,8 +27,9 @@ const CoursePage = () => {
     setOpenModal(false);
   };
 
-  const handleCourseClick = (lectures: LectureInterface[]) => {
-    navigate("/lectures", { state: { lectures } });
+  const handleCourseClick = (course: SubjectInterface) => {
+    const lectures = course.lectures;
+    navigate(`/lectures/${course.id}`, { state: { lectures } });
   };
 
   useEffect(() => {
@@ -74,9 +72,10 @@ const CoursePage = () => {
             width: "20%",
             height: "280px",
             marginBottom: "2%",
+            cursor: "pointer",
             ...(index % 3 !== 2 && { marginRight: "12%" }), // Apply right margin except for the last item in each row
           }}
-          onClick={() => handleCourseClick(course.lectures)}
+          onClick={() => handleCourseClick(course)}
         >
           <SubjectContainer {...course} />
         </Grid>
@@ -109,14 +108,14 @@ const CoursePage = () => {
       <Modal open={openModal} onClose={handleCloseModal}>
         <Stack
           direction={"row"}
-          justifyContent={userRole == "Teacher" ? "space-between" : "center"}
+          justifyContent={userRole === "Teacher" ? "space-between" : "center"}
           width={"70%"}
           minHeight={"calc( 100% - 150px );"}
           height={"80%"}
           alignItems={"flex-start"}
           margin={"40px auto"}
         >
-          {userRole == "Teacher" && (
+          {userRole === "Teacher" && (
             <PinnedContainer width="40%" height="95%">
               <CreateCoursePopupComponent />
             </PinnedContainer>
