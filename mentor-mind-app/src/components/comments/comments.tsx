@@ -9,9 +9,10 @@ interface CommentProps {
     parentId?: number;
     allComments: CommentInterface[];
     currentUser: AuthorInterface;
+    materialId: string;
 }
 
-const Comment: React.FC<CommentProps> = ({ comment, parentId, allComments, currentUser }) => {
+const Comment: React.FC<CommentProps> = ({ comment, parentId, allComments, currentUser, materialId }) => {
     const { id, author, content, timestamp, anchor } = comment;
     const [showConfirm, setShowConfirm] = useState(false);
     const [showPopup, setShowPopup] = useState(false); // State to manage pop-up visibility
@@ -53,7 +54,7 @@ const Comment: React.FC<CommentProps> = ({ comment, parentId, allComments, curre
             anchor: 0
         };
 
-        fetch(`http://localhost:8080/api/comment/save/1`, {
+        fetch(`http://localhost:8080/api/comment/save/${materialId}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -79,7 +80,8 @@ const Comment: React.FC<CommentProps> = ({ comment, parentId, allComments, curre
                 onMouseUp={handleMouseUp}
                 onMouseLeave={handleMouseUp}
             >
-                <img src={"blank-profile-picture.png"} alt="Profile" className="profile-picture" />
+               <img src="/blank-profile-picture.png" alt="Profile" className="profile-picture" />
+
                 <div className="info">
                     <p className="username">{`${author?.firstName || 'Unknown'} ${author?.lastName || 'User'}`}</p>
                     <p className="text">{content}</p>
@@ -123,7 +125,7 @@ const Comment: React.FC<CommentProps> = ({ comment, parentId, allComments, curre
                 if (reply.replyTo?.id === id) {
                     return (
                         <div className="reply" style={{ marginLeft: '20px' }} key={reply.id}>
-                            <Comment comment={reply} parentId={id} allComments={allComments} currentUser={currentUser} />
+                            <Comment comment={reply} parentId={id} allComments={allComments} currentUser={currentUser} materialId={materialId} />
                         </div>
                     );
                 }
@@ -137,14 +139,15 @@ interface CommentsProps {
     comments: CommentInterface[];
     currentUser: AuthorInterface;
     parentId?: number;
+    materialId: string;
 }
 
-const Comments: React.FC<CommentsProps> = ({ comments, currentUser, parentId }) => {
+const Comments: React.FC<CommentsProps> = ({ comments, currentUser, parentId, materialId }) => {
     return (
         <div className="comments" style={{ marginTop: '10px' }}>
             {comments.filter(comment => !comment.replyTo).map(comment => (
                 <div key={comment.id} className="comment">
-                    <Comment comment={comment} parentId={parentId} allComments={comments} currentUser={currentUser} />
+                    <Comment comment={comment} parentId={parentId} allComments={comments} currentUser={currentUser} materialId={materialId} />
                 </div>
             ))}
         </div>

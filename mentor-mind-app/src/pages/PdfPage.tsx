@@ -3,7 +3,7 @@ import { Box, Grid, Button } from "@mui/material";
 import Comments from "../components/comments/comments";
 import PinnedContainer from "../components/containers/PinnedContainer";
 import RenderPdfComponent from "../components/render/RenderPdfComponent";
-import CommentInterface from '../interfaces/CommentInterface'; // Update the import path if needed
+import CommentInterface from '../interfaces/CommentInterface'; 
 import AuthorInterface, { emptyAuthor } from '../interfaces/AuthorInterface';
 import { useParams } from 'react-router-dom';
 
@@ -14,6 +14,7 @@ interface PdfPageProps {
 
 const PdfPage: React.FC<PdfPageProps> = ({ currentUser }: PdfPageProps) => {
     const { pdfId } = useParams<{ pdfId: string }>();
+    const PdfId = pdfId ?? ''; // Fallback to an empty string if VideofId is undefined
     const [comments, setComments] = useState<CommentInterface[]>([]);
     const [newComment, setNewComment] = useState<string>('');
 
@@ -43,7 +44,7 @@ const PdfPage: React.FC<PdfPageProps> = ({ currentUser }: PdfPageProps) => {
             anchor: 0 // Adjust anchor as needed
         };
 
-        fetch(`http://localhost:8080/api/comment/save/${pdfId}`, {  //change after navigation
+        fetch(`http://localhost:8080/api/comment/save/${pdfId}`, {  
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -100,7 +101,7 @@ const PdfPage: React.FC<PdfPageProps> = ({ currentUser }: PdfPageProps) => {
                             },
                         }}
                     >
-                        <Comments comments={comments} currentUser={currentUser}  />
+                        <Comments comments={comments} currentUser={currentUser} materialId={PdfId}  />
                     </Box>
                     <div style={{ marginTop: '20px' }}>
                         <label style={{ display: 'flex', alignItems: 'center' }}>
