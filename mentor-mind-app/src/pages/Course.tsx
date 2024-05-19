@@ -370,11 +370,11 @@ const Course = () => {
               marginBottom: "3%",
             }}
             onClick={() => {
-                if (material.type.includes("pdf") || material.type == "text") {
+                if (material.type.includes("pdf")) {
                     (window.location.href = "/pdf-page/" + material.id)
                 }
                 else
-                if (material.type == "video" || material.type == "audio") {
+                if (material.type.includes("mp4") || material.type == "audio") {
                     (window.location.href = "/video-page/" + material.id)
                 }
             }}
