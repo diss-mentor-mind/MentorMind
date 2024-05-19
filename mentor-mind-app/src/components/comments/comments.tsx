@@ -79,7 +79,8 @@ const Comment: React.FC<CommentProps> = ({ comment, parentId, allComments, curre
                 onMouseUp={handleMouseUp}
                 onMouseLeave={handleMouseUp}
             >
-                <img src={"blank-profile-picture.png"} alt="Profile" className="profile-picture" />
+               <img src="/blank-profile-picture.png" alt="Profile" className="profile-picture" />
+
                 <div className="info">
                     <p className="username">{`${author?.firstName || 'Unknown'} ${author?.lastName || 'User'}`}</p>
                     <p className="text">{content}</p>
