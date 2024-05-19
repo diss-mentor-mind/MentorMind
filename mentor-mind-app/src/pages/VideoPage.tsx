@@ -13,6 +13,8 @@ interface VideoPageProps {
 
 const VideoPage: React.FC<VideoPageProps> = ({ currentUser }: VideoPageProps) => {
   const { videoId } = useParams<{ videoId: string }>();
+  const VideoId = videoId ?? ''; // Fallback to an empty string if VideofId is undefined
+
   const [comments, setComments] = useState<CommentInterface[]>([]);
   const [commentText, setCommentText] = useState<string>("");
 
@@ -87,7 +89,7 @@ const VideoPage: React.FC<VideoPageProps> = ({ currentUser }: VideoPageProps) =>
               },
             }}
           >
-            <Comments comments={comments} currentUser={currentUser} />
+            <Comments comments={comments} currentUser={currentUser} materialId={VideoId} />
           </Box>
           <div style={{ marginTop: '20px' }}>
             <label style={{ display: 'flex', alignItems: 'center' }}>
