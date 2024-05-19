@@ -1,38 +1,32 @@
-import { useState } from 'react';
-import { saveAs } from 'file-saver';
+import { useState, useEffect } from 'react';
 import ReactPlayer from 'react-player';
-import { Console } from 'console';
+import axios from "axios";
 
-const RenderVideoComponent = () => {
-    const [testFile, setTestFile] = useState<File>();
+interface videoId {
+    id: number;
+}
+
+const RenderVideoComponent = (videoId: videoId) => {
     const [videoUrl, setVideoUrl] = useState<string>();
+    useEffect(() => {
+        let ignore = false;
 
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files) {
-          setTestFile(e.target.files[0]);
-        }
-    };
-
-    function doStuff() {
-        var reader = new FileReader();
-        reader.readAsArrayBuffer(testFile!);
-        reader.onloadend = function (evt) {
-            if (evt.target!.readyState === FileReader.DONE) {
-                console.log(reader.result)
-                var blob = new Blob([reader.result as ArrayBuffer], { type: "video/mp4" });
-                console.log(blob);
-                console.log(URL.createObjectURL(blob));
+        if (!ignore) {
+            axios.get(`http://localhost:8080/api/material/data/${videoId.id}`, { responseType: 'blob' })
+            .catch((error) => {
+                console.log(error);
+            }).then((fileData: any) => {
+                var blob = new Blob([fileData.data], { type: "video/mp4"})
                 setVideoUrl(URL.createObjectURL(blob));
-            }
+            });
         }
-    }
+        return () => { ignore = true; }
+    }, []);
     
     return (
         <div style={{
             border: '2px solid gray'
         }}>
-            <input id="file" type="file" onChange={handleFileChange} />
-            <button onClick={doStuff}>abc</button>
             <ReactPlayer url={videoUrl} playing controls/>
         </div>
     )

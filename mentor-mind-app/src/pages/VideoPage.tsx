@@ -15,7 +15,6 @@ interface VideoPageProps {
 const VideoPage: React.FC<VideoPageProps> = ({ currentUser }: VideoPageProps) => {
   const { videoId } = useParams<{ videoId: string }>();
   const VideoId = videoId ?? ''; // Fallback to an empty string if VideofId is undefined
-
   const [comments, setComments] = useState<CommentInterface[]>([]);
   const [commentText, setCommentText] = useState<string>("");
 
@@ -69,13 +68,15 @@ const VideoPage: React.FC<VideoPageProps> = ({ currentUser }: VideoPageProps) =>
   return (
     <Grid container spacing={2} sx={{ display: "flex", flexDirection: "row" }}>
       <Grid sx={{ height: "700px", width: "1000px", marginLeft: "40px", marginTop: "50px", backgroundColor: "var(--primary-color)" }}>
-        <Box
+        <Box sx ={{
+                    marginTop: "150px", marginBottom: "15px"
+          }}
             display="flex"
             flexDirection="row"
-            justifyContent="space-around"
+            justifyContent="center"
             alignItems="center"
         >
-            <RenderVideoComponent />
+            <RenderVideoComponent id={Number(videoId)}/>
         </Box>
       </Grid>
       <Grid sx={{ height: "100%", width: "20%", marginLeft: "40px", marginTop: "50px" }}>

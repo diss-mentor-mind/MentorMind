@@ -71,15 +71,16 @@ const PdfPage: React.FC<PdfPageProps> = ({ currentUser }: PdfPageProps) => {
 
     return (
         <Grid container spacing={2} sx={{ display: "flex", flexDirection: "row" }}>
-            <Grid sx={{ height: "700px", width: "1000px", marginLeft: "40px", marginTop: "50px", backgroundColor: "var(--primary-color)" }}>
-                {`PDF file with ID: ${pdfId}`}
-                <Box
+            <Grid sx={{ height: "100%", width: "60%", marginLeft: "40px", marginTop: "50px", backgroundColor: "var(--primary-color)" }}>
+                <Box sx ={{
+                    marginTop: "15px", marginBottom: "15px"
+                }}
                     display="flex"
                     flexDirection="row"
                     justifyContent="space-around"
                     alignItems="center"
                 >
-                    <RenderPdfComponent />
+                    <RenderPdfComponent id={Number(pdfId)}/>
                 </Box>
             </Grid>
             <Grid sx={{ height: "100%", width: "20%", marginLeft: "40px", marginTop: "50px" }}>
