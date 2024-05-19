@@ -1,17 +1,34 @@
-import { Grid } from "@mui/material";
+import { Fab, Grid, Modal, Stack } from "@mui/material";
 import LectureInterface from "../interfaces/LectureInterface";
 import LectureContainer from "../components/containers/LectureContainer";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import AddIcon from "@mui/icons-material/Add";
+import PinnedContainer from "../components/containers/PinnedContainer";
+import CreateLecturePopup from "../components/create-lecture-popup/CreateLecturePopup";
+import { load } from "../util/localStorage";
 
 const LecturePage = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const [openModal, setOpenModal] = useState(false);
   const { subjectId } = useParams<{ subjectId: string }>();
   const [lectures, setLectures] = useState<LectureInterface[]>(
     (location.state?.lectures as LectureInterface[]) || []
   );
+
+  const userRole: String = load("userRole");
+
+  const handleAddLecture = () => {
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    console.log("trying to close");
+    setOpenModal(false);
+  };
+
 
   useEffect(() => {
     const fetchLectures = async () => {
@@ -66,6 +83,49 @@ const LecturePage = () => {
           <LectureContainer {...lecture} />
         </Grid>
       ))}
+                {userRole === "Teacher" &&
+            <Fab
+              aria-label="add"
+              onClick={handleAddLecture}
+              sx={{
+                position: "fixed",
+                bottom: "16px",
+                right: "16px",
+                color: "var(--icon-primary-color)",
+                background: "var(--button-color)",
+                width: "70px",
+                height: "70px",
+                borderRadius: "50%",
+                "&:hover": {
+                  background: "var(--dark-button-color)",
+                },
+                "& svg": {
+                  // Apply styles to the svg icon inside the button
+                  width: "60px",
+                  height: "60px",
+                },
+              }}
+            >
+              <AddIcon />
+            </Fab>
+          }
+          <Modal open={openModal} onClose={handleCloseModal}>
+            <Stack
+              direction={"row"}
+              justifyContent={"center"}
+              width={"70%"}
+              minHeight={"calc( 100% - 150px );"}
+              height={"80%"}
+              alignItems={"flex-start"}
+              margin={"40px auto"}
+            >
+              {userRole === "Teacher" && (
+                <PinnedContainer width="40%" height="95%">
+                  <CreateLecturePopup />
+                </PinnedContainer>
+              )}
+            </Stack>
+          </Modal>
     </Grid>
   );
 };
