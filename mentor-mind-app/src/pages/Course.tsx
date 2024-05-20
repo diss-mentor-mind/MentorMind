@@ -432,6 +432,8 @@ const Course = () => {
                     marginLeft: "3%",
                     color: "#616161",
                     cursor: "pointer",
+                    visibility: "hidden",
+                    pointerEvents: "none",
                   }}
                   onClick={() => handleDeleteMaterial(material.id!)}
                 >
