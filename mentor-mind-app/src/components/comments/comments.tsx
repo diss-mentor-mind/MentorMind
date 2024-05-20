@@ -86,6 +86,7 @@ const Comment: React.FC<CommentProps> = ({ comment, parentId, allComments, curre
                 setShowPopup(false); // Close the pop-up after saving the comment
             });
     };
+    const isAuthor = author && author.id === userId;
 
     return (
         <div className="comment" key={id}>
@@ -111,7 +112,7 @@ const Comment: React.FC<CommentProps> = ({ comment, parentId, allComments, curre
             </div>
 
             {/* Confirmation popup */}
-            {showConfirm && (
+            {showConfirm &&  isAuthor  &&(
                 <div className="confirmation-popup">
                     <p>Are you sure you want to delete this comment?</p>
                     <button onClick={() => handleDelete(id)}>Yes</button>
