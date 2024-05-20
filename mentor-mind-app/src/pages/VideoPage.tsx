@@ -6,6 +6,7 @@ import RenderVideoComponent from "../components/render/RenderVideoComponent";
 import CommentInterface from '../interfaces/CommentInterface'; // Ensure the correct path to the interface
 import AuthorInterface from '../interfaces/AuthorInterface';
 import { useParams } from 'react-router-dom';
+import { load } from '../util/localStorage';
 
 interface VideoPageProps {
   videoId: string;
@@ -17,6 +18,13 @@ const VideoPage: React.FC<VideoPageProps> = ({ currentUser }: VideoPageProps) =>
   const VideoId = videoId ?? ''; // Fallback to an empty string if VideofId is undefined
   const [comments, setComments] = useState<CommentInterface[]>([]);
   const [commentText, setCommentText] = useState<string>("");
+
+  const userId = load("userId");
+  const userEmail = load("userEmail");
+  const userFirstName = load("userName");
+  const userLastName = load("userLastName");
+  const userPassword = load("userPassword");
+  const userRole = load("userRole");
 
   useEffect(() => {
     // Fetch comments from the API
@@ -37,8 +45,15 @@ const VideoPage: React.FC<VideoPageProps> = ({ currentUser }: VideoPageProps) =>
 
   const handleAddComment = () => {
     const newComment = {
-      author: null,
-      replyTo: null, 
+      author: {
+        id: userId,
+        email: userEmail,
+        firstName: userFirstName,
+        lastName: userLastName,
+        password: userPassword,
+        role: userRole
+      },
+      replyTo: null,
       content: commentText,
       anchor: 0 // Adjust as needed
     };
@@ -77,6 +92,7 @@ const VideoPage: React.FC<VideoPageProps> = ({ currentUser }: VideoPageProps) =>
             alignItems="center"
         >
             <RenderVideoComponent id={Number(videoId)}/>
+
         </Box>
       </Grid>
       <Grid sx={{ height: "100%", width: "20%", marginLeft: "40px", marginTop: "50px" }}>

@@ -3,6 +3,7 @@ import { FaPlus } from 'react-icons/fa';
 import './comments.css';
 import CommentInterface from '../../interfaces/CommentInterface';
 import AuthorInterface from '../../interfaces/AuthorInterface';
+import { load } from '../../util/localStorage';
 
 interface CommentProps {
     comment: CommentInterface;
@@ -19,6 +20,13 @@ const Comment: React.FC<CommentProps> = ({ comment, parentId, allComments, curre
     const [newCommentText, setNewCommentText] = useState(""); // State to manage new comment text
     const timerRef = useRef<NodeJS.Timeout | null>(null);
 
+    const userId = load("userId");
+    const userEmail = load("userEmail");
+    const userFirstName = load("userName");
+    const userLastName = load("userLastName");
+    const userPassword = load("userPassword");
+    const userRole = load("userRole");
+
     const handleMouseDown = () => {
         setShowConfirm(true);
     };
@@ -34,21 +42,28 @@ const Comment: React.FC<CommentProps> = ({ comment, parentId, allComments, curre
         fetch(`http://localhost:8080/api/comment/delete/${id}`, {
             method: 'DELETE',
         })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to delete comment');
-            }
-            console.log(`Comment with id: ${id} deleted successfully.`);
-            setShowConfirm(false);
-        })
-        .catch(error => {
-            console.error('Error deleting comment:', error);
-        });
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to delete comment');
+                }
+                console.log(`Comment with id: ${id} deleted successfully.`);
+                setShowConfirm(false);
+            })
+            .catch(error => {
+                console.error('Error deleting comment:', error);
+            });
     };
 
     const handleAddComment = () => {
         const newComment = {
-            author: null,
+            author: {
+                id: userId,
+                email: userEmail,
+                firstName: userFirstName,
+                lastName: userLastName,
+                password: userPassword,
+                role: userRole
+            },
             replyTo: comment,
             content: newCommentText,
             anchor: 0
@@ -61,15 +76,15 @@ const Comment: React.FC<CommentProps> = ({ comment, parentId, allComments, curre
             },
             body: JSON.stringify(newComment)
         })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to save comment');
-            }
-            return response.json();
-        })
-        .then(() => {
-            setShowPopup(false); // Close the pop-up after saving the comment
-        });
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to save comment');
+                }
+                return response.json();
+            })
+            .then(() => {
+                setShowPopup(false); // Close the pop-up after saving the comment
+            });
     };
 
     return (
@@ -80,7 +95,7 @@ const Comment: React.FC<CommentProps> = ({ comment, parentId, allComments, curre
                 onMouseUp={handleMouseUp}
                 onMouseLeave={handleMouseUp}
             >
-               <img src="/blank-profile-picture.png" alt="Profile" className="profile-picture" />
+                <img src="/blank-profile-picture.png" alt="Profile" className="profile-picture" />
 
                 <div className="info">
                     <p className="username">{`${author?.firstName || 'Unknown'} ${author?.lastName || 'User'}`}</p>
