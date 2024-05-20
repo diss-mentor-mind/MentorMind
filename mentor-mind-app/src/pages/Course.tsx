@@ -26,6 +26,7 @@ import { FaCheckCircle } from "react-icons/fa";
 import { FaBan } from "react-icons/fa";
 import AddIcon from "@mui/icons-material/Add";
 import { Filter } from "@mui/icons-material";
+import {load} from "../util/localStorage";
 
 const Course = () => {
   const [title, setTitle] = useState("");
@@ -38,6 +39,7 @@ const Course = () => {
   const [displayMaterials, setDisplayMaterials] = useState<MaterialInterface[]>(
     []
   );
+  const userRole: String = load("userRole");
   const handleAddDocument = () => {
       navigate(`/upload-document/${lectureId}`);
   };
@@ -444,7 +446,7 @@ const Course = () => {
                     marginLeft: "10%",
                   }}
                 >
-                  {material.isAccepted && (
+                  {material.isAccepted && userRole === "Teacher" && (
                     <Grid
                       sx={{
                         display: "flex",
