@@ -36,6 +36,16 @@ const LectureContainer: FC<LectureInterface> = (lecture: LectureInterface) => {
     fetchProgress();
   }, [userId, lecture.id]);
 
+  const getFontSize = (text: String) => {
+    if (text.length >= 40) {
+      return "medium";
+    }
+    if (text.length >= 20) {
+      return "large";
+    }
+    return "x-large";
+  };
+
   return (
     <PinnedContainer width="100%" height="100%">
       <Stack
@@ -49,7 +59,7 @@ const LectureContainer: FC<LectureInterface> = (lecture: LectureInterface) => {
         <Typography
           sx={{
             color: "var(--icon-primary-color)",
-            fontSize: `${lecture.name.length > 20 ? "large" : "x-large"}`, // Adjust the threshold as needed
+            fontSize: `${getFontSize(lecture.name)}`, // Adjust the threshold as needed
             textAlign: "center",
             marginTop: "12px",
             marginBottom: "9px",

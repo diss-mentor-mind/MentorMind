@@ -35,6 +35,16 @@ const SubjectContainer: FC<SubjectInterface> = (subject: SubjectInterface) => {
     fetchProgress();
   }, [userId, subject.id]);
 
+  const getFontSize = (text: String) => {
+    if (text.length >= 40) {
+      return "medium";
+    }
+    if (text.length >= 20) {
+      return "large";
+    }
+    return "x-large";
+  };
+
   return (
     <PinnedContainer width="100%" height="100%">
       <Stack
@@ -48,7 +58,7 @@ const SubjectContainer: FC<SubjectInterface> = (subject: SubjectInterface) => {
         <Typography
           sx={{
             color: "var(--icon-primary-color)",
-            fontSize: `${subject.name.length > 20 ? "large" : "x-large"}`, // Adjust the threshold as needed
+            fontSize: `${getFontSize(subject.name)}`, // Adjust the threshold as needed
             textAlign: "center",
             marginTop: "12px",
             marginBottom: "9px",
