@@ -3,6 +3,7 @@ import { FaPlus } from 'react-icons/fa';
 import './comments.css';
 import CommentInterface from '../../interfaces/CommentInterface';
 import AuthorInterface from '../../interfaces/AuthorInterface';
+import { load } from '../../util/localStorage';
 
 interface CommentProps {
     comment: CommentInterface;
@@ -18,6 +19,13 @@ const Comment: React.FC<CommentProps> = ({ comment, parentId, allComments, curre
     const [showPopup, setShowPopup] = useState(false); // State to manage pop-up visibility
     const [newCommentText, setNewCommentText] = useState(""); // State to manage new comment text
     const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+    const userId = load("userId");
+    const userEmail = load("userEmail");
+    const userFirstName = load("userName");
+    const userLastName = load("userLastName");
+    const userPassword = load("userPassword");
+    const userRole = load("userRole");
 
     const handleMouseDown = () => {
         setShowConfirm(true);
@@ -48,7 +56,14 @@ const Comment: React.FC<CommentProps> = ({ comment, parentId, allComments, curre
 
     const handleAddComment = () => {
         const newComment = {
-            author: null,
+            author: {
+                id: userId,
+                email: userEmail,
+                firstName: userFirstName,
+                lastName: userLastName,
+                password: userPassword,
+                role: userRole
+              }, 
             replyTo: comment,
             content: newCommentText,
             anchor: 0
