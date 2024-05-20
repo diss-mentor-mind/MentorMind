@@ -6,6 +6,7 @@ import RenderPdfComponent from "../components/render/RenderPdfComponent";
 import CommentInterface from '../interfaces/CommentInterface'; 
 import AuthorInterface, { emptyAuthor } from '../interfaces/AuthorInterface';
 import { useParams } from 'react-router-dom';
+import { load } from '../util/localStorage';
 
 interface PdfPageProps {
     pdfId: string;
@@ -17,6 +18,13 @@ const PdfPage: React.FC<PdfPageProps> = ({ currentUser }: PdfPageProps) => {
     const PdfId = pdfId ?? ''; // Fallback to an empty string if VideofId is undefined
     const [comments, setComments] = useState<CommentInterface[]>([]);
     const [newComment, setNewComment] = useState<string>("");
+
+    const userId = load("userId");
+    const userEmail = load("userEmail");
+    const userFirstName = load("userName");
+    const userLastName = load("userLastName");
+    const userPassword = load("userPassword");
+    const userRole = load("userRole");
 
     useEffect(() => {
         // Fetch comments from the API
@@ -38,10 +46,17 @@ const PdfPage: React.FC<PdfPageProps> = ({ currentUser }: PdfPageProps) => {
     const handleAddComment = () => {
         // Construct the request body
         const requestBody = {
-            author: null, // change after navigation
-            replyTo: null, // will be changed to the comment of the current one
+            author: {
+                id: userId,
+                email: userEmail,
+                firstName: userFirstName,
+                lastName: userLastName,
+                password: userPassword,
+                role: userRole
+              }, 
+            replyTo: null, // for the reply the call is made from the comment component
             content: newComment,
-            anchor: 0 // Adjust anchor as needed
+            anchor: 0 // maybe add a new filed to select the page?
         };
 
         fetch(`http://localhost:8080/api/comment/save/${pdfId}`, {
