@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Grid, Button } from "@mui/material";
+import { Box, Grid, Button, TextField } from "@mui/material";
 import Comments from "../components/comments/comments";
 import PinnedContainer from "../components/containers/PinnedContainer";
 import RenderVideoComponent from "../components/render/RenderVideoComponent";
@@ -18,6 +18,7 @@ const VideoPage: React.FC<VideoPageProps> = ({ currentUser }: VideoPageProps) =>
   const VideoId = videoId ?? ''; // Fallback to an empty string if VideofId is undefined
   const [comments, setComments] = useState<CommentInterface[]>([]);
   const [commentText, setCommentText] = useState<string>("");
+  const [anchorValue, setAnchorValue] = useState<number>(0); // State for the anchor value
 
   const userId = load("userId");
   const userEmail = load("userEmail");
@@ -55,7 +56,7 @@ const VideoPage: React.FC<VideoPageProps> = ({ currentUser }: VideoPageProps) =>
       },
       replyTo: null,
       content: commentText,
-      anchor: 0 // Adjust as needed
+      anchor: anchorValue // Use the anchor value from the state
     };
 
     fetch(`http://localhost:8080/api/comment/save/${videoId}`, {
@@ -74,6 +75,7 @@ const VideoPage: React.FC<VideoPageProps> = ({ currentUser }: VideoPageProps) =>
       .then(savedComment => {
         setComments([...comments, savedComment]);
         setCommentText("");
+        setAnchorValue(0); // Reset anchor value after saving
       })
       .catch(error => {
         console.error('Error saving comment:', error);
@@ -114,25 +116,70 @@ const VideoPage: React.FC<VideoPageProps> = ({ currentUser }: VideoPageProps) =>
             <Comments comments={comments} currentUser={currentUser} materialId={VideoId} />
           </Box>
           <div style={{ marginTop: '20px' }}>
-            <label style={{ display: 'flex', alignItems: 'center' }}>
-              <input type="checkbox" style={{ marginRight: '5px' }} />
-              <span style={{ fontSize: '14px' }}>Tag current timestamp</span>
-            </label>
-            <input
+            <TextField
+              label="Anchor"
+              type="number"
+              value={anchorValue}
+              onChange={(e) => setAnchorValue(Number(e.target.value))}
+              placeholder="Enter anchor value"
+              sx={{
+                marginBottom: '10px',
+                width: '95%',
+                '& .MuiOutlinedInput-root': {
+                  '& fieldset': {
+                    borderColor: 'white',
+                  },
+                  '&:hover fieldset': {
+                    borderColor: 'white',
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: 'white',
+                  },
+                },
+                '& .MuiInputLabel-root': {
+                  color: 'white',
+                },
+                '& .MuiInputLabel-root.Mui-focused': {
+                  color: 'white',
+                },
+              }}
+              InputProps={{
+                style: {
+                  color: 'white',
+                },
+              }}
+            />
+            <TextField
+              label="Comment"
               type="text"
               value={commentText}
               onChange={(e) => setCommentText(e.target.value)}
               placeholder="Add a comment..."
-              style={{
-                marginRight: '10px',
-                padding: '8px',
-                borderRadius: '4px',
-                border: '1px solid #ccc',
+              multiline
+              rows={3}
+              sx={{
+                marginBottom: '10px',
                 width: '95%',
-                height: '60px',
-                fontSize: '14px',
-                boxSizing: 'border-box',
-                marginTop: '10px',
+                '& .MuiOutlinedInput-root': {
+                  '& fieldset': {
+                    borderColor: 'white',
+                  },
+                  '&:hover fieldset': {
+                    borderColor: 'white',
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: 'white',
+                  },
+                },
+                '& .MuiInputLabel-root': {
+                  color: 'white',
+                },
+                '& .MuiInputLabel-root.Mui-focused': {
+                  color: 'white',
+                },
+                '& .MuiInputBase-input': {
+                  color: 'white',
+                },
               }}
             />
             <Button
@@ -140,9 +187,7 @@ const VideoPage: React.FC<VideoPageProps> = ({ currentUser }: VideoPageProps) =>
               sx={{
                 backgroundColor: "var(--button-color)",
                 color: "white",
-                width: "70%",
-                height: "70%",
-                marginBottom: "10%",
+                width: "95%",
                 marginTop: '10px'
               }}
             >Add Comment</Button>

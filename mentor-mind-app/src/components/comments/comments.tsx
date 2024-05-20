@@ -101,7 +101,7 @@ const Comment: React.FC<CommentProps> = ({ comment, parentId, allComments, curre
                 <div className="info">
                     <p className="username">{`${author?.firstName || 'Unknown'} ${author?.lastName || 'User'}`}</p>
                     <p className="text">{content}</p>
-                    <p>At: {anchor}</p>
+                    {anchor !== 0 && <p>At: {anchor}</p>}
                     <p className="timestamp">Timestamp: {new Date(timestamp).toLocaleString()}</p>
                 </div>
                 {!parentId && (
@@ -112,7 +112,7 @@ const Comment: React.FC<CommentProps> = ({ comment, parentId, allComments, curre
             </div>
 
             {/* Confirmation popup */}
-            {showConfirm &&  isAuthor  &&(
+            {showConfirm && isAuthor && (
                 <div className="confirmation-popup">
                     <p>Are you sure you want to delete this comment?</p>
                     <button onClick={() => handleDelete(id)}>Yes</button>
