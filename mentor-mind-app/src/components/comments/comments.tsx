@@ -11,9 +11,10 @@ interface CommentProps {
     allComments: CommentInterface[];
     currentUser: AuthorInterface;
     materialId: string;
+    fileType: string;
 }
 
-const Comment: React.FC<CommentProps> = ({ comment, parentId, allComments, currentUser, materialId }) => {
+const Comment: React.FC<CommentProps> = ({ comment, parentId, allComments, currentUser, materialId, fileType }) => {
     const { id, author, content, timestamp, anchor } = comment;
     const [showConfirm, setShowConfirm] = useState(false);
     const [showPopup, setShowPopup] = useState(false); // State to manage pop-up visibility
@@ -28,7 +29,9 @@ const Comment: React.FC<CommentProps> = ({ comment, parentId, allComments, curre
     const userRole = load("userRole");
 
     const handleMouseDown = () => {
-        setShowConfirm(true);
+        timerRef.current = setTimeout(() => {
+            setShowConfirm(true);
+        }, 400); // Adjust the delay (in milliseconds) as needed
     };
 
     const handleMouseUp = () => {
@@ -86,6 +89,7 @@ const Comment: React.FC<CommentProps> = ({ comment, parentId, allComments, curre
                 setShowPopup(false); // Close the pop-up after saving the comment
             });
     };
+    const isAuthor = author && author.id === userId;
 
     return (
         <div className="comment" key={id}>
@@ -100,7 +104,12 @@ const Comment: React.FC<CommentProps> = ({ comment, parentId, allComments, curre
                 <div className="info">
                     <p className="username">{`${author?.firstName || 'Unknown'} ${author?.lastName || 'User'}`}</p>
                     <p className="text">{content}</p>
-                    <p>At: {anchor}</p>
+                    {anchor !== 0 && (
+                        <p>
+                            At {fileType === 'pdf' ? 'page' : 'minute'}: {anchor}
+                        </p>
+                    )}
+
                     <p className="timestamp">Timestamp: {new Date(timestamp).toLocaleString()}</p>
                 </div>
                 {!parentId && (
@@ -111,7 +120,7 @@ const Comment: React.FC<CommentProps> = ({ comment, parentId, allComments, curre
             </div>
 
             {/* Confirmation popup */}
-            {showConfirm && (
+            {showConfirm && isAuthor && (
                 <div className="confirmation-popup">
                     <p>Are you sure you want to delete this comment?</p>
                     <button onClick={() => handleDelete(id)}>Yes</button>
@@ -140,7 +149,7 @@ const Comment: React.FC<CommentProps> = ({ comment, parentId, allComments, curre
                 if (reply.replyTo?.id === id) {
                     return (
                         <div className="reply" style={{ marginLeft: '20px' }} key={reply.id}>
-                            <Comment comment={reply} parentId={id} allComments={allComments} currentUser={currentUser} materialId={materialId} />
+                            <Comment comment={reply} parentId={id} allComments={allComments} currentUser={currentUser} materialId={materialId} fileType={fileType} />
                         </div>
                     );
                 }
@@ -155,14 +164,15 @@ interface CommentsProps {
     currentUser: AuthorInterface;
     parentId?: number;
     materialId: string;
+    fileType: string;
 }
 
-const Comments: React.FC<CommentsProps> = ({ comments, currentUser, parentId, materialId }) => {
+const Comments: React.FC<CommentsProps> = ({ comments, currentUser, parentId, materialId, fileType }) => {
     return (
         <div className="comments" style={{ marginTop: '10px' }}>
             {comments.filter(comment => !comment.replyTo).map(comment => (
                 <div key={comment.id} className="comment">
-                    <Comment comment={comment} parentId={parentId} allComments={comments} currentUser={currentUser} materialId={materialId} />
+                    <Comment comment={comment} parentId={parentId} allComments={comments} currentUser={currentUser} materialId={materialId} fileType={fileType} />
                 </div>
             ))}
         </div>
