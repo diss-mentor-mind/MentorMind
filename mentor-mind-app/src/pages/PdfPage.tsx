@@ -123,34 +123,36 @@ const PdfPage: React.FC<PdfPageProps> = ({ currentUser }: PdfPageProps) => {
                             label="Page"
                             type="number"
                             value={anchorValue}
-                            onChange={(e) => setAnchorValue(Number(e.target.value))}
-                            placeholder="Enter page number"
-                            sx={{
-                                marginBottom: '10px',
-                                width: '95%',
-                                '& .MuiOutlinedInput-root': {
-                                    '& fieldset': {
-                                        borderColor: 'white',
-                                    },
-                                    '&:hover fieldset': {
-                                        borderColor: 'white',
-                                    },
-                                    '&.Mui-focused fieldset': {
-                                        borderColor: 'white',
-                                    },
-                                },
-                                '& .MuiInputLabel-root': {
-                                    color: 'white',
-                                },
-                                '& .MuiInputLabel-root.Mui-focused': {
-                                    color: 'white',
-                                },
+                            onChange={(e) => {
+                                const newValue = Math.max(0, Number(e.target.value)); // Ensure minimum value of 0
+                                setAnchorValue(newValue);
                             }}
-                            InputProps={{
-                                style: {
-                                    color: 'white',
+                        sx={{
+                            marginBottom: '10px',
+                            width: '95%',
+                            '& .MuiOutlinedInput-root': {
+                                '& fieldset': {
+                                    borderColor: 'white',
                                 },
-                            }}
+                                '&:hover fieldset': {
+                                    borderColor: 'white',
+                                },
+                                '&.Mui-focused fieldset': {
+                                    borderColor: 'white',
+                                },
+                            },
+                            '& .MuiInputLabel-root': {
+                                color: 'white',
+                            },
+                            '& .MuiInputLabel-root.Mui-focused': {
+                                color: 'white',
+                            },
+                        }}
+                        InputProps={{
+                            style: {
+                                color: 'white',
+                            },
+                        }}
                         />
                         <TextField
                             label="Comment"

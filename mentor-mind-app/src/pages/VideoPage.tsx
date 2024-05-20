@@ -117,10 +117,13 @@ const VideoPage: React.FC<VideoPageProps> = ({ currentUser }: VideoPageProps) =>
           </Box>
           <div style={{ marginTop: '20px' }}>
             <TextField
-              label="Video Minute"
+              label="Video time"
               type="number"
               value={anchorValue}
-              onChange={(e) => setAnchorValue(Number(e.target.value))}
+              onChange={(e) => {
+                const newValue = Math.max(0, Number(e.target.value)); // Ensure minimum value of 0
+                setAnchorValue(newValue);
+              }}
               placeholder="Enter anchor value"
               sx={{
                 marginBottom: '10px',
