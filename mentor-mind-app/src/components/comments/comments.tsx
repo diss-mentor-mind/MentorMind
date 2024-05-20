@@ -29,7 +29,9 @@ const Comment: React.FC<CommentProps> = ({ comment, parentId, allComments, curre
     const userRole = load("userRole");
 
     const handleMouseDown = () => {
-        setShowConfirm(true);
+        timerRef.current = setTimeout(() => {
+            setShowConfirm(true);
+        }, 400); // Adjust the delay (in milliseconds) as needed
     };
 
     const handleMouseUp = () => {
@@ -103,10 +105,10 @@ const Comment: React.FC<CommentProps> = ({ comment, parentId, allComments, curre
                     <p className="username">{`${author?.firstName || 'Unknown'} ${author?.lastName || 'User'}`}</p>
                     <p className="text">{content}</p>
                     {anchor !== 0 && (
-                <p>
-                    At {fileType === 'pdf' ? 'page' : 'minute'}: {anchor}
-                </p>
-            )}
+                        <p>
+                            At {fileType === 'pdf' ? 'page' : 'minute'}: {anchor}
+                        </p>
+                    )}
 
                     <p className="timestamp">Timestamp: {new Date(timestamp).toLocaleString()}</p>
                 </div>
