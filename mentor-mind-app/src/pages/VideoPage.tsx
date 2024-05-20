@@ -83,13 +83,16 @@ const VideoPage: React.FC<VideoPageProps> = ({ currentUser }: VideoPageProps) =>
   return (
     <Grid container spacing={2} sx={{ display: "flex", flexDirection: "row" }}>
       <Grid sx={{ height: "700px", width: "1000px", marginLeft: "40px", marginTop: "50px", backgroundColor: "var(--primary-color)" }}>
-        <Box
-          display="flex"
-          flexDirection="row"
-          justifyContent="space-around"
-          alignItems="center"
+        <Box sx ={{
+                    marginTop: "150px", marginBottom: "15px"
+          }}
+            display="flex"
+            flexDirection="row"
+            justifyContent="center"
+            alignItems="center"
         >
-          <RenderVideoComponent />
+            <RenderVideoComponent id={Number(videoId)}/>
+
         </Box>
       </Grid>
       <Grid sx={{ height: "100%", width: "20%", marginLeft: "40px", marginTop: "50px" }}>
