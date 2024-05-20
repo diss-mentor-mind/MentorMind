@@ -131,18 +131,13 @@ const Course = () => {
 
   const handleDeleteMaterial = async (materialId: number) => {
     try {
-      await deleteMaterial(materialId); // Call the deleteMaterial function passing the materialId
-      // Optionally, you can update the materials state after successful deletion
-      // For example:
-      // setMaterials((prevMaterials) => prevMaterials.filter((material) => material.id !== materialId));
-
+      await deleteMaterial(materialId);
       setMaterials((prevMaterials) =>
         prevMaterials.filter((material) => material.id !== materialId)
       );
       await fetchMaterialsForLecture(Number(lectureId));
     } catch (error) {
       console.error("Error deleting material:", error);
-      // Handle error, such as displaying a message to the user
     }
   };
 
@@ -373,6 +368,15 @@ const Course = () => {
               height: "25%",
               marginRight: "5%",
               marginBottom: "3%",
+            }}
+            onClick={() => {
+                if (material.type == "pdf" || material.type == "text") {
+                    (window.location.href = "/pdf-page/" + material.id)
+                }
+                else
+                if (material.type == "video" || material.type == "audio") {
+                    (window.location.href = "/video-page/" + material.id)
+                }
             }}
           >
             <PinnedContainer key={material.id} width="100%" height="100%">
