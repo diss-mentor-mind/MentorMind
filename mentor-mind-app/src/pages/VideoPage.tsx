@@ -117,7 +117,7 @@ const VideoPage: React.FC<VideoPageProps> = ({ currentUser }: VideoPageProps) =>
           </Box>
           <div style={{ marginTop: '20px' }}>
             <TextField
-              label="Anchor"
+              label="Video Minute"
               type="number"
               value={anchorValue}
               onChange={(e) => setAnchorValue(Number(e.target.value))}
