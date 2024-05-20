@@ -24,7 +24,7 @@ export default function AppRouter() {
       <Route path="/video-page/:videoId" element={<VideoPage />} />r
       <Route path="/settings" element={<SettingsPage />} />
       <Route path="/manage-course" element={<ManageCoursePage />} />
-      <Route path="/upload-document" element={<UploadDocumentPopup />} />
+      <Route path="/upload-document/:lectureId" element={<UploadDocumentPopup />} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
