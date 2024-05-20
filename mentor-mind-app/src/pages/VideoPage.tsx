@@ -113,7 +113,8 @@ const VideoPage: React.FC<VideoPageProps> = ({ currentUser }: VideoPageProps) =>
               },
             }}
           >
-            <Comments comments={comments} currentUser={currentUser} materialId={VideoId} />
+            <Comments comments={comments} currentUser={currentUser} materialId={VideoId} fileType="video" />
+
           </Box>
           <div style={{ marginTop: '20px' }}>
             <TextField

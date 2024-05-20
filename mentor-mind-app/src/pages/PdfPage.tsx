@@ -116,7 +116,8 @@ const PdfPage: React.FC<PdfPageProps> = ({ currentUser }: PdfPageProps) => {
                             },
                         }}
                     >
-                        <Comments comments={comments} currentUser={currentUser} materialId={PdfId} />
+                        <Comments comments={comments} currentUser={currentUser} materialId={PdfId} fileType="pdf" />
+
                     </Box>
                     <div style={{ marginTop: '20px' }}>
                         <TextField
