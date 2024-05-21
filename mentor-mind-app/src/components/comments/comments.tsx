@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { FaPlus } from 'react-icons/fa';
 import './comments.css';
 import CommentInterface from '../../interfaces/CommentInterface';
@@ -12,9 +12,20 @@ interface CommentProps {
     currentUser: AuthorInterface;
     materialId: string;
     fileType: string;
+    handleDeleteComment: (id: number) => void;
+    handleAddReply: (parentId: number, content: string) => void;
 }
 
-const Comment: React.FC<CommentProps> = ({ comment, parentId, allComments, currentUser, materialId, fileType }) => {
+const Comment: React.FC<CommentProps> = ({
+    comment,
+    parentId,
+    allComments,
+    currentUser,
+    materialId,
+    fileType,
+    handleDeleteComment,
+    handleAddReply
+}) => {
     const { id, author, content, timestamp, anchor } = comment;
     const [showConfirm, setShowConfirm] = useState(false);
     const [showPopup, setShowPopup] = useState(false); // State to manage pop-up visibility
@@ -22,11 +33,6 @@ const Comment: React.FC<CommentProps> = ({ comment, parentId, allComments, curre
     const timerRef = useRef<NodeJS.Timeout | null>(null);
 
     const userId = load("userId");
-    const userEmail = load("userEmail");
-    const userFirstName = load("userName");
-    const userLastName = load("userLastName");
-    const userPassword = load("userPassword");
-    const userRole = load("userRole");
 
     const handleMouseDown = () => {
         timerRef.current = setTimeout(() => {
@@ -40,55 +46,6 @@ const Comment: React.FC<CommentProps> = ({ comment, parentId, allComments, curre
         }
     };
 
-    const handleDelete = (id: number) => {
-        console.log(`Comment with id: ${id} start delete`);
-        fetch(`http://localhost:8080/api/comment/delete/${id}`, {
-            method: 'DELETE',
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Failed to delete comment');
-                }
-                console.log(`Comment with id: ${id} deleted successfully.`);
-                setShowConfirm(false);
-            })
-            .catch(error => {
-                console.error('Error deleting comment:', error);
-            });
-    };
-
-    const handleAddComment = () => {
-        const newComment = {
-            author: {
-                id: userId,
-                email: userEmail,
-                firstName: userFirstName,
-                lastName: userLastName,
-                password: userPassword,
-                role: userRole
-            },
-            replyTo: comment,
-            content: newCommentText,
-            anchor: 0
-        };
-
-        fetch(`http://localhost:8080/api/comment/save/${materialId}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(newComment)
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Failed to save comment');
-                }
-                return response.json();
-            })
-            .then(() => {
-                setShowPopup(false); // Close the pop-up after saving the comment
-            });
-    };
     const isAuthor = author && author.id === userId;
 
     return (
@@ -123,7 +80,7 @@ const Comment: React.FC<CommentProps> = ({ comment, parentId, allComments, curre
             {showConfirm && isAuthor && (
                 <div className="confirmation-popup">
                     <p>Are you sure you want to delete this comment?</p>
-                    <button onClick={() => handleDelete(id)}>Yes</button>
+                    <button onClick={() => handleDeleteComment(id)}>Yes</button>
                     <button onClick={() => setShowConfirm(false)}>No</button>
                 </div>
             )}
@@ -138,23 +95,27 @@ const Comment: React.FC<CommentProps> = ({ comment, parentId, allComments, curre
                             onChange={(e) => setNewCommentText(e.target.value)}
                             placeholder="Enter your comment"
                         />
-                        <button onClick={handleAddComment}>Submit Comment</button>
+                        <button onClick={() => { handleAddReply(id, newCommentText); setShowPopup(false); }}>Submit Comment</button>
                         <button onClick={() => setShowPopup(false)}>Cancel</button>
                     </div>
                 </div>
             )}
 
             {/* Render replies */}
-            {allComments.map(reply => {
-                if (reply.replyTo?.id === id) {
-                    return (
-                        <div className="reply" style={{ marginLeft: '20px' }} key={reply.id}>
-                            <Comment comment={reply} parentId={id} allComments={allComments} currentUser={currentUser} materialId={materialId} fileType={fileType} />
-                        </div>
-                    );
-                }
-                return null;
-            })}
+            {allComments.filter(reply => reply.replyTo?.id === id).map(reply => (
+                <div className="reply" style={{ marginLeft: '20px' }} key={reply.id}>
+                    <Comment
+                        comment={reply}
+                        parentId={id}
+                        allComments={allComments}
+                        currentUser={currentUser}
+                        materialId={materialId}
+                        fileType={fileType}
+                        handleDeleteComment={handleDeleteComment}
+                        handleAddReply={handleAddReply}
+                    />
+                </div>
+            ))}
         </div>
     );
 };
@@ -168,11 +129,84 @@ interface CommentsProps {
 }
 
 const Comments: React.FC<CommentsProps> = ({ comments, currentUser, parentId, materialId, fileType }) => {
+    const [commentList, setCommentList] = useState<CommentInterface[]>([]);
+
+    useEffect(() => {
+        setCommentList(comments);
+    }, [comments]);
+
+    const handleDeleteComment = (id: number) => {
+        fetch(`http://localhost:8080/api/comment/delete/${id}`, {
+            method: 'DELETE',
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to delete comment');
+                }
+                setCommentList(prevComments => prevComments.filter(comment => comment.id !== id));
+            })
+            .catch(error => {
+                console.error('Error deleting comment:', error);
+            });
+    };
+
+    const handleAddReply = (parentId: number, content: string) => {
+        const userId = load("userId");
+        const userEmail = load("userEmail");
+        const userFirstName = load("userName");
+        const userLastName = load("userLastName");
+        const userPassword = load("userPassword");
+        const userRole = load("userRole");
+
+        const newComment = {
+            author: {
+                id: userId,
+                email: userEmail,
+                firstName: userFirstName,
+                lastName: userLastName,
+                password: userPassword,
+                role: userRole
+            },
+            replyTo: { id: parentId },
+            content,
+            anchor: 0
+        };
+
+        fetch(`http://localhost:8080/api/comment/save/${materialId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newComment)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to save comment');
+                }
+                return response.json();
+            })
+            .then(savedComment => {
+                setCommentList(prevComments => [...prevComments, savedComment]);
+            })
+            .catch(error => {
+                console.error('Error saving comment:', error);
+            });
+    };
+
     return (
         <div className="comments" style={{ marginTop: '10px' }}>
-            {comments.filter(comment => !comment.replyTo).map(comment => (
+            {commentList.filter(comment => !comment.replyTo).map(comment => (
                 <div key={comment.id} className="comment">
-                    <Comment comment={comment} parentId={parentId} allComments={comments} currentUser={currentUser} materialId={materialId} fileType={fileType} />
+                    <Comment
+                        comment={comment}
+                        parentId={parentId}
+                        allComments={commentList}
+                        currentUser={currentUser}
+                        materialId={materialId}
+                        fileType={fileType}
+                        handleDeleteComment={handleDeleteComment}
+                        handleAddReply={handleAddReply}
+                    />
                 </div>
             ))}
         </div>
