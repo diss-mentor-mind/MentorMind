@@ -41,6 +41,10 @@ const Heading: React.FC<HeadingProps> = ({
   // Check if the current path is "/log-in"
   const isLoginPage = location.pathname === "/log-in";
 
+  const goBack = () => {
+    navigate(-1); // Go back to the previous page
+  };
+
   return (
     <div
       style={{
@@ -67,6 +71,7 @@ const Heading: React.FC<HeadingProps> = ({
           fontWeight: "normal",
           fontFamily: "Kotta One",
           cursor: "pointer", // Hint that the title is clickable
+          paddingLeft: "10%",
         }}
         onClick={redirectToMainPage}
       >
@@ -79,6 +84,9 @@ const Heading: React.FC<HeadingProps> = ({
           pointerEvents: isLoginPage ? "none" : "auto",
         }}
       >
+        <button className="button" onClick={goBack}>
+          Back
+        </button>
         <button className="button" onClick={() => gotToNewPage("/settings")}>
           {buttonText1}
         </button>

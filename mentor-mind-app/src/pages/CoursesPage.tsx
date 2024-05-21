@@ -29,7 +29,7 @@ const CoursePage = () => {
 
   const handleCourseClick = (course: SubjectInterface) => {
     const lectures = course.lectures;
-    navigate(`/lectures/${course.id}`, { state: { lectures } });
+    navigate(`/lectures/${course.id}`);
   };
 
   useEffect(() => {
