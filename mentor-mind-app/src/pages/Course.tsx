@@ -328,27 +328,29 @@ const Course = () => {
           </FormControl>
 
           {/* Adjusted button position within the grid */}
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              marginTop: "auto",
-              marginBottom: "10%",
-            }}
-          >
-            <Button
-              onClick={() => navigate("/manage-course")}
-              sx={{
-                backgroundColor: "var(--button-color)",
-                color: "white",
-                width: "100%",
-                height: "90%",
-                marginBottom: "10%",
-              }}
-            >
-              Manage Course
-            </Button>
-          </Box>
+            {userRole === "Teacher" && (
+                <Box
+                    sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        marginTop: "auto",
+                        marginBottom: "10%",
+                    }}
+                >
+                    <Button
+                        onClick={() => navigate("/manage-course")}
+                        sx={{
+                            backgroundColor: "var(--button-color)",
+                            color: "white",
+                            width: "100%",
+                            height: "90%",
+                            marginBottom: "10%",
+                        }}
+                    >
+                        Manage Course
+                    </Button>
+                </Box>
+            )}
         </Grid>
       </PinnedContainer>
       <Grid
