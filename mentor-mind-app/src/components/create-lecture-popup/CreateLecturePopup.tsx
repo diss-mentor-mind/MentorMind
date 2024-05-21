@@ -111,7 +111,7 @@ const CreateLecturePopup = () => {
             </Box>
             <Box textAlign={"center"} margin="normal" marginBottom={"20%"} width={"40%"}>
                 <Button className={"button"} variant="contained" style={{ textTransform: "none", fontSize: "130%" }} fullWidth type="submit">
-                    Upload Document
+                    Create Lecture
                 </Button>
             </Box>
         </Box>
