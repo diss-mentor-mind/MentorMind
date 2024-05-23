@@ -7,6 +7,7 @@ import CommentInterface from '../interfaces/CommentInterface'; // Ensure the cor
 import AuthorInterface from '../interfaces/AuthorInterface';
 import { useParams } from 'react-router-dom';
 import { load } from '../util/localStorage';
+import { trackButtonClick, trackPageView } from '../util/trackerUtil';
 
 interface VideoPageProps {
   videoId: string;
@@ -26,6 +27,10 @@ const VideoPage: React.FC<VideoPageProps> = ({ currentUser }: VideoPageProps) =>
   const userLastName = load("userLastName");
   const userPassword = load("userPassword");
   const userRole = load("userRole");
+
+  useEffect(() => {
+    trackPageView("VideoPage");
+  }, []);
 
   useEffect(() => {
     // Fetch comments from the API
@@ -70,6 +75,7 @@ const VideoPage: React.FC<VideoPageProps> = ({ currentUser }: VideoPageProps) =>
         if (!response.ok) {
           throw new Error('Failed to save comment');
         }
+        trackButtonClick("SuccessfulAddVideoComment");
         return response.json();
       })
       .then(savedComment => {
@@ -78,6 +84,7 @@ const VideoPage: React.FC<VideoPageProps> = ({ currentUser }: VideoPageProps) =>
         setAnchorValue(0); // Reset anchor value after saving
       })
       .catch(error => {
+        trackButtonClick("FailedAddVideoComment");
         console.error('Error saving comment:', error);
       });
   };

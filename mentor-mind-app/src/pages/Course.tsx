@@ -26,7 +26,9 @@ import { FaCheckCircle } from "react-icons/fa";
 import { FaBan } from "react-icons/fa";
 import AddIcon from "@mui/icons-material/Add";
 import { Filter } from "@mui/icons-material";
-import {load} from "../util/localStorage";
+import { load } from "../util/localStorage";
+import { track } from "@amplitude/analytics-browser";
+import { trackButtonClick, trackPageView } from "../util/trackerUtil";
 
 const Course = () => {
   const [title, setTitle] = useState("");
@@ -41,8 +43,13 @@ const Course = () => {
   );
   const userRole: String = load("userRole");
   const handleAddDocument = () => {
-      navigate(`/upload-document/${lectureId}`);
+    trackButtonClick("UploadDocumentClick"); 
+    navigate(`/upload-document/${lectureId}`);
   };
+
+  useEffect(() => {
+    trackPageView("MaterialsPage");
+  }, []);
 
   useEffect(() => {
     const getMaterials = async () => {
@@ -328,29 +335,32 @@ const Course = () => {
           </FormControl>
 
           {/* Adjusted button position within the grid */}
-            {userRole === "Teacher" && (
-                <Box
-                    sx={{
-                        display: "flex",
-                        justifyContent: "center",
-                        marginTop: "auto",
-                        marginBottom: "10%",
-                    }}
-                >
-                    <Button
-                        onClick={() => navigate("/manage-course")}
-                        sx={{
-                            backgroundColor: "var(--button-color)",
-                            color: "white",
-                            width: "100%",
-                            height: "90%",
-                            marginBottom: "10%",
-                        }}
-                    >
-                        Manage Course
-                    </Button>
-                </Box>
-            )}
+          {userRole === "Teacher" && (
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                marginTop: "auto",
+                marginBottom: "10%",
+              }}
+            >
+              <Button
+                onClick={() => {
+                  trackButtonClick("ManageCourseClick"); 
+                  navigate("/manage-course");
+                }}
+                sx={{
+                  backgroundColor: "var(--button-color)",
+                  color: "white",
+                  width: "100%",
+                  height: "90%",
+                  marginBottom: "10%",
+                }}
+              >
+                Manage Course
+              </Button>
+            </Box>
+          )}
         </Grid>
       </PinnedContainer>
       <Grid
@@ -374,13 +384,15 @@ const Course = () => {
               marginBottom: "3%",
             }}
             onClick={() => {
-                if (material.type.includes("pdf")) {
-                    (window.location.href = "/pdf-page/" + material.id)
-                }
-                else
-                if (material.type.includes("mp4") || material.type == "audio") {
-                    (window.location.href = "/video-page/" + material.id)
-                }
+              trackButtonClick("MaterialClick"); 
+              if (material.type.includes("pdf")) {
+                window.location.href = "/pdf-page/" + material.id;
+              } else if (
+                material.type.includes("mp4") ||
+                material.type == "audio"
+              ) {
+                window.location.href = "/video-page/" + material.id;
+              }
             }}
           >
             <PinnedContainer key={material.id} width="100%" height="100%">
@@ -439,7 +451,10 @@ const Course = () => {
                     visibility: "hidden",
                     pointerEvents: "none",
                   }}
-                  onClick={() => handleDeleteMaterial(material.id!)}
+                  onClick={() => {
+                    trackButtonClick("DeletedMaterial"); 
+                    handleDeleteMaterial(material.id!);
+                  }}
                 >
                   <FaTrash />
                 </Grid>
@@ -461,6 +476,7 @@ const Course = () => {
                       <Grid
                         sx={{ cursor: "pointer" }}
                         onClick={() => {
+                          trackButtonClick("ApproveMaterial"); 
                           alert(
                             "You approved this material. TO BE IMPLEMENTED"
                           );
@@ -471,6 +487,7 @@ const Course = () => {
                       <Grid
                         sx={{ marginLeft: "5%", cursor: "pointer" }}
                         onClick={() => {
+                          trackButtonClick("RejectMaterial"); 
                           alert(
                             "You rejected this material. TO BE IMPLEMENTED"
                           );

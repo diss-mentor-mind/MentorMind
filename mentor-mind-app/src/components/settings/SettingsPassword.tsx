@@ -11,6 +11,7 @@ import {
 import axios from 'axios';
 import StyledContainer from "../containers/StyledContainer";
 import {load} from "../../util/localStorage";
+import { trackButtonClick } from '../../util/trackerUtil';
 
 const CssTextField = styled(TextField)({
     "& .MuiInputBase-root": {
@@ -90,10 +91,12 @@ const SettingsMainComponent: React.FC = () => {
             password: formData.newPassword,
         }, {withCredentials: false})
             .then((response) => {
+                trackButtonClick("SuccessfulPasswordChangeClick");
                 console.log('Password updated successfully:', response.data);
                 window.location.href = "/courses";
             })
             .catch((error) => {
+                trackButtonClick("FailedPasswordChangeClick");
                 alert("Saving was not possible! Please try again");
                 console.log(error);
             });
