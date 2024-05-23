@@ -7,7 +7,7 @@ import { load } from "./localStorage";
 export const trackPageView = (pageName: string): void => {
   const userRole: String = load("userRole");
   const userId: String = load("userId");
-  const userName: String = load("userId");
+  const userName: String = load("userName");
   try {
     track(pageName, {
       page: pageName,
