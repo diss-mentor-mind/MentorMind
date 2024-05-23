@@ -9,6 +9,7 @@ import CreateCoursePopupComponent from "../components/course-popups/CreateCourse
 import JoinCoursePopupComponent from "../components/course-popups/JoinCoursePopup";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import ReactGA from 'react-ga';
 
 const CoursePage = () => {
   const [courses, setCourses] = useState<SubjectInterface[]>([]);
@@ -19,6 +20,13 @@ const CoursePage = () => {
   const userId: String = load("userId");
 
   const handleAddCourse = () => {
+
+    ReactGA.event({
+      category: 'User',
+      action: 'Clicked add course button',
+      label: 'Add course button'
+    });
+
     setOpenModal(true);
   };
 
@@ -33,6 +41,7 @@ const CoursePage = () => {
   };
 
   useEffect(() => {
+    ReactGA.pageview(window.location.pathname + window.location.search);
     const fetchCourses = async () => {
       try {
         // Make the API call

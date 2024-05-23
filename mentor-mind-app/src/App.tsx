@@ -7,6 +7,10 @@ import AppRouter from "./routes/AppRoutes";
 import Header from "./components/bar/Header";
 import { load } from "./util/localStorage";
 
+import ReactGA from 'react-ga';
+
+ReactGA.initialize('G-LMB8M8QDHH');
+
 function App() {
   const userName = load("userName");
   return (
