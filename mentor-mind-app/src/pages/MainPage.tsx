@@ -3,9 +3,14 @@ import PinnedContainer from "../components/containers/PinnedContainer";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { load } from "../util/localStorage";
+import { trackPageView } from "../util/trackerUtil";
 
 const MainPage = () => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    trackPageView("MainPage");
+  }, []);
 
   useEffect(() => {
     const userId = load("userId");

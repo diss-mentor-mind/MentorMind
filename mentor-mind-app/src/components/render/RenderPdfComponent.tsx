@@ -4,6 +4,7 @@ import { Button } from '@mui/material';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
 import axios from "axios";
+import { trackButtonClick } from '../../util/trackerUtil';
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
     'pdfjs-dist/build/pdf.worker.min.js',
@@ -42,8 +43,14 @@ const RenderPdfComponent = (pdfId: pdfId) => {
     const changePage = (offset: number) => {
         setPageNumber(prevPageNumber => prevPageNumber + offset);
     }
-    const previousPage = () => { changePage(-1); }
-    const nextPage = () => { changePage(+1); }
+    const previousPage = () => {
+        trackButtonClick("PdfPreviousPageClick"); 
+        changePage(-1); 
+    }
+    const nextPage = () => {
+        trackButtonClick("PdfNextPageClick");
+        changePage(+1);
+    }
 
     const handleRenderSuccess = (pageData : any) => {
         console.log('width', pageData.width);

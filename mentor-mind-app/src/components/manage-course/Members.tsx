@@ -16,6 +16,7 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 import StyledContainer from "../containers/StyledContainer";
 import TextPopUp from "../../pages/TextPopUp";
+import { trackButtonClick } from '../../util/trackerUtil';
 
 const CssTextField = styled(TextField)({
     "& .MuiInputBase-root": {
@@ -43,12 +44,14 @@ const CourseInformation = () => {
     const [modalDescription, setModalDescription] = useState('');
 
     const handleOpen = (title: string, description: string) => {
+        trackButtonClick("OpenMembersModal");
         setModalTitle(title);
         setModalDescription(description);
         setOpen(true);
     };
 
     const handleClose = () => {
+        trackButtonClick("CloseMembersModal");
         setOpen(false);
     };
 

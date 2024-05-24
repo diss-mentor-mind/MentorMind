@@ -13,6 +13,7 @@ import axios from 'axios';
 import Image from "../pics/puppy.png"; // Import the CSS file for styling
 import StyledContainer from "../containers/StyledContainer";
 import { load } from "../../util/localStorage";
+import { trackButtonClick } from '../../util/trackerUtil';
 
 const CssTextField = styled(TextField)({
     "& .MuiInputBase-root": {
@@ -76,9 +77,11 @@ const SettingsMainComponent = () => {
         }, { withCredentials: false })
             .then((response) => {
                 console.log('Info updated successfully:', response.data);
+                trackButtonClick("SuccessfulSettingsClick");
                 window.location.href = "/courses";
             })
             .catch((error) => {
+                trackButtonClick("FailedSettingsClick");
                 alert("Saving was not possible! Please try again");
                 console.log(error);
             });

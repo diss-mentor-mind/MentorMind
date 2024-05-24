@@ -2,8 +2,14 @@ import { Container, Stack } from "@mui/material";
 import PinnedContainer from "../components/containers/PinnedContainer";
 import LogInComponent from "../components/login-register/LogInComponent";
 import RegisterComponent from "../components/login-register/RegisterComponent";
+import { useEffect } from "react";
+import { trackPageView } from "../util/trackerUtil";
 
 const LogInRegister = () => {
+    useEffect(() => {
+        trackPageView("LoginPage");
+    }, []);
+
     return (
         <Stack direction={"row"} justifyContent={"space-evenly"} minHeight={"calc( 100% - 150px );"} height={"80%"} alignItems={"flex-start"} margin={"40px 0"}>
             <PinnedContainer width="30%" height="95%">

@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Box, Typography } from "@mui/material";
+import { trackPageView } from "../util/trackerUtil";
 
 const NotFoundPage: React.FC = () => {
+
+  useEffect(() => {
+    trackPageView("NotFoundPage");
+  }, []);
+
   return (
     <Box
       sx={{

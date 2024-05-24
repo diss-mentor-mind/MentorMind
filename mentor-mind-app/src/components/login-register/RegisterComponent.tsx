@@ -2,6 +2,7 @@ import {Box, Button, FormControl, FormHelperText, MenuItem, Select, TextField, T
 import {FormEvent, useState} from "react";
 import axios from "axios";
 import {save} from "../../util/localStorage";
+import { trackButtonClick } from "../../util/trackerUtil";
 
 const CssTextField = styled(TextField)({
     '& .MuiInputBase-root': {
@@ -83,8 +84,10 @@ const RegisterComponent = () => {
                 save("userEmail", response.data.email);
                 save("userRole", response.data.role);
                 save("userPassword", response.data.password);
+                trackButtonClick("SuccessfulRegisterClick");
                 window.location.href = "/courses";
             }).catch((error) => {
+                trackButtonClick("FailedRegisterClick");
                 alert("Registering was not possible! Please try again");
                 console.log(error);
             })

@@ -9,6 +9,7 @@ import CreateCoursePopupComponent from "../components/course-popups/CreateCourse
 import JoinCoursePopupComponent from "../components/course-popups/JoinCoursePopup";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { trackButtonClick, trackPageView } from "../util/trackerUtil";
 
 const CoursePage = () => {
   const [courses, setCourses] = useState<SubjectInterface[]>([]);
@@ -19,18 +20,25 @@ const CoursePage = () => {
   const userId: String = load("userId");
 
   const handleAddCourse = () => {
+    trackButtonClick("AddCourse");
     setOpenModal(true);
   };
 
   const handleCloseModal = () => {
+    trackButtonClick("CloseCourseModel");
     console.log("trying to close");
     setOpenModal(false);
   };
 
   const handleCourseClick = (course: SubjectInterface) => {
+    trackButtonClick("CourseClick");
     const lectures = course.lectures;
     navigate(`/lectures/${course.id}`);
   };
+
+  useEffect(() => {
+    trackPageView("CoursePage");
+  }, []);
 
   useEffect(() => {
     const fetchCourses = async () => {

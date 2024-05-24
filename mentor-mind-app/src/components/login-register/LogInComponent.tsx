@@ -2,6 +2,7 @@ import {Box, Button, TextField, Typography, styled} from "@mui/material";
 import axios from "axios";
 import {FormEvent, useState} from "react";
 import {save} from "../../util/localStorage";
+import { trackButtonClick } from "../../util/trackerUtil";
 
 const CssTextField = styled(TextField)({
     '& .MuiInputBase-root': {
@@ -47,11 +48,14 @@ const LogInComponent = () => {
                     save("userEmail", response.data.email);
                     save("userPassword", response.data.password);
                     save("userRole", response.data.role);
+                    trackButtonClick("SuccessfulLoginClick");
                     window.location.href = "/courses";
                 } else {
+                    trackButtonClick("FailedLoginClicked");
                     alert("Wrong username/password combination!");
                 }
             }).catch((error) => {
+                trackButtonClick("FailedLoginClick");
                 alert("Registering was not possible! Please try again");
                 console.log(error);
             })

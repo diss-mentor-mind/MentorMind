@@ -4,8 +4,15 @@ import RegisterComponent from "../components/login-register/RegisterComponent";
 import LogInComponent from "../components/login-register/LogInComponent";
 import SettingsMainComponent from "../components/settings/SettingsMain";
 import SettingsPassword from "../components/settings/SettingsPassword";
+import { useEffect } from "react";
+import { trackPageView } from "../util/trackerUtil";
 
 const SettingsPage = () => {
+
+  useEffect(() => {
+    trackPageView("SettingsPage");
+  }, []);
+
   return (
     <Stack
       direction={"column"}

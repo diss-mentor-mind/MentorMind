@@ -8,6 +8,7 @@ import AddIcon from "@mui/icons-material/Add";
 import PinnedContainer from "../components/containers/PinnedContainer";
 import CreateLecturePopup from "../components/create-lecture-popup/CreateLecturePopup";
 import { load } from "../util/localStorage";
+import { trackButtonClick, trackPageView } from "../util/trackerUtil";
 
 const LecturePage = () => {
   const navigate = useNavigate();
@@ -18,12 +19,23 @@ const LecturePage = () => {
   const userRole: string = load("userRole");
 
   const handleAddLecture = () => {
+    trackButtonClick("AddLecture");
     setOpenModal(true);
   };
 
   const handleCloseModal = () => {
+    trackButtonClick("CloseLectureModel");
     console.log("trying to close");
     setOpenModal(false);
+  };
+
+  useEffect(() => {
+    trackPageView("LecturePage");
+  }, []);
+
+  const handleLectureClick = (lecture: LectureInterface) => {
+    trackButtonClick("LectureClick");
+    navigate(`/material/${lecture.id}`);
   };
 
   useEffect(() => {
@@ -47,10 +59,6 @@ const LecturePage = () => {
 
     fetchLectures();
   }, [subjectId]);
-
-  const handleLectureClick = (lecture: LectureInterface) => {
-    navigate(`/material/${lecture.id}`);
-  };
 
   return (
     <Grid

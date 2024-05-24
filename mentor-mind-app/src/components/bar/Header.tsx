@@ -3,6 +3,7 @@ import "../../colors.css";
 import "../../index.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import { remove } from "../../util/localStorage";
+import { trackButtonClick } from "../../util/trackerUtil";
 
 interface HeadingProps {
   title1: string;
@@ -25,6 +26,7 @@ const Heading: React.FC<HeadingProps> = ({
   };
 
   const logOut = () => {
+    trackButtonClick("LogOutClicked");
     remove("userId");
     remove("userName");
     remove("userEmail");
@@ -35,6 +37,7 @@ const Heading: React.FC<HeadingProps> = ({
   };
 
   const redirectToMainPage = () => {
+    trackButtonClick("MainPageLogoClick");
     navigate("/"); // Redirect to the main page
   };
 
@@ -42,6 +45,7 @@ const Heading: React.FC<HeadingProps> = ({
   const isLoginPage = location.pathname === "/log-in";
 
   const goBack = () => {
+    trackButtonClick("BackButtonClick");
     navigate(-1); // Go back to the previous page
   };
 

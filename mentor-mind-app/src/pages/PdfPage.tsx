@@ -7,6 +7,7 @@ import CommentInterface from '../interfaces/CommentInterface';
 import AuthorInterface from '../interfaces/AuthorInterface';
 import { useParams } from 'react-router-dom';
 import { load } from '../util/localStorage';
+import { trackButtonClick, trackPageView } from '../util/trackerUtil';
 
 interface PdfPageProps {
     currentUser: AuthorInterface;
@@ -25,6 +26,10 @@ const PdfPage: React.FC<PdfPageProps> = ({ currentUser }: PdfPageProps) => {
     const userLastName = load("userLastName");
     const userPassword = load("userPassword");
     const userRole = load("userRole");
+
+    useEffect(() => {
+        trackPageView("PdfPage");
+    }, []);
 
     useEffect(() => {
         // Fetch comments from the API
@@ -70,6 +75,7 @@ const PdfPage: React.FC<PdfPageProps> = ({ currentUser }: PdfPageProps) => {
                 if (!response.ok) {
                     throw new Error('Failed to add comment');
                 }
+                trackButtonClick("AddCommentSuccess");
                 // Assuming the API returns the added comment
                 return response.json();
             })
@@ -80,6 +86,7 @@ const PdfPage: React.FC<PdfPageProps> = ({ currentUser }: PdfPageProps) => {
                 setAnchorValue(0);
             })
             .catch(error => {
+                trackButtonClick("AddCommentFail");
                 console.error('Error adding comment:', error);
             });
     };

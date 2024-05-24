@@ -10,6 +10,7 @@ import {
 import StyledContainer from "../containers/StyledContainer";
 import React, {useState} from "react";
 import TextPopUp from "../../pages/TextPopUp";
+import { trackButtonClick } from "../../util/trackerUtil";
 
 const CssTextField = styled(TextField)({
     "& .MuiInputBase-root": {
@@ -28,12 +29,14 @@ const CourseInformation = () => {
 
     };
     const handleOpen = (title: string, description: string) => {
+        trackButtonClick("OpenCourseInformationModal");
         setModalTitle(title);
         setModalDescription(description);
         setOpen(true);
     };
 
     const handleClose = () => {
+        trackButtonClick("CloseCourseInformationModal");
         setOpen(false);
     };
 

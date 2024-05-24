@@ -7,7 +7,10 @@ import AppRouter from "./routes/AppRoutes";
 import Header from "./components/bar/Header";
 import { load } from "./util/localStorage";
 
+import { init } from '@amplitude/analytics-browser';
+
 function App() {
+  init('adbcba40b61f86b009c3f75e3a4df214');
   const userName = load("userName");
   return (
     <BrowserRouter>
