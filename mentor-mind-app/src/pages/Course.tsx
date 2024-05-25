@@ -85,9 +85,9 @@ const Course = () => {
             : isAccepted === "All")) &&
         (fileType === "" ||
           (fileType === "File"
-            ? material.type === "File"
+            ? material.type.includes("pdf")
             : fileType === "Video"
-            ? material.type === "Video"
+            ? material.type.includes("mp4")
             : fileType === "All"))
     );
     if (
